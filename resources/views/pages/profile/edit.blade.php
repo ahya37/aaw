@@ -132,19 +132,23 @@
                               </div>
                               <div class="form-group">
                                 <label>Foto</label>
+                                <div class="mb-2">
+                                  <img src="{{ asset('storage/'.$profile->photo) ?? ''}}" width="100" class="img-thumbnail">
+                                </div>
                                 <input
                                   type="file"
                                   name="photo"
-                                  class="form-control"
                                   autofocus
                                 />
                               </div>
                               <div class="form-group">
                                 <label>Foto KTP</label>
+                                <div class="mb-2">
+                                  <img src="{{ asset('storage/'.$profile->ktp) ?? ''}}" width="100" class="img-thumbnail">
+                                </div>
                                 <input
                                   type="file"
                                   name="ktp"
-                                  class="form-control"
                                   autofocus
                                 />
                               </div>
