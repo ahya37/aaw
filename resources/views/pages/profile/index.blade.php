@@ -13,13 +13,19 @@
                 </p>
               </div>
               <div class="dashboard-content mt-4" id="transactionDetails">
+              @include('layouts.message')
+
                 <div class="row">
                   <div class="col-8">
                     <div class="card">
                       <div class="card-body">
                         <div class="row">
                           <div class="col-12 col-md-4">
+                            @if($profile->photo == null)
                             <img src="{{ asset('assets/images/unphoto.svg') }}" class="w-70 mb-3" />
+                            @else
+                            <img src="{{ asset('storage/'.$profile->photo)}}" class="w-70 mb-3 img-thumbnail" />
+                            @endif
                             <div class="text-center">
                                 <a
                                 href="{{ route('user-profile-edit', $profile->id) }}"

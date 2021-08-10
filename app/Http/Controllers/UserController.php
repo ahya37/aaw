@@ -66,7 +66,7 @@ class UserController extends Controller
             ]);
         }
 
-        return redirect()->back();
+        return redirect()->route('user-profile')->with('success','Profil telah diperbarui');
     }
     
 }

@@ -23,10 +23,10 @@
         <!-- Sidebae -->
         
         @include('layouts.sidebar')
-
+        
         <!-- Page Content -->
         <div id="page-content-wrapper">
-            @include('layouts.navbar')
+          @include('layouts.navbar')
             @yield('content')
         </div>    
         
