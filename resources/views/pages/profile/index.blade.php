@@ -13,10 +13,10 @@
                 </p>
               </div>
               <div class="dashboard-content mt-4" id="transactionDetails">
-              @include('layouts.message')
-
+                
                 <div class="row">
                   <div class="col-8">
+                    @include('layouts.message')
                     <div class="card">
                       <div class="card-body">
                         <div class="row">
