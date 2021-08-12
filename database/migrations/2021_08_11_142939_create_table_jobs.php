@@ -1,17 +1,10 @@
 <?php
 
-/*
- * This file is part of the IndoRegion package.
- *
- * (c) Azis Hapidin <azishapidin.com | azishapidin@gmail.com>
- *
- */
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProvincesTables extends Migration
+class CreateTableJobs extends Migration
 {
     /**
      * Run the migrations.
@@ -20,9 +13,10 @@ class CreateProvincesTables extends Migration
      */
     public function up()
     {
-        Schema::create('provinces', function(Blueprint $table){
-            $table->char('id', 2)->index();
-            $table->string('name');
+        Schema::create('jobs', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name', 50);
+            $table->timestamps();
         });
     }
 
@@ -33,6 +27,6 @@ class CreateProvincesTables extends Migration
      */
     public function down()
     {
-        Schema::drop('provinces');
+        Schema::dropIfExists('jobs');
     }
 }

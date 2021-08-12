@@ -110,7 +110,7 @@
                                       @foreach ($member as $row)
                                       <tr>
                                         <td>
-                                          <a href="{{ route('member-mymember', encrypt($row->id)) }}">
+                                          <a href="#">
                                             <img
                                               src="{{ asset('storage/'.$row->photo) }}"
                                               class="rounded"

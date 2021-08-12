@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Education;
 use App\User;
+use App\Providers\StrRandom;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Job;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -29,7 +32,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = 'user/profile/create';
 
     /**
      * Create a new controller instance.
@@ -52,7 +55,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'password' => ['required', 'string', 'min:6'],
         ]);
     }
 
@@ -64,7 +67,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $strRandomProvider = new StrRandom();
+        $string            = $strRandomProvider->generateStrRandom();
+        
         return User::create([
+            'code' => $string,
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
@@ -74,5 +81,20 @@ class RegisterController extends Controller
     public function nik(Request $request)
     {
         return User::where('nik', $request->nik)->count() > 0 ? 'Unavailable' : 'Available';
+    }
+
+    public function check(Request $request)
+    {
+        return User::where('email', $request->email)->count() > 0 ? 'Unavailable' : 'Available';
+    }
+
+    public function jobs()
+    {
+        return Job::select('id','name')->orderBy('name','ASC')->get();
+    }
+
+    public function educations()
+    {
+        return Education::select('id','name')->orderBy('id','ASC')->get();
     }
 }

@@ -29,17 +29,15 @@
                   data-toggle="dropdown"
                 >
                   <img
-                    src="{{ asset('assets/images/profile.svg') }}"
+                    src="{{ asset('storage/'.Auth::user()->photo ?? '') }}"
                     alt=""
-                    class="reounded-circle mr-2 profile-picture"
+                    class="rounded-circle mr-2 profile-picture"
                   />
                   {{ Auth::user()->name }}
                 </a>
                 <div class="dropdown-menu">
-                    <a href="{{ route('user-profile') }}" class="dropdown-item"
-                        >Profil</a
-                      >
-                  <div class="dropdown-divider"></div>
+                    
+                  {{-- <div class="dropdown-divider"></div> --}}
                   <a class="dropdown-item" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
@@ -58,7 +56,7 @@
                   <img
                     src="{{ asset('assets/images/profile.svg') }}"
                     alt=""
-                    class="reounded-circle mr-2 profile-picture mt-3"
+                    class="rounded-circle mr-2 profile-picture mt-3"
                   />
                 <a href="#" class="nav-link"> {{ Auth::user()->name }} </a>
               </li>

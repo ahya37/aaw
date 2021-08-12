@@ -24,10 +24,22 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'nik' => 'required',
             'name' => 'required',
-            'email' => 'required',
-            'village_id' => 'required'
+            'gender' => 'required|in:0,1',
+            'place_berth' => 'required',
+            'date_berth' => 'required',
+            'blood_group' => 'required|in:A,B,AB,O',
+            'marital_status' => 'required',
+            'job_id' => 'required',
+            'religion' => 'required',
+            'nik' => 'required',
+            'education_id' => 'required',
+            'phone_number' => 'required',
+            'village_id' => 'required',
+            'whatsapp' => 'required',
+            'address' => 'required',
+            'photo' => 'required|mimes:png,jpg,jpeg',
+            'ktp' => 'required|mimes:png,jpg,jpeg',
         ];
     }
 }

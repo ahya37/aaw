@@ -4,16 +4,16 @@
           </div>
           <div class="list-group list-group-flush">
             <a
-              href="/dashboard.html"
-              class="list-group-item list-group-item-action active"
+              href="{{ route('home') }}"
+              class="list-group-item list-group-item-action {{ (request()->is('user/home')) ? 'active' : '' }}"
             >
               Dashboard
             </a>
             <a
-              href="/dashboard-products.html"
-              class="list-group-item list-group-item-action"
+              href="{{ route('member-create') }}"
+              class="list-group-item list-group-item-action {{ (request()->is('user/member/create')) ? 'active' : '' }}"
             >
-              Anggota
+              Buat Anggota Baru
             </a>
           </div>
         </div>

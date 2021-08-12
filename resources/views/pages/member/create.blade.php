@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Edit Anggota')
+@section('title','Buat Anggota Baru')
 @push('addon-style')
     <link href="{{ asset('assets/style/style.css') }}" rel="stylesheet" />
 @endpush
@@ -11,16 +11,14 @@
           >
             <div class="container-fluid">
               <div class="dashboard-heading">
-                <h2 class="dashboard-title">Profil</h2>
+                <h2 class="dashboard-title">Buat Anggota Baru</h2>
                 <p class="dashboard-subtitle">
-                    Informasi Detail Profil
                 </p>
               </div>
               <div class="dashboard-content mt-4" id="transactionDetails">
                 <div class="row">
                   <div class="col-7">
-                    @include('layouts.message')
-                    <form action="{{ route('user-myprofile-update', $profile->id) }}" id="register" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('user-store-profile') }}" id="register" method="POST" enctype="multipart/form-data">
                       @csrf
                       <div class="card">
                         <div class="card-body">
@@ -31,15 +29,16 @@
                                             <div class="col-6">
                                                 <span class="required">*</span>
                                                 <label>Nama Lengkap</label>
-                                                <input type="text" name="name" value="{{ $profile->name }}" required class="form-control" />
+                                                <input type="text" name="name" value="" required class="form-control" />
                                             
                                             </div>
                                             <div class="col-6">
                                                 <span class="required">*</span>
                                                 <label>Jenis Kelamin</label>
                                                 <select name="gender" class="form-control" required>
-                                                    <option value="0" {{ $profile->gender == '0' ? 'selected' : '' }}>Pria</option>
-                                                    <option value="1" {{ $profile->gender == '1' ? 'selected' : '' }}>Wanita</option>
+                                                    <option value="">-Pilih jenis kelamin-</option>
+                                                    <option value="0">Pria</option>
+                                                    <option value="1">Wanita</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -53,7 +52,7 @@
                                                 type="text"
                                                 class="form-control"
                                                 name="place_berth"
-                                                value="{{ $profile->place_berth }}" 
+                                                value="" 
                                                 required
                                                 />
                                             </div>
@@ -64,7 +63,7 @@
                                                 type="date"
                                                 class="form-control"
                                                 name="date_berth"
-                                                value="{{ $profile->date_berth }}" 
+                                                value="" 
                                                 required >
                                             </div>
                                         </div>
@@ -74,10 +73,12 @@
                                             <div class="col-6">
                                                 <label>Golongan Darah</label>
                                                 <select name="blood_group" class="form-control">
-                                                    <option value="A" {{ $profile->blood_group == 'A' ? 'selected' : '' }}>A</option>
-                                                    <option value="B" {{ $profile->blood_group == 'B' ? 'selected' : '' }}>B</option>
-                                                    <option value="AB" {{ $profile->blood_group == 'AB' ? 'selected' : '' }}>AB</option>
-                                                    <option value="O" {{ $profile->blood_group == 'O' ? 'selected' : '' }}>O</option>
+                                                    <option value="">-Pilih golongan darah-</option>
+
+                                                    <option value="A">A</option>
+                                                    <option value="B">B</option>
+                                                    <option value="AB">AB</option>
+                                                    <option value="O">O</option>
                                                 </select>
                                             </div>
                                             <div class="col-6">
@@ -85,9 +86,9 @@
                                                 <label>Status Perkawinan</label>
                                             <select name="marital_status" class="form-control">
                                                     <option value="">-Pilih status perkawinan-</option>
-                                                    <option value="Belum Kawin" {{ $profile->marital_status == 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin</option>
-                                                    <option value="Sudah Kawin" {{ $profile->marital_status == 'Sudah Kawin' ? 'selected' : '' }}>Sudah Kawin</option>
-                                                    <option value="Pernah Kawin" {{ $profile->marital_status == 'Pernah Kawin' ? 'selected' : '' }}>Pernah Kawin</option>
+                                                    <option value="Belum Kawin">Belum Kawin</option>
+                                                    <option value="Sudah Kawin">Sudah Kawin</option>
+                                                    <option value="Pernah Kawin">Pernah Kawin</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -109,13 +110,13 @@
                                                 <label>Agama</label>
                                                 <select class="form-control" name="religion" required autocomplete="off">
                                                     <option> -Pilih agama- </option>
-                                                <option value="Islam" {{ $profile->religion == 'Islam' ? 'selected' : '' }}>Islam</option>
-                                                <option value="Kristen" {{ $profile->religion == 'Kristen' ? 'selected' : '' }}>Kristen</option>
-                                                <option value="Katholik" {{ $profile->religion == 'Katholik' ? 'selected' : '' }}>Katholik</option>
-                                                <option value="Hindu" {{ $profile->religion == 'Hindu' ? 'selected' : '' }}>Hindu</option>
-                                                <option value="Budha" {{ $profile->religion == 'Budha' ? 'selected' : '' }}>Budha</option>
-                                                <option value="Kong hu cu" {{ $profile->religion == 'Kong hu cu' ? 'selected' : '' }}>Kong Hu Chu</option>
-                                                <option value="Aliran kepercayaan" {{ $profile->religion == 'Aliran kepercayaan' ? 'selected' : '' }}>Aliran Kepercayaan</option>
+                                                <option value="islam">Islam</option>
+                                                <option value="kristen">Kristen</option>
+                                                <option value="katholik">Katholik</option>
+                                                <option value="hindu">Hindu</option>
+                                                <option value="budha">Budha</option>
+                                                <option value="kong hu cu">Kong Hu Chu</option>
+                                                <option value="aliran kepercayaan">Aliran Kepercayaan</option>
                                         </select>
                                             </div>
                                         </div>
@@ -129,8 +130,8 @@
                                                         type="number"
                                                         class="form-control"
                                                         name="nik"
-                                                        value="{{ $profile->nik }}" 
-                                                        readonly
+                                                        value="" 
+                                                        required
                                                     />
                                             </div>
                                             <div class="col-6">
@@ -158,7 +159,6 @@
                                                 type="text"
                                                 class="form-control"
                                                 name="phone_number"
-                                                value="{{ $profile->phone_number }}"
                                                 required
                                                 />
                                             </div>
@@ -172,7 +172,6 @@
                                                 type="text"
                                                 class="form-control"
                                                 name="whatsapp"
-                                                value="{{ $profile->whatsapp }}"
                                                 required
                                                 />
                                             </div>
@@ -223,7 +222,6 @@
                                                 type="number"
                                                 name="rt"
                                                 class="form-control"
-                                                value="{{ $profile->rt }}"
                                                 required
                                                 />
                                             </div>
@@ -235,7 +233,6 @@
                                                 name="rw"
                                                 class="form-control"
                                                 required
-                                                value="{{ $profile->rw }}"
                                                 />
                                             </div>
                                             </div>
@@ -243,40 +240,44 @@
                                         <div class="form-group">
                                                 <span class="required">*</span>
                                             <label>Alamat Lengkap</label>
-                                            <textarea name="address" required class="form-control">{{ $profile->address }}</textarea>
+                                            <textarea name="address" required class="form-control"></textarea>
                                         </div>
                                         <div class="form-group">
+                                            <input type="checkbox"
+                                                name="checkedEmail"
+                                                id="checkedEmailFalse"
+                                                v-model="checkedEmail"
+                                                :value="true">
+                                                Klik centang jika calon anggota tidak memiliki email
+                                        </div>
+                                        <div class="form-group" v-if="checkedEmail == false">
                                                 <label>Email</label>
                                                 <input
                                                 type="email"
                                                 name="email"
                                                 class="form-control"
-                                                value="{{ $profile->email }}"
+                                                required
                                                 />
                                             </div>
                                         <hr class="mb-4 mt-4">
                                     <div class="form-group">
                                                 <span class="required">*</span>
                                             <label>Foto</label>
-                                             <div class="mb-2">
-                                                <img src="{{ asset('storage/'.$profile->photo) ?? ''}}" width="100" class="img-thumbnail">
-                                              </div>
                                             <input
                                             type="file"
                                             name="photo"
                                             class="form-control"
+                                            required
                                             />
                                         </div>
                                         <div class="form-group">
                                                 <span class="required">*</span>
                                             <label>Foto KTP</label>
-                                             <div class="mb-2">
-                                                <img src="{{ asset('storage/'.$profile->ktp) ?? ''}}" width="100" class="img-thumbnail">
-                                              </div>
                                             <input
                                             type="file"
                                             name="ktp"
                                             class="form-control"
+                                            required
                                             />
                                         </div>
                                     <div class="form-group">
@@ -309,39 +310,37 @@
 <script src="https://unpkg.com/vue-toasted"></script>
 <script src="{{ asset('assets/vendor/axios/axios.min.js') }}"></script>
 <script>
-      // $(document).ready(function(){
-      //   $(".select2").select2();
-      // });
-      Vue.use(Toasted);
-      var register = new Vue({
-        el: "#register",
-        mounted() {
-          AOS.init();
-          this.getProvincesData();
-          this.getRegenciesData();
-          this.getDistrictsData();
-          this.getVillagesData();
-          this.getJobsData();
-          this.getEducationsData();
-        },
-        data(){
-          return  {
-            provinces: null,
-            regencies: null,
-            districts: null,
-            villages:null,
-            jobs: null,
-            educations:null,
-            education_id:"{{ $profile->education_id }}",
-            job_id: "{{ $profile->job_id }}",
-            provinces_id: "{{ $profile->province_id }}",
-            regencies_id: "{{ $profile->regency_id }}",
-            districts_id: "{{ $profile->district_id }}",
-            villages_id: "{{ $profile->village_id }}",
+        Vue.use(Toasted);
 
-          }
-        },
-        methods:{
+        var register = new Vue({
+            el:"#register",
+            mounted(){
+                AOS.init();
+                this.getProvincesData();
+                this.getRegenciesData();
+                this.getDistrictsData();
+                this.getVillagesData();
+                this.getJobsData();
+                this.getEducationsData();
+            },
+            data(){
+                return{
+                    provinces: null,
+                    regencies: null,
+                    districts: null,
+                    villages:null,
+                    jobs: null,
+                    educations:null,
+                    education_id:null,
+                    job_id: null,
+                    provinces_id: null,
+                    regencies_id: null,
+                    districts_id: null,
+                    villages_id: null,
+                    checkedEmail: false,
+                }
+            },
+            methods:{
               getEducationsData(){
                 var self = this;
                 axios.get('{{ route('api-educations') }}')
@@ -384,6 +383,39 @@
                             self.villages = response.data
                         })
               },
+              // checkForNikAvailability: function(){
+              //   var self = this;
+              //   axios.get('{{ route('api-nik-check') }}', {
+              //     params:{
+              //       nik:this.nik
+              //     }
+              //   })
+              //     .then(function (response) {
+              //       if(response.data == 'Available'){
+              //           self.$toasted.show(
+              //               "NIK telah tersedia, silahkan lanjut langkah selanjutnya!",
+              //               {
+              //                 position: "top-center",
+              //                 className: "rounded",
+              //                 duration: 2000,
+              //               }
+              //           );
+              //           self.nik_unavailable = false;
+              //       }else{
+              //           self.$toasted.error(
+              //             "Maaf, NIK telah terdaftar pada sistem",
+              //             {
+              //               position: "top-center",
+              //               className: "rounded",
+              //               duration: 2000,
+              //             }
+              //         );
+              //         self.nik_unavailable = true;
+              //       }
+              //         // handle success
+              //         console.log(response);
+              //       });
+              // },
         },
         watch:{
                 provinces_id: function(val,oldval){
@@ -399,6 +431,6 @@
                     this.getVillagesData();
                 },
             },
-      });
+        })
     </script>
 @endpush

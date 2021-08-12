@@ -223,6 +223,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'StrRandom' => App\Providers\StrRandom::class,
 
         // model custom
         'UserModel' => App\Providers\Model\UserModel::class,

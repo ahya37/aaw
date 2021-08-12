@@ -1,77 +1,149 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+    <title>Daftar</title>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link href="{{ asset('assets/style/main.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/style/style.css') }}" rel="stylesheet" />
+  </head>
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+  <body style="background-color: #0C0D36">
+  <div class="page-content page-auth d-flex justify-content-center">
+      <div class="section-store-auth" data-aos="fade-down">
+        <div class="container">
+            @include('layouts.message')
+          <div class="card shadow bg-white rounded">
+            <div class="card-body">
+              <h5 class="mb-3 text-center">Daftar Anggota AAW</h5>
+              <div class="col-lg-12 mt-4">
+                <form action="{{  route('register')  }}" method="POST" id="register" enctype="multipart/form-data">
+                  @csrf
+                  <div class="row row-login">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <span class="required">*</span>
+                          <label>Nama</label>
+                          <input type="text" name="name" required class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <span class="required">*</span>
+                          <label>Email</label>
+                          <input id="email" 
+                            v-model="email"
+                            @change="checkForEmailAvailability()"
+                            type="email" 
+                            class="form-control @error('email') @enderror"
+                            :class="{'is_invalid' : this.email_unavailable}" 
+                            name="email" 
+                            value="{{ old('email') }}" 
+                            required
+                            autocomplete="email">
+                            
+                        </div>
+                        <div class="form-group">
+                            <span class="required">*</span>
+                          <label>Password</label>
+                          <input type="password" name="password" required class="form-control" />
                         </div>
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                        <div class="form-group">
+                            <button
+                            type="submit"
+                              class="btn btn-sc-primary text-white  btn-block w-00 mt-4"
+                            >
+                              Daftar
+                          </button>
                         </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-@endsection
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center">
+            <p class="pt-4 pb-2">2021 Copyright System. All Right Reserved</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/vendor/jquery/jquery.slim.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="{{ asset('assets/vendor/vue/vue.js') }}"></script>
+    <script src="https://unpkg.com/vue-toasted"></script>
+    <script src="{{ asset('assets/vendor/axios/axios.min.js') }}"></script>
+
+    <script>
+        Vue.use(Toasted);
+
+        var register = new Vue({
+            el:"#register",
+            mounted(){
+                AOS.init();
+            },
+            data(){
+                return{
+                    email:"",
+                    email_unavailable: false
+                }
+            },
+            methods:{
+                checkForEmailAvailability: function(){
+                var self = this;
+                axios.get('{{ route('api-register-check') }}', {
+                params:{
+                    email:this.email
+                }
+                })
+                .then(function (response) {
+
+                    if(response.data == 'Available'){
+                        self.$toasted.show(
+                            "Email Anda tersedia, silahkan lanjut langkah selanjutnya!",
+                            {
+                            position: "top-center",
+                            className: "rounded",
+                            duration: 2000,
+                            }
+                        );
+                        self.email_unavailable = false;
+
+                    }else{
+                        self.$toasted.error(
+                        "Maaf, tampaknya email sudah terdaftar pada sistem.",
+                        {
+                            position: "top-center",
+                            className: "rounded",
+                            duration: 2000,
+                        }
+                    );
+                    self.email_unavailable = true;
+
+                    }
+                    // handle success
+                    console.log(response);
+                    });
+            },
+            }
+        })
+    </script>
+    <script src="/script/navbar-scroll.js"></script>
+  </body>
+</html>

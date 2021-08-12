@@ -13,6 +13,7 @@
 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link href="{{ asset('assets/style/main.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/style/style.css') }}" rel="stylesheet" />
   </head>
 
   <body>
@@ -36,11 +37,18 @@
                   <label for="password">Password</label>
                   <input type="password" id="password" name="password" class="form-control w-75" />
                 </div>
+                
                 <button
                   class="btn btn-sc-primary btn-block w-75 mt-4"
                 >
                   Login
                 </button>
+                 <a
+                  href="{{ route('register') }}"
+                  class="btn btn-sc-secondary btn-block w-75 mt-4"
+                >
+                  Register
+                </a>
               </form>
             </div>
           </div>
