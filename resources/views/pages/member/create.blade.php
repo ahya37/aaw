@@ -17,7 +17,7 @@
             </div>
             <div class="dashboard-content mt-4" id="transactionDetails">
                 <div class="row">
-                    <div class="col-7">
+                    <div class="col-md-7 col-sm-12">
                       @include('layouts.message')
                     <form action="{{ route('user-store-profile') }}" id="register" method="POST" enctype="multipart/form-data">
                       @csrf
