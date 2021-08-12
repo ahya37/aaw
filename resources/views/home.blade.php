@@ -38,6 +38,7 @@
                               <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                 <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Profil</a>
                                 <a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-member" role="tab" aria-controls="nav-contact" aria-selected="false">Anggota Ku</a>
+                                <a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-kta" role="tab" aria-controls="nav-kta" aria-selected="false">KTA</a>
                               </div>
                             </nav>
                             <div class="tab-content" id="nav-tabContent">
@@ -127,6 +128,13 @@
                                     </tbody>
                                   </table>
                                 </div>
+                              </div>
+
+                              <div class="tab-pane fade mt-4" id="nav-kta" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                <div class="col-12 text-center mb-3">
+                                  <img width="150" src="{{ asset('assets/images/settings.svg') }}">
+                                </div>
+                                <p class="text-center">Dalam Pengembangan</p>
                               </div>
                             </div>
                         </div>

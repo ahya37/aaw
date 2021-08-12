@@ -10,14 +10,15 @@
             data-aos="fade-up"
           >
             <div class="container-fluid">
-              <div class="dashboard-heading">
-                <h2 class="dashboard-title">Buat Anggota Baru</h2>
+                <div class="dashboard-heading">
+                    <h2 class="dashboard-title">Buat Anggota Baru</h2>
                 <p class="dashboard-subtitle">
                 </p>
-              </div>
-              <div class="dashboard-content mt-4" id="transactionDetails">
+            </div>
+            <div class="dashboard-content mt-4" id="transactionDetails">
                 <div class="row">
-                  <div class="col-7">
+                    <div class="col-7">
+                      @include('layouts.message')
                     <form action="{{ route('user-store-profile') }}" id="register" method="POST" enctype="multipart/form-data">
                       @csrf
                       <div class="card">
@@ -127,12 +128,14 @@
                                                 <span class="required">*</span>
                                                 <label>NIK</label>
                                                     <input
-                                                        type="number"
-                                                        class="form-control"
-                                                        name="nik"
-                                                        value="" 
-                                                        required
-                                                    />
+                                                            type="number"
+                                                            class="form-control"
+                                                            name="nik"
+                                                            value="" 
+                                                            required
+                                                            v-model="nik"
+                                                            @change="checkForNikAvailability()"
+                                                        />
                                             </div>
                                             <div class="col-6">
                                                 <span class="required">*</span>
@@ -383,39 +386,39 @@
                             self.villages = response.data
                         })
               },
-              // checkForNikAvailability: function(){
-              //   var self = this;
-              //   axios.get('{{ route('api-nik-check') }}', {
-              //     params:{
-              //       nik:this.nik
-              //     }
-              //   })
-              //     .then(function (response) {
-              //       if(response.data == 'Available'){
-              //           self.$toasted.show(
-              //               "NIK telah tersedia, silahkan lanjut langkah selanjutnya!",
-              //               {
-              //                 position: "top-center",
-              //                 className: "rounded",
-              //                 duration: 2000,
-              //               }
-              //           );
-              //           self.nik_unavailable = false;
-              //       }else{
-              //           self.$toasted.error(
-              //             "Maaf, NIK telah terdaftar pada sistem",
-              //             {
-              //               position: "top-center",
-              //               className: "rounded",
-              //               duration: 2000,
-              //             }
-              //         );
-              //         self.nik_unavailable = true;
-              //       }
-              //         // handle success
-              //         console.log(response);
-              //       });
-              // },
+              checkForNikAvailability: function(){
+                var self = this;
+                axios.get('{{ route('api-nik-check') }}', {
+                  params:{
+                    nik:this.nik
+                  }
+                })
+                  .then(function (response) {
+                    if(response.data == 'Available'){
+                        self.$toasted.show(
+                            "NIK telah tersedia, silahkan lanjut langkah selanjutnya!",
+                            {
+                              position: "top-center",
+                              className: "rounded",
+                              duration: 2000,
+                            }
+                        );
+                        self.nik_unavailable = false;
+                    }else{
+                        self.$toasted.error(
+                          "Maaf, NIK telah terdaftar pada sistem",
+                          {
+                            position: "top-center",
+                            className: "rounded",
+                            duration: 2000,
+                          }
+                      );
+                      self.nik_unavailable = true;
+                    }
+                      // handle success
+                      console.log(response);
+                    });
+              },
         },
         watch:{
                 provinces_id: function(val,oldval){

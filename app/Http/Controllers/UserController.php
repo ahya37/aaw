@@ -49,39 +49,46 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+           $cek_nik = User::select('nik')->where('nik', $request->nik)->first();
+           #cek nik jika sudah terpakai
+           if ($cek_nik != null) {
+               return redirect()->back()->with(['error' => 'NIK yang anda gunakan telah terdaftar']);
+           }else{
 
-            $photo = $request->file('photo')->store('assets/user/photo','public');
-            $ktp   = $request->file('ktp')->store('assets/user/ktp','public');
+               $photo = $request->file('photo')->store('assets/user/photo','public');
+               $ktp   = $request->file('ktp')->store('assets/user/ktp','public');
+    
+               $strRandomProvider = new StrRandom();
+               $string            = $strRandomProvider->generateStrRandom();
+    
+               $user = User::create([
+                   'user_id' => Auth::user()->id,
+                   'code' => $string,
+                   'nik'  => $request->nik,
+                   'name' => $request->name,
+                   'gender' => $request->gender,
+                   'place_berth' => $request->place_berth,
+                   'date_berth' => $request->date_berth,
+                   'blood_group' => $request->blood_group,
+                   'marital_status' => $request->marital_status,
+                   'job_id' => $request->job_id,
+                   'religion' => $request->religion,
+                   'nik'  => $request->nik,
+                   'education_id'  => $request->education_id,
+                   'email' => $request->email,
+                   'phone_number' => $request->phone_number,
+                   'whatsapp' => $request->whatsapp,
+                   'village_id'   => $request->village_id,
+                   'rt'           => $request->rt,
+                   'rw'           => $request->rw,
+                   'address'      => $request->address,
+                   'photo'        => $photo,
+                   'ktp'          => $ktp
+               ]);
+           }
 
-            $strRandomProvider = new StrRandom();
-            $string            = $strRandomProvider->generateStrRandom();
-
-            User::create([
-                'user_id' => Auth::user()->id,
-                'code' => $string,
-                'nik'  => $request->name,
-                'name' => $request->name,
-                'gender' => $request->gender,
-                'place_berth' => $request->place_berth,
-                'date_berth' => $request->date_berth,
-                'blood_group' => $request->blood_group,
-                'marital_status' => $request->marital_status,
-                'job_id' => $request->job_id,
-                'religion' => $request->religion,
-                'nik'  => $request->nik,
-                'education_id'  => $request->education_id,
-                'email' => $request->email,
-                'phone_number' => $request->phone_number,
-                'whatsapp' => $request->whatsapp,
-                'village_id'   => $request->village_id,
-                'rt'           => $request->rt,
-                'rw'           => $request->rw,
-                'address'      => $request->address,
-                'photo'        => $photo,
-                'ktp'          => $ktp
-            ]);
-
-        return redirect()->route('member-index')->with('success','Anggota baru telah dibuat');
+        $id = encrypt($user->id);
+        return redirect()->route('member-mymember', ['id' => $id])->with('success','Anggota baru telah dibuat');
     }
 
     public function edit($id)
