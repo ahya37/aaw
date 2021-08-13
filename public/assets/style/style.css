@@ -6,3 +6,20 @@
 .required {
     color: red;
 }
+
+.cs-card {
+    background-color: #0f70ad;
+    color: #ffffff;
+}
+
+.cs-card-danger {
+    background-color: #922b21;
+}
+
+.cs-card-warning {
+    background-color: #dc7633;
+}
+
+.cd-card-primary {
+    background-color: #2471a3;
+}

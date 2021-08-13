@@ -62,4 +62,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Education::class,'education_id');
     }
+
+    public function reveral()
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
 }
