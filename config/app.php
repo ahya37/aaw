@@ -165,7 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -224,6 +224,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'StrRandom' => App\Providers\StrRandom::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
 
         // model custom
         'UserModel' => App\Providers\Model\UserModel::class,

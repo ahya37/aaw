@@ -11,6 +11,8 @@ use App\Job;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class RegisterController extends Controller
 {
@@ -69,13 +71,23 @@ class RegisterController extends Controller
     {
         $strRandomProvider = new StrRandom();
         $string            = $strRandomProvider->generateStrRandom();
-        
-        return User::create([
+
+        $user = User::create([
             'code' => $string,
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        #generate qrcode
+        $image = QrCode::format('png')
+                 ->size(200)->errorCorrection('H')
+                 ->generate($user->code);
+        #simpan ke direktori
+        $output_file = '/public/assets/user/qrcode/' . $user->code . '.png';
+        Storage::disk('local')->put($output_file, $image);
+
+        return $user;
     }
 
     public function nik(Request $request)
@@ -97,4 +109,5 @@ class RegisterController extends Controller
     {
         return Education::select('id','name')->orderBy('id','ASC')->get();
     }
+
 }
