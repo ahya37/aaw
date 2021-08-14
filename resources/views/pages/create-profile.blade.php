@@ -14,6 +14,7 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link href="{{ asset('assets/style/main.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/style/style.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/vendor/datetimepicker/jquery.datetimepicker.min.css') }}" rel="stylesheet" />
   </head>
 
   <body style="background-color: #0C0D36">
@@ -64,10 +65,11 @@
                                     <span class="required">*</span>
                                      <label>Tanggal Lahir</label>
                                     <input
-                                      type="date"
+                                      type="text"
                                       class="form-control"
                                       name="date_berth"
                                       value="" 
+                                      id="datetimepicker"
                                       required >
                                 </div>
                             </div>
@@ -315,14 +317,21 @@
     </footer>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="/vendor/jquery/jquery.slim.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+   <script src="{{ asset('assets/vendor/jquery/jquery.slim.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="{{ asset('assets/vendor/vue/vue.js') }}"></script>
     <script src="https://unpkg.com/vue-toasted"></script>
     <script src="{{ asset('assets/vendor/axios/axios.min.js') }}"></script>
-
+    <script src="{{ asset('assets/vendor/datetimepicker/jquery.datetimepicker.full.min.js') }}"></script>
     <script>
+      $(document).ready(function(){
+           jQuery('#datetimepicker').datetimepicker({
+               timepicker:false,
+               format:'d/m/Y'
+               });
+               $.datetimepicker.setLocale('id');
+       });
         Vue.use(Toasted);
 
         var register = new Vue({
@@ -350,6 +359,7 @@
                     regencies_id: null,
                     districts_id: null,
                     villages_id: null,
+                    nik:null,
                 }
             },
             methods:{
@@ -443,8 +453,8 @@
                     this.getVillagesData();
                 },
             },
-        })
-    </script>
+        });
+    </script>   
     <script src="/script/navbar-scroll.js"></script>
   </body>
 </html>

@@ -2,6 +2,7 @@
 @section('title','Edit Anggota')
 @push('addon-style')
     <link href="{{ asset('assets/style/style.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/vendor/datetimepicker/jquery.datetimepicker.min.css') }}" rel="stylesheet" />
 @endpush
 @section('content')
 <!-- Section Content -->
@@ -11,7 +12,7 @@
           >
             <div class="container-fluid">
               <div class="dashboard-heading">
-                <h2 class="dashboard-title">Profil</h2>
+                <h2 class="dashboard-title">Edit Profil</h2>
                 <p class="dashboard-subtitle">
                     Informasi Detail Profil
                 </p>
@@ -53,7 +54,7 @@
                                                 type="text"
                                                 class="form-control"
                                                 name="place_berth"
-                                                value="{{ $profile->place_berth }}" 
+                                                value="{{ date('d-m-Y', strtotime($profile->place_berth))}}" 
                                                 required
                                                 />
                                             </div>
@@ -61,7 +62,8 @@
                                                 <span class="required">*</span>
                                                 <label>Tanggal Lahir</label>
                                                 <input
-                                                type="date"
+                                                type="text"
+                                                id="datetimepicker6"
                                                 class="form-control"
                                                 name="date_berth"
                                                 value="{{ $profile->date_berth }}" 
@@ -308,10 +310,16 @@
 <script src="{{ asset('assets/vendor/vue/vue.js') }}"></script>
 <script src="https://unpkg.com/vue-toasted"></script>
 <script src="{{ asset('assets/vendor/axios/axios.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datetimepicker/jquery.datetimepicker.full.min.js') }}"></script>
 <script>
-      // $(document).ready(function(){
-      //   $(".select2").select2();
-      // });
+      $(document).ready(function(){
+        jQuery('#datetimepicker6').datetimepicker({
+            timepicker:false,
+            format:'d-m-Y'
+            });
+            $.datetimepicker.setLocale('id');
+    });
+
       Vue.use(Toasted);
       var register = new Vue({
         el: "#register",

@@ -50,6 +50,12 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+           $this->validate($request, [
+               'photo' => 'required|mimes:png,jpg,jpeg',
+               'ktp' => 'required|mimes:png,jpg,jpeg',
+               'date_berth' => 'required|date'
+           ]);
+           
            $cek_nik = User::select('nik')->where('nik', $request->nik)->first();
            #cek nik jika sudah terpakai
            if ($cek_nik != null) {
@@ -69,7 +75,7 @@ class UserController extends Controller
                    'name' => $request->name,
                    'gender' => $request->gender,
                    'place_berth' => $request->place_berth,
-                   'date_berth' => $request->date_berth,
+                   'date_berth' => date('Y-m-d', strtotime($request->date_berth)),
                    'blood_group' => $request->blood_group,
                    'marital_status' => $request->marital_status,
                    'job_id' => $request->job_id,
@@ -132,7 +138,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'gender' => $request->gender,
                 'place_berth' => $request->place_berth,
-                'date_berth' => $request->date_berth,
+                'date_berth' => date('Y-m-d', strtotime($request->date_berth)),
                 'blood_group' => $request->blood_group,
                 'marital_status' => $request->marital_status,
                 'job_id' => $request->job_id,
@@ -156,7 +162,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'gender' => $request->gender,
                 'place_berth' => $request->place_berth,
-                'date_berth' => $request->date_berth,
+                'date_berth' => date('Y-m-d', strtotime($request->date_berth)),
                 'blood_group' => $request->blood_group,
                 'marital_status' => $request->marital_status,
                 'job_id' => $request->job_id,
@@ -203,7 +209,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'gender' => $request->gender,
                 'place_berth' => $request->place_berth,
-                'date_berth' => $request->date_berth,
+                'date_berth' => date('Y-m-d', strtotime($request->date_berth)),
                 'blood_group' => $request->blood_group,
                 'marital_status' => $request->marital_status,
                 'job_id' => $request->job_id,
@@ -225,7 +231,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'gender' => $request->gender,
                 'place_berth' => $request->place_berth,
-                'date_berth' => $request->date_berth,
+                'date_berth' => date('Y-m-d', strtotime($request->date_berth)),
                 'blood_group' => $request->blood_group,
                 'marital_status' => $request->marital_status,
                 'job_id' => $request->job_id,

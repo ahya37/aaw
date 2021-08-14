@@ -2,6 +2,7 @@
 @section('title','Buat Anggota Baru')
 @push('addon-style')
     <link href="{{ asset('assets/style/style.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/vendor/datetimepicker/jquery.datetimepicker.min.css') }}" rel="stylesheet" />
 @endpush
 @section('content')
 <!-- Section Content -->
@@ -61,7 +62,8 @@
                                                 <span class="required">*</span>
                                                 <label>Tanggal Lahir</label>
                                                 <input
-                                                type="date"
+                                                id="datetimepicker6"
+                                                type="text"
                                                 class="form-control"
                                                 name="date_berth"
                                                 value="" 
@@ -312,7 +314,16 @@
 <script src="{{ asset('assets/vendor/vue/vue.js') }}"></script>
 <script src="https://unpkg.com/vue-toasted"></script>
 <script src="{{ asset('assets/vendor/axios/axios.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datetimepicker/jquery.datetimepicker.full.min.js') }}"></script>
 <script>
+    $(document).ready(function(){
+        jQuery('#datetimepicker6').datetimepicker({
+            timepicker:false,
+            format:'d/m/Y'
+            });
+            $.datetimepicker.setLocale('id');
+    });
+    
         Vue.use(Toasted);
 
         var register = new Vue({
@@ -341,6 +352,7 @@
                     districts_id: null,
                     villages_id: null,
                     checkedEmail: false,
+                    nik:null,
                 }
             },
             methods:{
@@ -434,6 +446,7 @@
                     this.getVillagesData();
                 },
             },
-        })
+        });
+        
     </script>
 @endpush
