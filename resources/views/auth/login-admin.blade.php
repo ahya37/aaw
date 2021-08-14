@@ -31,15 +31,15 @@
                 <br />
                 <div class="form-group">
                   <label for="email">Email Address</label>
-                  <input type="email" id="email" name="email" class="form-control w-75" />
+                  <input type="email" id="email" name="email" class="form-control col-lg-9 col-sm-12" />
                 </div>
                 <div class="form-group">
                   <label for="password">Password</label>
-                  <input type="password" id="password" name="password" class="form-control w-75" />
+                  <input type="password" id="password" name="password" class="form-control col-lg-9 col-sm-12" />
                 </div>
                 
                 <button
-                  class="btn btn-sc-primary btn-block w-75 mt-4"
+                  class="btn btn-sc-primary btn-block col-lg-9 col-sm-12 mt-4"
                 >
                   Login
                 </button>
