@@ -8,11 +8,10 @@ use App\Providers\StrRandom;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Job;
+use App\Providers\QrCodeProvider;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Storage;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class RegisterController extends Controller
 {
@@ -80,13 +79,10 @@ class RegisterController extends Controller
         ]);
 
         #generate qrcode
-        $image = QrCode::format('png')
-                 ->size(200)->errorCorrection('H')
-                 ->generate($user->code);
-        #simpan ke direktori
-        $output_file = '/public/assets/user/qrcode/' . $user->code . '.png';
-        Storage::disk('local')->put($output_file, $image);
-
+        $qrCode       = new QrCodeProvider();
+        $qrCodeValue  = $user->code;
+        $qrCode->create($qrCodeValue);
+        
         return $user;
     }
 

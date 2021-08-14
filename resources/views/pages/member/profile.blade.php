@@ -131,7 +131,8 @@
                               </div>
                               <div class="tab-pane fade mt-4" id="nav-kta" role="tabpanel" aria-labelledby="nav-contact-tab">
                                 <div class="col-12 text-center mb-3">
-                                  <img width="150" src="{{ asset('assets/images/settings.svg') }}">
+                                  <img width="150" src="{{ asset('storage/assets/user/qrcode/'.$profile->code.'.png') }}">
+                                  <p class="text-center">{{ $profile->code }}</p>
                                 </div>
                                 <p class="text-center">Dalam Pengembangan</p>
                               </div>

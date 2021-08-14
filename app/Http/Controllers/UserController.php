@@ -6,6 +6,7 @@ use Auth;
 use App\User;
 use App\Providers\StrRandom;
 use Illuminate\Http\Request;
+use App\Providers\QrCodeProvider;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\File;
 
@@ -85,6 +86,11 @@ class UserController extends Controller
                    'photo'        => $photo,
                    'ktp'          => $ktp
                ]);
+
+               #generate qrcode
+                $qrCode       = new QrCodeProvider();
+                $qrCodeValue  = $user->code;
+                $qrCode->create($qrCodeValue);
            }
 
         $id = encrypt($user->id);
