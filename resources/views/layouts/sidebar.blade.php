@@ -1,6 +1,6 @@
 <div class="border-right" id="sidebar-wrapper">
           <div class="sidebar-heading text-center">
-            <img src="{{ asset('assets/images/logos.svg') }}" class="my-4" width="100" />
+            <img src="{{ asset('assets/images/logos.png') }}" width="150" />
           </div>
           <div class="list-group list-group-flush">
             <a

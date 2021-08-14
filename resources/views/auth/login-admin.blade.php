@@ -22,7 +22,7 @@
         <div class="container justify-content-center">
           <div class="row align-items-center row-login">
             <div class="col-lg-6 text-center">
-              <img src="{{ asset('assets/images/logos.svg') }}" class="w-50 mb-4 mb-lg-none" />
+              <img src="{{ asset('assets/images/logo2.jpeg') }}" width="350" class="mb-4 mb-lg-none" />
             </div>
             <div class="col-lg-5">
               <form method="POST" action="{{ route('post-admin-login') }}" class="mt-3">
