@@ -225,6 +225,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'StrRandom' => App\Providers\StrRandom::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'GlobalProvider' => App\Providers\GlobalProvider::class,
 
         // model custom
         'UserModel' => App\Providers\Model\UserModel::class,

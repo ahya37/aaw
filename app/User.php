@@ -2,11 +2,12 @@
 
 namespace App;
 
+use App\Models\Village;
+use Illuminate\Support\Facades\DB;
+use Alfa6661\AutoNumber\AutoNumberTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Alfa6661\AutoNumber\AutoNumberTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Models\Village;
 
 class User extends Authenticatable
 {
@@ -66,5 +67,36 @@ class User extends Authenticatable
     public function reveral()
     {
         return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function getMember($regency_id)
+    {
+        $sql = "SELECT a.name
+                from users as a 
+                join villages as b on a.village_id = b.id 
+                join districts as c on b.district_id = c.id 
+                where c.regency_id = $regency_id";
+        return DB::select($sql);
+    }
+
+    public function getGender($regency_id)
+    {
+        $sql = "SELECT a.gender, count(a.id) as total
+                from users as a 
+                join villages as b on a.village_id = b.id 
+                join districts as c on b.district_id = c.id 
+                where c.regency_id = $regency_id  group by a.gender";
+        return DB::select($sql);
+    }
+
+    public function getGenderFemale($regency_id)
+    {
+        $sql = "SELECT count(a.id) as female
+                from users as a 
+                join villages as b on a.village_id = b.id 
+                join districts as c on b.district_id = c.id 
+                where c.regency_id = $regency_id and a.gender = 1  group by a.gender";
+        return collect(\DB::select($sql))->first();
+
     }
 }

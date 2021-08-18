@@ -47,7 +47,7 @@
                   href="{{ route('register') }}"
                   class="btn btn-sc-secondary btn-block mt-4 col-lg-9 col-sm-12"
                 >
-                  Register
+                  Buat Akun Baru
                 </a>
               </form>
             </div>

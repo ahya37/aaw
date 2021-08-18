@@ -41,6 +41,30 @@ class UserController extends Controller
 
     }
 
+    public function createReveral()
+    {
+        $id_user = Auth::user()->id;
+        $user    = User::where('id', $id_user)->first();
+        return view('pages.create-reveral', compact('user'));
+    }
+
+    public function storeReveral(Request $request, $id)
+    {
+        $this->validate($request, [
+            'code' => 'required'
+        ]);
+
+        $user_id = User::where('code', $request->code)->first();
+        if ($user_id == NULL) {
+            return redirect()->back()->with(['error' => 'kode Reveral tidak tersedia']);
+        }else{
+            $user    = User::where('id', $id)->first();
+            $user->update(['user_id' => $user_id->id]);
+        }
+
+        return redirect()->route('user-create-profile')->with(['success' => 'koder Reveral berhasil disimpan']);
+    }
+
     public function create()
     {
         $id_user = Auth::user()->id;

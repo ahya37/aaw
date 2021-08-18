@@ -32,7 +32,7 @@
                                         <th scope="col">Kabupaten/Kota</th>
                                         <th scope="col">Kecamatan</th>
                                         <th scope="col">Desa</th>
-                                        <th scope="col">Reveral Dari</th>
+                                        <th scope="col">Rekomendasi Dari</th>
                                       </tr>
                                     </thead>
                                     <tbody>
@@ -48,16 +48,16 @@
                                             {{ $row->name }}
                                           </a>
                                         </td>
-                                        <td>{{ $row->village->district->regency->name }}</td>
-                                        <td>{{ $row->village->district->name }}</td>
-                                        <td>{{ $row->village->name }}</td>
+                                        <td>{{ $row->village->district->regency->name ?? '' }}</td>
+                                        <td>{{ $row->village->district->name ?? '' }}</td>
+                                        <td>{{ $row->village->name ?? '' }}</td>
                                         <td>
                                             <img
-                                              src="{{ asset('storage/'.$row->reveral->photo) }}"
+                                              src="{{ asset('storage/'.$row->reveral->photo) ?? '' }}"
                                               class="rounded"
                                               width="30"
                                             />
-                                            {{ $row->reveral->name }}
+                                            {{ $row->reveral->name ?? '' }}
                                         </td>
                                       </tr>
                                       @endforeach

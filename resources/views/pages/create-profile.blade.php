@@ -9,7 +9,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title>Profil</title>
+    <title>Lengkapi Profil</title>
 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link href="{{ asset('assets/style/main.css') }}" rel="stylesheet" />
@@ -21,7 +21,7 @@
   <div class="page-content page-auth d-flex justify-content-center">
       <div class="section-store-auth" data-aos="fade-down">
         <div class="container">
-            <div class="alert alert-success">Anda berhasil mendaftar, silahkan lengkapi data berikut</div>
+            <div class="alert alert-success">Anda berhasil membuat akun, silahkan lengkapi data berikut</div>
           <div class="card shadow bg-white rounded">
             <div class="card-body">
               <div class="col-lg-12 mt-4">

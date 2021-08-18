@@ -27,3 +27,5 @@ Route::get('villages/{district_id}', 'API\LocationController@villages')->name('a
 Route::get('typeagricultur','API\TypeOfAgriculturController@typeofagricultur')->name('api-typeofagricultur');
 Route::get('nik/check', 'Auth\RegisterController@nik')->name('api-nik-check');
 Route::get('register/check', 'Auth\RegisterController@check')->name('api-register-check');
+Route::get('reveral/check', 'Auth\RegisterController@reveral')->name('api-reveral-check');
+Route::get('reveral/name/{code}', 'Auth\RegisterController@reveralName');

@@ -19,7 +19,7 @@
             <div class="container-fluid">
               <div class="dashboard-heading">
                 <h2 class="dashboard-title">Dashboard</h2>
-                <p class="dashboard-subtitle">Sitem Keanggotaan AAW</p>
+                <p class="dashboard-subtitle">Provinsi/Kabupaten</p>
               </div>
               <div class="dashboard-content">
                 <div class="row">
@@ -30,7 +30,7 @@
                           Jumlah Anggota
                         </div>
                         <div class="dashboard-card-subtitle">
-                          <h4 class="text-white">20</h4>
+                          <h4 class="text-white">{{ $gF->decimalFormat($total_member)}}</h4>
                         </div>
                       </div>
                     </div>
@@ -42,7 +42,7 @@
                           % Jumlah Anggota
                         </div>
                         <div class="dashboard-card-subtitle">
-                          <h4 class="text-white">80 %</h4>
+                          <h4 class="text-white">{{ $gF->persen($persentage_target_member)}}</h4>
                         </div>
                       </div>
                     </div>
@@ -54,7 +54,7 @@
                           Target Anggota
                         </div>
                         <div class="dashboard-card-subtitle">
-                          <h4 class="text-white">80.000</h4>
+                          <h4 class="text-white">{{ $gF->decimalFormat($target_member)}}</h4>
                         </div>
                       </div>
                     </div>
@@ -69,7 +69,7 @@
                           Jumlah Desa Terisi
                         </div>
                         <div class="dashboard-card-subtitle">
-                          <h4 class="text-white">20</h4>
+                          <h4 class="text-white">{{ $gF->decimalFormat($total_village_filled) }}</h4>
                         </div>
                       </div>
                     </div>
@@ -81,7 +81,7 @@
                           % Desa
                         </div>
                         <div class="dashboard-card-subtitle">
-                          <h4 class="text-white">80 %</h4>
+                          <h4 class="text-white">{{ $gF->persen($presentage_village_filled)}}</h4>
                         </div>
                       </div>
                     </div>
@@ -93,7 +93,7 @@
                           Todal Desa
                         </div>
                         <div class="dashboard-card-subtitle">
-                          <h4 class="text-white">20</h4>
+                          <h4 class="text-white">{{ $gF->decimalFormat($total_village) }}</h4>
                         </div>
                       </div>
                     </div>
@@ -105,7 +105,7 @@
                   <div class="col-md-12">
                     <div class="card mb-2">
                       <div class="card-body">
-                        <div id="member"></div>
+                        <div id="districts"></div>
                       </div>
                     </div>
                   </div>
@@ -119,18 +119,16 @@
                       <div class="card-body">
                         <div id="gender"></div>
                       </div>
-                      <div class="card-footer bg-white">
+                      {{-- <div class="card-footer bg-white">
                         <div class="row">
+                          @foreach ($gender as $val)
                           <div class="col-6 text-center">
-                            <h5>10.000</h5>
-                            <small>Pria</small>
+                            <h5>{{ $val->gender == 0 ? 'Pria' : 'Wanita' }}</h5>
+                            <small>{{ $val->total }}</small>
                           </div>
-                          <div class="col-6 text-center">
-                            <h5>20.000</h5>
-                            <small>Wanita</small>
-                          </div>
+                          @endforeach
                         </div>
-                      </div>
+                      </div> --}}
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -160,118 +158,96 @@
 </script>
  <script>
       // member calculate
-      Highcharts.chart("member", {
-        chart: {
-          type: "column",
-        },
-        title: {
-          text: "Anggota Terdaftar",
-        },
-
-        xAxis: {
-          type: "category",
-          labels: {
-            rotation: -45,
-            style: {
-              fontSize: "13px",
-              fontFamily: "Verdana, sans-serif",
-            },
+      Highcharts.chart('districts', {
+          chart: {
+              type: 'column'
           },
-        },
-        yAxis: {
-          min: 0,
-        },
-        legend: {
-          enabled: false,
-        },
-        tooltip: {
-          pointFormat: "Terdata: <b>{point.y:.1f} anggota</b>",
-        },
-        series: [
-          {
-            colorByPoint: true,
-            name: "Population",
-            data: [
-              ["BANJARSARI", 40],
-              ["BAYAH", 35],
-              ["BOJONGMANIK", 37],
-              ["CIBADAK", 29],
-              ["CIBEBER", 45],
-              ["CIGEMBLONG", 50],
-              ["CIHARA", 39],
-              ["CIKULUR", 38],
-              ["CILELER", 44],
-              ["CILOGRANG", 33],
-              ["CIMARGA", 33],
-              ["CIPANAS", 33],
-              ["CIRINTEN", 33],
-              ["CURUGBITUNG", 33],
-              ["GUNUNG KENCANA", 33],
-              ["KALANGANYAR", 33],
-              ["LEBAKGEDONG", 33],
-              ["LEUWIDAMAR", 33],
-              ["MAJA", 33],
-              ["MALINGPING", 33],
-              ["MUNCANG", 33],
-              ["PANGGARANGAN", 33],
-              ["RANGKASBITUNG", 33],
-              ["SAJIRA", 33],
-              ["SOBANG", 33],
-              ["WANASALAM", 33],
-              ["WARUNGGUNUNG", 33],
-            ],
-            dataLabels: {
-              enabled: true,
-              rotation: -360,
-              color: "#FFFFFF",
-              align: "right",
-              format: "{point.y:.1f}", // one decimal
-              y: 10, // 10 pixels down from the top
-              style: {
-                fontSize: "12px",
-                fontFamily: "Verdana, sans-serif",
+          title: {
+              text: 'Anggota Terdaftar'
+          },
+          xAxis: {
+              categories: {!! json_encode($cat_districts) !!},
+              crosshair: true
+          },
+          yAxis: {
+              min: 0,
+              title: {
+                  text: 'Jumlah'
+              }
+          },
+          tooltip: {
+              headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+              footerFormat: '</table>',
+              shared: true,
+              useHTML: true
+          },
+          plotOptions: {
+              column: {
+                  pointPadding: 0.2,
+                  borderWidth: 0
               },
-            },
+              series:{
+                cursor: 'pointer',
+                point:{
+                  events:{
+                    click: function(){
+                      document.location.href = "{{ route('admin-member') }}";
+                    }
+                  }
+                }
+              }
           },
-        ],
+          series: [{
+              colorByPoint: true,
+              name:"Anggota",
+              data: {{ json_encode($cat_districts_data) }}
+
+          }]
       });
 
       // Gender
-      Highcharts.chart("gender", {
-        accessibility: {
-          point: {
-            valueDescriptionFormat: "{point.name}",
+     Highcharts.chart('gender', {
+          chart: {
+              plotBackgroundColor: null,
+              plotBorderWidth: 0,
+              plotShadow: false
           },
-        },
-        series: [
-          {
-            type: "venn",
-            data: [
-              {
-                sets: ["A"],
-                value: 4,
-                name: "Pria",
-              },
-              {
-                sets: ["B"],
-                value: 1,
-                name: "Wanita",
-              },
-              {
-                sets: ["A", "B"],
-                value: 1,
-              },
-            ],
+          title: {
+              text: 'Anggota Berdasarkan Gender',
+              align: 'center',
+              // verticalAlign: 'middle',
+              // y: 60
           },
-        ],
-        tooltip: {
-          headerFormat:
-            '<span style="color:{point.color}">\u2022</span> ' +
-            '<span style="font-size: 14px"> {point.point.name}</span><br/>',
-        },
-        title: {
-          text: "Anggota Berdasarkan Gender",
-        },
+          tooltip: {
+              // pointFormat: '{series.name}: <b>{point.percentage:.1f}</b>'
+          },
+          accessibility: {
+              point: {
+                  valueSuffix: ''
+              }
+          },
+          plotOptions: {
+              pie: {
+                  dataLabels: {
+                      enabled: true,
+                      distance: -50,
+                      style: {
+                          fontWeight: 'bold',
+                          color: 'white'
+                      }
+                  },
+                  startAngle: -90,
+                  endAngle: 90,
+                  center: ['50%', '75%'],
+                  size: '110%'
+              }
+          },
+          series: [{
+              type: 'pie',
+              name: 'Jumlah',
+              innerSize: '50%',
+              data: {!! json_encode($cat_gender) !!},
+          }]
       });
 
       // Job
@@ -318,15 +294,9 @@
         },
         series: [
           {
-            name: "Share",
-            data: [
-              { name: "Mengurus Rumah Tangga", y: 70 },
-              { name: "Nelayan", y: 30 },
-              { name: "Petani", y: 35 },
-              { name: "Wiraswasta", y: 40 },
-              { name: "Buruh", y: 15 },
-              { name: "Belum Bekerja", y: 20 },
-            ],
+            name: "Jumlah",
+            colorByPoint: true,
+            data: {!! json_encode($cat_jobs) !!},
           },
         ],
       });

@@ -33,7 +33,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = 'user/profile/create';
+    protected $redirectTo = 'user/home';
 
     /**
      * Create a new controller instance.
@@ -104,6 +104,16 @@ class RegisterController extends Controller
     public function educations()
     {
         return Education::select('id','name')->orderBy('id','ASC')->get();
+    }
+
+    public function reveral(Request $request)
+    {
+        return User::where('code', $request->code)->count() > 0 ? 'Available' : 'Unavailable';
+    }
+
+    public function reveralName($code)
+    {
+        return User::select('name')->where('code', $code)->first();
     }
 
 }
