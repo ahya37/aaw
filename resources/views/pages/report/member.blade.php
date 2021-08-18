@@ -86,7 +86,7 @@
                     @foreach ($member as $row)
                     <tr>
                         <td>{{ $no++ }}</td>
-                        <td>{{ $row->name }}</td>
+                        <td>{{ strtoupper($row->name) }}</td>
                         <td>{{ $row->village->name }}</td>
                         <td>{{ $row->village->district->name }}</td>
                         <td>{{ $row->village->district->regency->name }}</td>
