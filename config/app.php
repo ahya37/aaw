@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -226,6 +227,7 @@ return [
         'StrRandom' => App\Providers\StrRandom::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'GlobalProvider' => App\Providers\GlobalProvider::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
         // model custom
         'UserModel' => App\Providers\Model\UserModel::class,

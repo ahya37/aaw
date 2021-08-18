@@ -101,6 +101,9 @@
                                 </div>
                               </div>
                               <div class="tab-pane fade mt-4" id="nav-member" role="tabpanel" aria-labelledby="nav-member-tab">
+                                <div class="col-12 mb-4">
+                                  <a href="{{ route('user-member-downloadpdf') }}" class="btn btn-sm btn-sc-primary text-white">Download</a>
+                                </div>
                                 <div class="table-responsive">
                                   <table id="data" class="table table-sm table-striped">
                                     <thead>

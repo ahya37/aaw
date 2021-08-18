@@ -28,6 +28,8 @@ Route::group(['prefix' => 'user','middleware' => ['auth']], function(){
     Route::get('/profile/reveral', 'UserController@createReveral')->name('user-create-reveral');
     Route::post('/profile/reveral/store/{id}', 'UserController@storeReveral')->name('user-store-reveral');
 
+    Route::get('/member/download','UserController@memberReportPdf')->name('user-member-downloadpdf');
+
 
     Route::group(['prefix' => 'member'], function(){
         Route::get('index','UserController@indexMember')->name('member-index');

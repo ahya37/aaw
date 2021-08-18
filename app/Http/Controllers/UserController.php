@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\User;
+use PDF;
 use App\Providers\StrRandom;
 use Illuminate\Http\Request;
 use App\Providers\QrCodeProvider;
-use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\File;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class UserController extends Controller
 {
@@ -120,8 +119,9 @@ class UserController extends Controller
 
                #generate qrcode
                 $qrCode       = new QrCodeProvider();
-                $qrCodeValue  = $user->code;
-                $qrCode->create($qrCodeValue);
+                $qrCodeValue  = $user->code.'-'.$user->name;
+                $qrCodeNameFile= $user->code;
+                $qrCode->create($qrCodeValue, $qrCodeNameFile);
            }
 
         $id = encrypt($user->id);
@@ -277,6 +277,17 @@ class UserController extends Controller
             #jika anggotanya redireck ke dashoard anggotanya
             return redirect()->route('member-mymember', ['id' => $id]);
         }
+    }
+
+    public function memberReportPdf()
+    {
+        $id_user = Auth::user()->id;
+        $name    = Auth::user()->name;
+        $title   = "Laporan-Anggota- $name";
+        $no      = 1;
+        $member  = User::with(['village'])->where('user_id', $id_user)->whereNotIn('id', [$id_user])->get();
+        $pdf = PDF::loadView('pages.report.member', compact('member','title','no','name'))->setPaper('a4');
+        return $pdf->download($title.'.pdf');
     }
 
     
