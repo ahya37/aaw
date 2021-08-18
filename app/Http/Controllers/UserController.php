@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Providers\QrCodeProvider;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\File;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class UserController extends Controller
 {
@@ -157,7 +158,6 @@ class UserController extends Controller
             $ktp   = $request->ktp   != null ? $request->file('ktp')->store('assets/user/ktp','public') : $user->ktp;
 
             $user->update([
-                'user_id' => Auth::user()->id,
                 'nik'  => $request->nik,
                 'name' => $request->name,
                 'gender' => $request->gender,
@@ -181,7 +181,6 @@ class UserController extends Controller
 
         }else{
             $user->update([
-                'user_id' => Auth::user()->id,
                 'nik'  => $request->nik,
                 'name' => $request->name,
                 'gender' => $request->gender,
@@ -279,5 +278,6 @@ class UserController extends Controller
             return redirect()->route('member-mymember', ['id' => $id]);
         }
     }
+
     
 }

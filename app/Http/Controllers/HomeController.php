@@ -28,7 +28,7 @@ class HomeController extends Controller
         #jika data profil belum dilengkapi
         $id_user   = Auth::user()->id;
         $userModel = new User();
-        $user    = $userModel->select('nik','user_id')->where('id', $id_user)->first();
+        $user    = $userModel->with(['reveral'])->select('nik','user_id')->where('id', $id_user)->first();
 
         // jika user_id null,  atau belum konek ke reveral
         if ($user->user_id == null) {

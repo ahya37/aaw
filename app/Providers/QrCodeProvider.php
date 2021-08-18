@@ -33,13 +33,13 @@ class QrCodeProvider extends ServiceProvider
         
     }
 
-    public function create($qrCodeValue)
+    public function create($qrCodeValue, $qrCodeNameFile)
     {
         $image = QrCode::format('png')
                  ->size(200)->errorCorrection('H')
                  ->generate($qrCodeValue);
         #simpan ke direktori
-        $output_file = '/public/assets/user/qrcode/' . $qrCodeValue . '.png';
+        $output_file = '/public/assets/user/qrcode/' . $qrCodeNameFile . '.png';
         Storage::disk('local')->put($output_file, $image);
         return $image;
     }

@@ -80,8 +80,9 @@ class RegisterController extends Controller
 
         #generate qrcode
         $qrCode       = new QrCodeProvider();
-        $qrCodeValue  = $user->code;
-        $qrCode->create($qrCodeValue);
+        $qrCodeValue  = $user->code.'-'.$user->name;
+        $qrCodeNameFile= $user->code;
+        $qrCode->create($qrCodeValue, $qrCodeNameFile);
         
         return $user;
     }

@@ -37,8 +37,10 @@
                           <nav>
                               <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                 <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Profil</a>
-                                <a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-member" role="tab" aria-controls="nav-contact" aria-selected="false">Anggota Ku</a>
-                                <a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-kta" role="tab" aria-controls="nav-kta" aria-selected="false">KTA</a>
+                                <a class="nav-link" id="nav-member-tab" data-toggle="tab" href="#nav-member" role="tab" aria-controls="nav-contact" aria-selected="false">Anggota Ku</a>
+                                <a class="nav-link" id="nav-kta-tab" data-toggle="tab" href="#nav-kta" role="tab" aria-controls="nav-kta" aria-selected="false">KTA</a>
+                                <a class="nav-link" id="nav-rev-rev" data-toggle="tab" href="#nav-rev" role="tab" aria-controls="nav-kta" aria-selected="false">Reveral Ku</a>
+
                               </div>
                             </nav>
                             <div class="tab-content" id="nav-tabContent">
@@ -75,6 +77,8 @@
                                         <div class="product-subtitle">{{ $profile->village->district->regency->province->name}}</div>
                                         <div class="product-title">Alamat</div>
                                         <div class="product-subtitle">{{ $profile->address}}, {{'RT '. $profile->rt}}, {{'RW '. $profile->rw}}</div>
+                                        <div class="product-title">Reveral dari</div>
+                                        <div class="product-subtitle">{{ $profile->reveral->name }}</div>
                                     </div>
                                     <div class="col-4">
                                       <div class="product-title">Status Pekerjaan</div>
@@ -96,7 +100,7 @@
                                     </div>
                                 </div>
                               </div>
-                              <div class="tab-pane fade mt-4" id="nav-member" role="tabpanel" aria-labelledby="nav-contact-tab">
+                              <div class="tab-pane fade mt-4" id="nav-member" role="tabpanel" aria-labelledby="nav-member-tab">
                                 <div class="table-responsive">
                                   <table id="data" class="table table-sm table-striped">
                                     <thead>
@@ -130,12 +134,18 @@
                                 </div>
                               </div>
 
-                              <div class="tab-pane fade mt-4" id="nav-kta" role="tabpanel" aria-labelledby="nav-contact-tab">
+                              <div class="tab-pane fade mt-4" id="nav-kta" role="tabpanel" aria-labelledby="nav-kta-tab">
                                 <div class="col-12 text-center mb-3">
                                   <img width="150" src="{{ asset('storage/assets/user/qrcode/'.$profile->code.'.png') }}">
                                   <p class="text-center">{{ $profile->code }}</p>
                                 </div>
                                 <p class="text-center">Dalam Pengembangan</p>
+                              </div>
+                              <div class="tab-pane fade mt-4" id="nav-rev" role="tabpanel" aria-labelledby="nav-rev-tab">
+                                <div class="col-12 text-center mb-3">
+                                  <img width="150" src="{{ asset('storage/assets/user/qrcode/'.$profile->code.'.png') }}">
+                                  <p class="text-center">{{ $profile->code }}</p>
+                                </div>
                               </div>
                             </div>
                         </div>
