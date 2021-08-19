@@ -367,6 +367,8 @@
                     villages_id: null,
                     checkedEmail: false,
                     nik:null,
+                    code:"",
+                    code_unavailable: true
                 }
             },
             methods:{
