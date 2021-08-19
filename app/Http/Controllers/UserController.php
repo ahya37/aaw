@@ -77,7 +77,6 @@ class UserController extends Controller
            $this->validate($request, [
                'photo' => 'required|mimes:png,jpg,jpeg',
                'ktp' => 'required|mimes:png,jpg,jpeg',
-               'date_berth' => 'required|date'
            ]);
            
            $cek_nik = User::select('nik')->where('nik', $request->nik)->first();
@@ -285,7 +284,7 @@ class UserController extends Controller
         $name    = Auth::user()->name;
         $title   = "Laporan-Anggota- $name";
         $no      = 1;
-        $member  = User::with(['village'])->where('user_id', $id_user)->whereNotIn('id', [$id_user])->get();
+        $member  = User::with(['village'])->where('user_id', $id_user)->whereNotIn('id', [$id_user])->orderBy('name','ASC')->get();
         $pdf = PDF::loadView('pages.report.member', compact('member','title','no','name'))->setPaper('a4');
         return $pdf->download($title.'.pdf');
     }

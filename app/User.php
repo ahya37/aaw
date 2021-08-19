@@ -69,7 +69,18 @@ class User extends Authenticatable
         return $this->belongsTo(User::class,'user_id');
     }
 
-    public function getMember($regency_id)
+    public function getMemberProvince($province_id)
+    {
+        $sql = "SELECT a.name
+                from users as a 
+                join villages as b on a.village_id = b.id 
+                join districts as c on b.district_id = c.id
+                join regencies as d on c.regency_id = d.id 
+                WHERE  d.province_id = $province_id";
+        return DB::select($sql);
+    }
+
+    public function getMemberRegency($regency_id)
     {
         $sql = "SELECT a.name
                 from users as a 
@@ -79,7 +90,17 @@ class User extends Authenticatable
         return DB::select($sql);
     }
 
-    public function getGender($regency_id)
+    public function getMemberDistrict($district_id)
+    {
+        $sql = "SELECT a.name
+                from users as a 
+                join villages as b on a.village_id = b.id 
+                join districts as c on b.district_id = c.id 
+                where c.id = $district_id";
+        return DB::select($sql);
+    }
+
+    public function getGenderRegency($regency_id)
     {
         $sql = "SELECT a.gender, count(a.id) as total
                 from users as a 
@@ -89,14 +110,14 @@ class User extends Authenticatable
         return DB::select($sql);
     }
 
-    public function getGenderFemale($regency_id)
+    public function getGenderProvince($regency_id)
     {
-        $sql = "SELECT count(a.id) as female
+        $sql = "SELECT a.gender, count(a.id) as total
                 from users as a 
                 join villages as b on a.village_id = b.id 
                 join districts as c on b.district_id = c.id 
-                where c.regency_id = $regency_id and a.gender = 1  group by a.gender";
-        return collect(\DB::select($sql))->first();
-
+                join regencies as d on c.regency_id = d.id
+                where d.province_id = $regency_id  group by a.gender";
+        return DB::select($sql);
     }
 }

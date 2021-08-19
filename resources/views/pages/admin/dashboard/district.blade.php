@@ -9,7 +9,7 @@
       rel="stylesheet"
     />
 @endpush
-@section('title','Dashboard')
+@section('title','Dashboard - Kab/Kot-Kecamatan')
 @section('content')
 <!-- Section Content -->
  <div
@@ -18,10 +18,14 @@
           >
             <div class="container-fluid">
               <div class="dashboard-heading">
-                <h2 class="dashboard-title">Dashboard</h2>
-                <p class="dashboard-subtitle">
-                  Provinsi
-                </p>
+                <h2 class="dashboard-title mb-4">Dashboard</h2>
+                <nav aria-label="breadcrumb mt-4">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('admin-dashboard') }}">Provinsi</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin-dashboard-regency', $district->regency->id) }}">{{ $district->regency->name }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ $district->name }}</li>
+                  </ol>
+                </nav>
               </div>
               <div class="dashboard-content">
                 <div class="row">
@@ -158,8 +162,8 @@
               text: 'Anggota Terdaftar'
           },
           xAxis: {
-              categories: {!! json_encode($cat_regency) !!},
-              crosshair: true,
+              categories: ,
+              crosshair: true
           },
           yAxis: {
               min: 0,
@@ -178,24 +182,21 @@
                   pointPadding: 0.2,
                   borderWidth: 0
               },
-              series: {
-                    stacking: 'normal',
-                    borderRadius: 3,
-                    cursor: 'pointer',
-                    point: {
-                        events: {
-                            click: function(event) {
-                            // console.log(this.url);
-                            window.open(this.url);
-                            }
-                        }
+              series:{
+                cursor: 'pointer',
+                point:{
+                  events:{
+                    click: function(){
+                      document.location.href = "{{ route('admin-member') }}";
                     }
+                  }
                 }
+              }
           },
           series: [{
               colorByPoint: true,
               name:"Anggota",
-              data: {!! json_encode($cat_regency_data) !!},
+              data: ,
 
           }]
       });
@@ -241,7 +242,7 @@
               type: 'pie',
               name: 'Jumlah',
               innerSize: '50%',
-              data: {!! json_encode($cat_gender) !!} ,
+              data: ,
           }]
       });
 
@@ -291,7 +292,7 @@
           {
             name: "Jumlah",
             colorByPoint: true,
-            data: {!! json_encode($cat_jobs) !!},
+            data: ,
           },
         ],
       });

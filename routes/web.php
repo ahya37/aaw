@@ -49,6 +49,9 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'], function(){
     Route::group(['middleware' => 'admin'], function(){
         Route::post('logout','LoginController@logout')->name('admin-logout');
         Route::get('dashboard','DashboardController@index')->name('admin-dashboard');
+        Route::get('dashboard/regency/{regency_id}','DashboardController@regency')->name('admin-dashboard-regency');
+        Route::get('dashboard/regency/district/{district_id}','DashboardController@district')->name('admin-dashboard-district');
+
         Route::get('member','MemberController@index')->name('admin-member');
         Route::get('member/profile/{id}','MemberController@profileMember')->name('admin-profile-member');
 

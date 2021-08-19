@@ -5,7 +5,7 @@
           <div class="list-group list-group-flush">
             <a
               href="{{ route('admin-dashboard') }}"
-              class="list-group-item list-group-item-action {{ (request()->is('admin/dashboard')) ? 'active' : '' }}"
+              class="list-group-item list-group-item-action {{ (request()->is('admin/dashboard*')) ? 'active' : '' }}"
             >
               Dashboard
             </a>

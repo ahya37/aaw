@@ -15,11 +15,63 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        
-        $regency_id       = 3602;
+        $province_id = 36;
 
         $userModel        = new User();
-        $member           = $userModel->getMember($regency_id);   
+        $member           = $userModel->getMemberProvince($province_id);
+        $total_member     = count($member); // total anggota terdaftar
+
+        $regencyModel     = new Regency();
+        $target_member    = $regencyModel->getRegencyProvince($province_id)->total_village * 1000;
+        $persentage_target_member = ($total_member / $target_member) * 100; // persentai terdata
+
+        $villageModel   = new Village();
+        $total_village        = $villageModel->getVillagesProvince($province_id)->total_village; // fungsi total desa di provinsi banten
+        $total_village_filled = $villageModel->getVillageFillProvince($province_id)->total_village; // fungsi total desa di provinsi banten
+        $presentage_village_filled = ($total_village_filled / $total_village) * 100; // persentasi jumlah desa terisi
+
+        // Grfaik Data member
+        $regency = $regencyModel->getGrafikTotalMemberRegencyProvince($province_id);
+        // dd($regency);
+        $cat_regency      = [];
+        $cat_regency_data = [];
+        foreach ($regency as $val) {
+            $cat_regency[] = $val->regency; 
+            $cat_regency_data[] = [
+                "y" => $val->total_member,
+                "url" => route('admin-dashboard-regency', $val->regency_id)
+            ];
+        }
+         // grafik data job
+        $jobModel = new Job();
+        $jobs     = $jobModel->getJobProvince($province_id);
+        $cat_jobs =[];
+        foreach ($jobs as  $val) {
+            $cat_jobs[] = [
+                "name" => $val->name,
+                "y"    => $val->total_job
+            ];
+        }
+
+        // grafik data jenis kelamin
+        $gender = $userModel->getGenderProvince($province_id);
+        $cat_gender =[];
+
+        foreach ($gender as  $val) {
+            $cat_gender[] = [
+                "name" => $val->gender == 0 ? 'Pria' : 'Wanita',
+                "y"    => $val->total
+            ];
+        }
+        $gF   = app('GlobalProvider'); // global function
+        return view('pages.admin.dashboard.index', compact('regency','cat_gender','cat_jobs','cat_regency_data','cat_regency','gF','total_member','persentage_target_member','target_member','total_village_filled','presentage_village_filled','total_village'));
+    }
+
+    public function regency($regency_id)
+    {
+        $regency          = Regency::select('name')->where('id', $regency_id)->first();
+        $userModel        = new User();
+        $member           = $userModel->getMemberRegency($regency_id);   
         $total_member     = count($member); // total anggota terdaftar
 
         $districtModel    = new District();
@@ -27,19 +79,22 @@ class DashboardController extends Controller
         $persentage_target_member = ($total_member / $target_member) * 100; // persentai terdata
         
         $villageModel   = new Village();
-        $villages       = $villageModel->getVillages($regency_id); // fungsi total desa di kab.lebak
+        $villages       = $villageModel->getVillagesRegency($regency_id); // fungsi total desa di kab
         $total_village  = count($villages);
-        $village_filled = $villageModel->getVillageFilled($regency_id); //fungsi total desa yang terisi 
+        $village_filled = $villageModel->getVillageFilledRegency($regency_id); //fungsi total desa yang terisi 
         $total_village_filled      = $village_filled->total_village; // total desa yang terisi
         $presentage_village_filled = ($total_village_filled / $total_village) * 100; // persentasi jumlah desa terisi
 
         // Grfaik Data member
-        $districts = $districtModel->getGrafikTotalMemberDistrict($regency_id);
+        $districts = $districtModel->getGrafikTotalMemberDistrictRegency($regency_id);
         $cat_districts      = [];
         $cat_districts_data = [];
         foreach ($districts as $val) {
             $cat_districts[] = $val->district; 
-            $cat_districts_data[] = $val->total_member;
+            $cat_districts_data[] = [
+                "y" => $val->total_member,
+                "url" => route('admin-dashboard-district', $val->distric_id)
+            ];
         }
 
         // grafik data job
@@ -54,7 +109,7 @@ class DashboardController extends Controller
         }
 
         // grafik data jenis kelamin
-        $gender = $userModel->getGender($regency_id);
+        $gender = $userModel->getGenderRegency($regency_id);
         $cat_gender =[];
 
         foreach ($gender as  $val) {
@@ -64,8 +119,32 @@ class DashboardController extends Controller
             ];
         }
         // dd(json_encode($gender));
-        $female = $userModel->getGenderFemale($regency_id);
         $gF   = app('GlobalProvider'); // global function
-        return view('pages.admin.dashboard.index', compact('gender','cat_gender','female','cat_jobs','total_member','target_member','persentage_target_member','gF','total_village','total_village_filled','presentage_village_filled','cat_districts','cat_districts_data'));
+        return view('pages.admin.dashboard.regency', compact('regency','gender','cat_gender','cat_jobs','total_member','target_member','persentage_target_member','gF','total_village','total_village_filled','presentage_village_filled','cat_districts','cat_districts_data'));
+    }
+
+    public function district($district_id)
+    {
+        $district   = District::with(['regency'])->where('id', $district_id)->first();
+        // jumlah anggota di kecamatan
+        $userModel  = new User();
+        $member     = $userModel->getMemberDistrict($district_id);
+        $total_member = count($member);
+
+        // perentasi anggot  di kecamatan
+        $districtModel    = new District();
+        $target_member    = $districtModel->where('id',$district_id)->get()->count() * 1000; // target anggota tercapai, per kecamatan 1000 target
+        $persentage_target_member = ($total_member / $target_member) * 100; // persentai terdata
+
+        $villageModel   = new Village();
+        $villages       = $villageModel->getVillagesDistrct($district_id); // fungsi total desa di kab
+        $total_village  = count($villages);
+
+        $village_filled = $villageModel->getVillageFilledDistrict($district_id); //fungsi total desa yang terisi 
+        $total_village_filled      = count($village_filled); // total desa yang terisi
+        $presentage_village_filled = ($total_village_filled / $total_village) * 100; // persentasi jumlah desa terisi
+        
+        $gF   = app('GlobalProvider'); // global function
+        return view('pages.admin.dashboard.district', compact('total_village_filled','presentage_village_filled','total_village','target_member','persentage_target_member','district','gF','total_member'));
     }
 }

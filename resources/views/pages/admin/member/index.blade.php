@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+@section('title','Anggota Terdaftar')
 @push('addon-style')
     <link
       href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"
