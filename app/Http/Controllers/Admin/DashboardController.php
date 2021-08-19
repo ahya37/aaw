@@ -27,7 +27,8 @@ class DashboardController extends Controller
 
         $villageModel   = new Village();
         $total_village        = $villageModel->getVillagesProvince($province_id)->total_village; // fungsi total desa di provinsi banten
-        $total_village_filled = $villageModel->getVillageFillProvince($province_id)->total_village; // fungsi total desa di provinsi banten
+        $village_filled = $villageModel->getVillageFillProvince($province_id); // fungsi total desa di provinsi banten
+        $total_village_filled = count($village_filled);
         $presentage_village_filled = ($total_village_filled / $total_village) * 100; // persentasi jumlah desa terisi
 
         // Grfaik Data member
@@ -82,7 +83,7 @@ class DashboardController extends Controller
         $villages       = $villageModel->getVillagesRegency($regency_id); // fungsi total desa di kab
         $total_village  = count($villages);
         $village_filled = $villageModel->getVillageFilledRegency($regency_id); //fungsi total desa yang terisi 
-        $total_village_filled      = $village_filled->total_village; // total desa yang terisi
+        $total_village_filled      = count($village_filled); // total desa yang terisi
         $presentage_village_filled = ($total_village_filled / $total_village) * 100; // persentasi jumlah desa terisi
 
         // Grfaik Data member

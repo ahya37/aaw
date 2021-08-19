@@ -65,11 +65,11 @@ class Village extends Model
 
     public function getVillageFilledRegency($regency_id)
     {
-        $sql = "SELECT COUNT(a.village_id) as total_village FROM  users as a
+        $sql = "SELECT a.village_id as total_village FROM  users as a
                 join villages as b on a.village_id = b.id 
                 join districts as c on b.district_id = c.id
-                where c.regency_id = $regency_id";
-        return collect(\DB::select($sql))->first();
+                where c.regency_id = $regency_id GROUP by a.village_id ";
+        return DB::select($sql);
     }
 
     public function getVillageFilledDistrict($district_id)
@@ -92,11 +92,11 @@ class Village extends Model
 
     public function getVillageFillProvince($province_id)
     {
-        $sql = "SELECT COUNT(a.village_id) as total_village FROM  users as a
+        $sql = "SELECT a.village_id as total_village FROM  users as a
                 join villages as b on a.village_id = b.id 
                 join districts as c on b.district_id = c.id
                 join regencies as d on c.regency_id = d.id
-                where d.province_id = $province_id";
-        return collect(\DB::select($sql))->first();
+                where d.province_id = $province_id GROUP by a.village_id ";
+        return DB::select($sql);
     }
 }
