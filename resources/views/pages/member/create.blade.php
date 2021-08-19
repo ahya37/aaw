@@ -264,6 +264,20 @@
                                                 required
                                                 />
                                             </div>
+                                            <div class="form-group">
+                                                <span class="required">*</span>
+                                                <label>Kode Reveral</label>
+                                                <input id="code" 
+                                                    v-model="code"
+                                                    @change="checkForReveralAvailability()"
+                                                    type="text" 
+                                                    class="form-control @error('code') @enderror"
+                                                    :class="{'is_invalid' : this.code_unavailable}" 
+                                                    name="code" 
+                                                    value="{{ old('code') }}" 
+                                                    required
+                                                    >
+                                            </div>
                                         <hr class="mb-4 mt-4">
                                     <div class="form-group">
                                                 <span class="required">*</span>
@@ -430,6 +444,48 @@
                       // handle success
                       console.log(response);
                     });
+              },
+
+               checkForReveralAvailability: function(){
+                  var self = this;
+                  axios.get('{{ route('api-reveral-check') }}', {
+                  params:{
+                      code:this.code
+                  }
+                  })
+                  .then(function (response) {
+
+                      if(response.data == 'Available'){
+
+                        // get name where code
+                          axios.get('{{ url('api/reveral/name') }}/' + this.code.value)
+                                  .then(function(res){   
+                                    self.$toasted.success(
+                                        "Reveral tersedia atas Nama " + res.data.name,
+                                        {
+                                        position: "top-center",
+                                        className: "rounded",
+                                        duration: 3000,
+                                        }
+                                    );
+                                  });
+                          self.code_unavailable = true;
+
+                      }else{
+                          self.$toasted.error(
+                          "Reveral tidak tersedia.",
+                          {
+                              position: "top-center",
+                              className: "rounded",
+                              duration: 3000,
+                          }
+                      );
+                      self.code_unavailable = false;
+
+                      }
+                      // handle success
+                      // console.log(response);
+                      });
               },
         },
         watch:{

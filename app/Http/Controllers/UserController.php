@@ -84,43 +84,51 @@ class UserController extends Controller
            if ($cek_nik != null) {
                return redirect()->back()->with(['error' => 'NIK yang anda gunakan telah terdaftar']);
            }else{
+              
+             //  cek jika reveral tidak tersedia
+              $cek_code = User::select('code','id')->where('code', $request->code)->first();
+               
+              if ($cek_code == null) {
+                 return redirect()->back()->with(['error' => 'Kode Reveral yang anda gunakan tidak terdaftar']);
+              }else{
+                  $photo = $request->file('photo')->store('assets/user/photo','public');
+                  $ktp   = $request->file('ktp')->store('assets/user/ktp','public');
+       
+                  $strRandomProvider = new StrRandom();
+                  $string            = $strRandomProvider->generateStrRandom();
+       
+                  $user = User::create([
+                      'user_id' => $cek_code->id,
+                      'code' => $string,
+                      'nik'  => $request->nik,
+                      'name' => $request->name,
+                      'gender' => $request->gender,
+                      'place_berth' => $request->place_berth,
+                      'date_berth' => date('Y-m-d', strtotime($request->date_berth)),
+                      'blood_group' => $request->blood_group,
+                      'marital_status' => $request->marital_status,
+                      'job_id' => $request->job_id,
+                      'religion' => $request->religion,
+                      'nik'  => $request->nik,
+                      'education_id'  => $request->education_id,
+                      'email' => $request->email,
+                      'phone_number' => $request->phone_number,
+                      'whatsapp' => $request->whatsapp,
+                      'village_id'   => $request->village_id,
+                      'rt'           => $request->rt,
+                      'rw'           => $request->rw,
+                      'address'      => $request->address,
+                      'photo'        => $photo,
+                      'ktp'          => $ktp
+                  ]);
+   
+                  #generate qrcode
+                   $qrCode       = new QrCodeProvider();
+                   $qrCodeValue  = $user->code.'-'.$user->name;
+                   $qrCodeNameFile= $user->code;
+                   $qrCode->create($qrCodeValue, $qrCodeNameFile);
 
-               $photo = $request->file('photo')->store('assets/user/photo','public');
-               $ktp   = $request->file('ktp')->store('assets/user/ktp','public');
-    
-               $strRandomProvider = new StrRandom();
-               $string            = $strRandomProvider->generateStrRandom();
-    
-               $user = User::create([
-                   'user_id' => Auth::user()->id,
-                   'code' => $string,
-                   'nik'  => $request->nik,
-                   'name' => $request->name,
-                   'gender' => $request->gender,
-                   'place_berth' => $request->place_berth,
-                   'date_berth' => date('Y-m-d', strtotime($request->date_berth)),
-                   'blood_group' => $request->blood_group,
-                   'marital_status' => $request->marital_status,
-                   'job_id' => $request->job_id,
-                   'religion' => $request->religion,
-                   'nik'  => $request->nik,
-                   'education_id'  => $request->education_id,
-                   'email' => $request->email,
-                   'phone_number' => $request->phone_number,
-                   'whatsapp' => $request->whatsapp,
-                   'village_id'   => $request->village_id,
-                   'rt'           => $request->rt,
-                   'rw'           => $request->rw,
-                   'address'      => $request->address,
-                   'photo'        => $photo,
-                   'ktp'          => $ktp
-               ]);
-
-               #generate qrcode
-                $qrCode       = new QrCodeProvider();
-                $qrCodeValue  = $user->code.'-'.$user->name;
-                $qrCodeNameFile= $user->code;
-                $qrCode->create($qrCodeValue, $qrCodeNameFile);
+              }
            }
 
         $id = encrypt($user->id);
