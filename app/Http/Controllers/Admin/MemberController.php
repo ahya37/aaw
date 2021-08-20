@@ -10,7 +10,10 @@ class MemberController extends Controller
 {
     public function index()
     {
-        $member = User::with(['village','reveral'])->whereNotNull('nik')->orderBy('created_at','DESC')->get();
+        $member = User::with(['village','reveral'])
+                    ->whereNotNull('nik')
+                    ->whereNotIn('level',[1])
+                    ->orderBy('created_at','DESC')->get();
         return view('pages.admin.member.index', compact('member'));
     }
 
