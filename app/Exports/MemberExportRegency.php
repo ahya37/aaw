@@ -27,6 +27,7 @@ class MemberExportRegency implements FromCollection, WithHeadings, WithEvents
                 ->join('regencies as d','c.regency_id','d.id')
                 ->select('a.name','c.name as district','d.name as regency','b.name as village','a.phone_number','a.whatsapp')
                 ->where('c.regency_id', $this->regency)
+                ->whereNotIn('a.level',[1])
                 ->orderBy('c.name','asc')
                 ->get();
     }

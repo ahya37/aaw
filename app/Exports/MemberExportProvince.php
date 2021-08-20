@@ -31,6 +31,7 @@ class MemberExportProvince implements FromCollection, WithHeadings, WithEvents
                 ->join('regencies as d','c.regency_id','d.id')
                 ->select('a.name','d.name as regency','c.name as district','b.name as village','a.phone_number','a.whatsapp')
                 ->where('d.province_id', $this->province)
+                ->whereNotIn('a.level',[1])
                 ->orderBy('d.name','asc')
                 ->get();
     }
