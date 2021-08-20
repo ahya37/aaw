@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -54,6 +57,12 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'], function(){
 
         Route::get('member','MemberController@index')->name('admin-member');
         Route::get('member/profile/{id}','MemberController@profileMember')->name('admin-profile-member');
+
+        // report excel
+        Route::get('member/province/export','DashboardController@exportDataProvinceExcel')->name('report-member-province-excel');
+        Route::get('member/regency/export/{regency_id}','DashboardController@exportDataRegencyExcel')->name('report-member-regency-excel');
+        Route::get('member/district/export/{district_id}','DashboardController@exportDataDistrictExcel')->name('report-member-district-excel');
+
 
     });
 });

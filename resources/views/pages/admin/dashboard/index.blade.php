@@ -8,6 +8,7 @@
       href="{{ asset('assets/style/style.css') }}"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endpush
 @section('title','Dashboard')
 @section('content')
@@ -18,10 +19,23 @@
           >
             <div class="container-fluid">
               <div class="dashboard-heading">
-                <h2 class="dashboard-title">Dashboard</h2>
-                <p class="dashboard-subtitle">
-                  Provinsi
-                </p>
+                <h2 class="dashboard-title mb-4">Dashboard</h2>
+                 <nav aria-label="breadcrumb mt-4">
+                  <ol class="breadcrumb">
+                    <div class="col-12">
+                      <div class="row">
+                        <div class="col-md-10 col-sm-10">
+                          <li class="breadcrumb-item">PROVINSI</li>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                          <li class="breadcrumb-item">
+                            <a href="{{ route('report-member-province-excel') }}" class="btn btn-sm btn-sc-primary text-white"><i class="fa fa-download" aria-hidden="true"></i> Download</a>
+                          </li>
+                        </div>
+                      </div>
+                    </div>
+                  </ol>
+                </nav>
               </div>
               <div class="dashboard-content">
                 <div class="row">

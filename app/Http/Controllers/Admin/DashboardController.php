@@ -2,17 +2,26 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\User;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Exports\MemberExportDistrict;
 use App\Job;
-use App\Models\District;
-use App\Models\Province;
+use App\User;
 use App\Models\Regency;
 use App\Models\Village;
+use App\Models\District;
+use App\Http\Controllers\Controller;
+use App\Exports\MemberExportProvince;
+use App\Exports\MemberExportRegency;
+use App\Models\Province;
+use Maatwebsite\Excel\Excel;
 
 class DashboardController extends Controller
 {
+    private $excel;
+
+    public function __construct(Excel $excel)
+    {
+        $this->excel = $excel;
+    }
     public function index()
     {
         $province_id = 36;
@@ -70,7 +79,7 @@ class DashboardController extends Controller
 
     public function regency($regency_id)
     {
-        $regency          = Regency::select('name')->where('id', $regency_id)->first();
+        $regency          = Regency::select('id','name')->where('id', $regency_id)->first();
         $userModel        = new User();
         $member           = $userModel->getMemberRegency($regency_id);   
         $total_member     = count($member); // total anggota terdaftar
@@ -144,8 +153,60 @@ class DashboardController extends Controller
         $village_filled = $villageModel->getVillageFilledDistrict($district_id); //fungsi total desa yang terisi 
         $total_village_filled      = count($village_filled); // total desa yang terisi
         $presentage_village_filled = ($total_village_filled / $total_village) * 100; // persentasi jumlah desa terisi
+
+        // Grfaik Data member
+        $districts = $districtModel->getGrafikTotalMemberDistrict($district_id);
+        $cat_districts      = [];
+        $cat_districts_data = [];
+        foreach ($districts as $val) {
+            $cat_districts[] = $val->district; 
+            $cat_districts_data[] = [
+                "y" => $val->total_member,
+                "url" => route('admin-dashboard-district', $val->distric_id)
+            ];
+        }
+
+        // grafik data job
+        $jobModel = new Job();
+        $jobs     = $jobModel->getJobDistrict($district_id);
+        $cat_jobs =[];
+        foreach ($jobs as  $val) {
+            $cat_jobs[] = [
+                "name" => $val->name,
+                "y"    => $val->total_job
+            ];
+        }
         
+        // grafik data jenis kelamin
+        $gender = $userModel->getGenderDistrict($district_id);
+        $cat_gender =[];
+
+        foreach ($gender as  $val) {
+            $cat_gender[] = [
+                "name" => $val->gender == 0 ? 'Pria' : 'Wanita',
+                "y"    => $val->total
+            ];
+        }
         $gF   = app('GlobalProvider'); // global function
-        return view('pages.admin.dashboard.district', compact('total_village_filled','presentage_village_filled','total_village','target_member','persentage_target_member','district','gF','total_member'));
+        return view('pages.admin.dashboard.district', compact('cat_gender','cat_jobs','cat_districts','cat_districts_data','total_village_filled','presentage_village_filled','total_village','target_member','persentage_target_member','district','gF','total_member'));
+    }
+
+    public function exportDataProvinceExcel()
+    {
+      $province_id  = 36;
+      $province     = Province::select('name')->where('id', $province_id)->first();
+      return $this->excel->download(new MemberExportProvince($province_id),'Anggota-'.$province->name.'.xls');
+    }
+
+    public function exportDataRegencyExcel($regency_id)
+    {
+      $regency  = Regency::select('name')->where('id', $regency_id)->first();
+      return $this->excel->download(new MemberExportRegency($regency_id),'Anggota-'.$regency->name.'.xls');
+    }
+
+    public function exportDataDistrictExcel($district_id)
+    {
+      $district = District::select('name')->where('id', $district_id)->first();
+      return $this->excel->download(new MemberExportDistrict($district_id),'Anggota-'.$district->name.'.xls');
     }
 }

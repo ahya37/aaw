@@ -8,6 +8,8 @@
       href="{{ asset('assets/style/style.css') }}"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 @endpush
 @section('title','Dashboard - Kab/Kot-Kecamatan')
 @section('content')
@@ -21,9 +23,20 @@
                 <h2 class="dashboard-title mb-4">Dashboard</h2>
                 <nav aria-label="breadcrumb mt-4">
                   <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('admin-dashboard') }}">Provinsi</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('admin-dashboard-regency', $district->regency->id) }}">{{ $district->regency->name }}</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $district->name }}</li>
+                    <div class="col-12">
+                      <div class="row">
+                        <div class="col-md-10 col-sm-10">
+                          <li class="breadcrumb-item"><a href="{{ route('admin-dashboard') }}">PROVINSI</a></li>
+                          <li class="breadcrumb-item"><a href="{{ route('admin-dashboard-regency', $district->regency->id) }}">{{ $district->regency->name }}</a></li>
+                          <li class="breadcrumb-item active" aria-current="page">KECAMATAN {{ $district->name }}</li>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                          <li class="breadcrumb-item">
+                            <a href="{{ route('report-member-district-excel', $district->id) }}" class="btn btn-sm btn-sc-primary text-white"><i class="fa fa-download" aria-hidden="true"></i> Download</a>
+                          </li>
+                        </div>
+                      </div>
+                    </div>
                   </ol>
                 </nav>
               </div>
@@ -162,7 +175,7 @@
               text: 'Anggota Terdaftar'
           },
           xAxis: {
-              categories: ,
+              categories: {!! json_encode($cat_districts) !!},
               crosshair: true
           },
           yAxis: {
@@ -181,22 +194,12 @@
               column: {
                   pointPadding: 0.2,
                   borderWidth: 0
-              },
-              series:{
-                cursor: 'pointer',
-                point:{
-                  events:{
-                    click: function(){
-                      document.location.href = "{{ route('admin-member') }}";
-                    }
-                  }
-                }
               }
           },
           series: [{
               colorByPoint: true,
               name:"Anggota",
-              data: ,
+              data: {!! json_encode($cat_districts_data) !!},
 
           }]
       });
@@ -242,7 +245,7 @@
               type: 'pie',
               name: 'Jumlah',
               innerSize: '50%',
-              data: ,
+              data: {!! json_encode($cat_gender) !!},
           }]
       });
 
@@ -292,7 +295,7 @@
           {
             name: "Jumlah",
             colorByPoint: true,
-            data: ,
+            data: {!! json_encode($cat_jobs) !!},
           },
         ],
       });

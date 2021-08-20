@@ -120,4 +120,13 @@ class User extends Authenticatable
                 where d.province_id = $regency_id  group by a.gender";
         return DB::select($sql);
     }
+
+    public function getGenderDistrict($district_id)
+    {
+        $sql = "SELECT a.gender, count(a.id) as total
+                from users as a 
+                join villages as b on a.village_id = b.id
+                where  b.district_id = $district_id  group by a.gender";
+        return DB::select($sql);
+    }
 }
