@@ -12,7 +12,7 @@ class MemberController extends Controller
     {
         $member = User::with(['village','reveral'])
                     ->whereNotNull('nik')
-                    ->whereNotIn('level',[1])
+                    // ->whereNotIn('level',[1])
                     ->orderBy('created_at','DESC')->get();
         return view('pages.admin.member.index', compact('member'));
     }
