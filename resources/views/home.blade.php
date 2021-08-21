@@ -26,7 +26,7 @@
     }
     #qr {
         margin-top: -100px;
-        margin-left: 365px;
+        margin-left: 355px;
         border-radius: 8px; /* Rounded border */
         border-style: solid;
         border-color: #002efe;
