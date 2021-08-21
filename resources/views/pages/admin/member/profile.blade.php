@@ -4,8 +4,61 @@
       href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"
       rel="stylesheet"
     />
-<link href="{{ asset('assets/style/style.css') }}" rel="stylesheet" />
-    
+    <style>
+      #idcard {
+        width: 1000px;
+        height: 350px;
+        margin: auto;
+        margin-right: 100px;
+        background-image: url("{{ url('assets/images/card.png') }}");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        -webkit-print-color-adjust: exact;
+    }
+    #img {
+        margin-top: 28px;
+        margin-left: 10px;
+        border-radius: 8px; /* Rounded border */
+        padding: 5px; /* Some padding */
+        width: 110px; /* Set a small width */
+        height: 200px;
+        /* margin:10px; */
+    }
+    #qr {
+        margin-top: -100px;
+        margin-left: 365px;
+        border-radius: 8px; /* Rounded border */
+        border-style: solid;
+        border-color: #002efe;
+        padding: 5px; /* Some padding */
+        width: 100px; /* Set a small width */
+        height: 100px;
+        /* margin:10px; */
+    }
+
+    .texts {
+        margin-top: 12px;
+        font-size: 12px;
+    }
+    .texts-left {
+        margin-top: 20px;
+        font-size: 12px;
+    }
+    .address {
+        margin-right: 120px;
+        margin-left: 20px;
+        /* margin-top: 2px; */
+        font-size: 12px;
+    }
+    .identity {
+        height: 350px;
+        margin-bottom: 100px;
+        margin-left: 80px;
+        padding-top: 39px; /* Some padding */
+        font-size: 12px;
+        font-style: bold;
+    }
+    </style>
 @endpush
 @section('title','Dashboard')
 @section('content')
