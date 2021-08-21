@@ -6,7 +6,7 @@
     />
     <style>
       #idcard {
-        width: 1000px;
+        width: 965px;
         height: 350px;
         margin: auto;
         margin-right: 100px;
