@@ -186,6 +186,9 @@
                                 </div>
                               </div>
                               <div class="tab-pane fade mt-4" id="nav-kta" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                <div class="col-12 text-right mb-4">
+                                 <a href="{{ route('member-card-download', $profile->id) }}" target="_blank" class="btn btn-sm btn-sc-primary text-white"><i class="fa fa-download" aria-hidden="true"></i> Download</a>
+                                </div>
                                 <div class="col-12 text-center mb-3">
                                   <div id="idcard">
                                     <div class="col-md-12">

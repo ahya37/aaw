@@ -276,7 +276,6 @@
                                     </div>
                                   </div>
                                 </div>
-                                <p class="text-center">Dalam Pengembangan</p>
                               </div>
                               <div class="tab-pane fade mt-4" id="nav-rev" role="tabpanel" aria-labelledby="nav-rev-tab">
                                 <div class="col-12 text-center mb-3">

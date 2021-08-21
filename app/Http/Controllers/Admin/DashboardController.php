@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\MemberExportDistrict;
 use App\Job;
 use App\User;
 use App\Models\Regency;
 use App\Models\Village;
 use App\Models\District;
-use App\Http\Controllers\Controller;
-use App\Exports\MemberExportProvince;
-use App\Exports\MemberExportRegency;
 use App\Models\Province;
+use PDF;
 use Maatwebsite\Excel\Excel;
+use App\Exports\MemberExportRegency;
+use App\Http\Controllers\Controller;
+use App\Exports\MemberExportDistrict;
+use App\Exports\MemberExportProvince;
 
 class DashboardController extends Controller
 {
@@ -208,5 +209,13 @@ class DashboardController extends Controller
     {
       $district = District::select('name')->where('id', $district_id)->first();
       return $this->excel->download(new MemberExportDistrict($district_id),'Anggota-'.$district->name.'.xls');
+    }
+
+    public function downloadKTA($id)
+    {
+        $profile = User::with(['village'])->where('id', $id)->first();
+        $pdf = PDF::loadView('pages.admin.member.card', compact('profile'))->setPaper('a4');
+        return $pdf->stream('kta.pdf');
+
     }
 }

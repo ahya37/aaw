@@ -65,6 +65,7 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'], function(){
         Route::get('member/regency/export/{regency_id}','DashboardController@exportDataRegencyExcel')->name('report-member-regency-excel');
         Route::get('member/district/export/{district_id}','DashboardController@exportDataDistrictExcel')->name('report-member-district-excel');
 
+        Route::get('member/card/download/{id}','DashboardController@downloadKTA')->name('member-card-download');
 
     });
 });
