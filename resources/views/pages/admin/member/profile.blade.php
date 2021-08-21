@@ -4,6 +4,8 @@
       href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"
       rel="stylesheet"
     />
+<link href="{{ asset('assets/style/style.css') }}" rel="stylesheet" />
+    
 @endpush
 @section('title','Dashboard')
 @section('content')
@@ -132,10 +134,94 @@
                               </div>
                               <div class="tab-pane fade mt-4" id="nav-kta" role="tabpanel" aria-labelledby="nav-contact-tab">
                                 <div class="col-12 text-center mb-3">
-                                  <img width="150" src="{{ asset('storage/assets/user/qrcode/'.$profile->code.'.png') }}">
-                                  <p class="text-center">{{ $profile->code }}</p>
+                                  <div id="idcard">
+                                    <div class="col-md-12">
+                                      <div class="row">
+                                        <div class="col-md-5 col-sm-5">
+                                          <table border="0">
+                                            <tr>
+                                              <td>
+                                                <div id="img">
+                                                  <img
+                                                    class="img-thumbnail"
+                                                    style="
+                                                      border-radius: 8px;
+                                                      width: 100%;
+                                                      height: 135px;
+                                                      margin: 40px 0 25px 0;
+                                                    "
+                                                    src="{{ asset('storage/'.$profile->photo) }}"
+                                                  />
+                                                </div>
+                                              </td>
+                                              <td align="left">
+                                                <p class="texts-left">
+                                                  <b> {{ $profile->name }} </b>
+                                                  <br />
+                                                  <b style="color: red"> Anggota </b>
+                                                  <br />
+                                                  <br />
+                                                  <b style="color: black">
+                                                    {{ date('m', strtotime($profile->created_at)) }}
+                                                    {{ date('Y', strtotime($profile->created_at)) }}
+                                                   {{ $profile->number }}
+                                                  </b>
+                                                </p>
+                                              </td>
+                                            </tr>
+                                          </table>
+                                          <table
+                                            border="0"
+                                            class="address"
+                                            cellpadding="0"
+                                          >
+                                            <tr align="left">
+                                              <td>{{ $profile->village->name }}</td>
+                                            </tr>
+                                            <tr align="left">
+                                              <td>{{ $profile->village->district->name }}, {{ $profile->village->district->regency->name }}</td>
+                                            </tr>
+                                            <tr align="left">
+                                              <td>
+                                                <b> {{ $profile->village->district->regency->province->name }} </b>
+                                              </td>
+                                            </tr>
+                                          </table>
+                                          <div id="qr">
+                                            <img
+                                              class="img-thumbnail"
+                                              src="{{ asset('storage/assets/user/qrcode/'.$profile->code.'.png') }}"
+                                            />
+                                          </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 identity texts">
+                                          <table border="0" cellpadding="0">
+                                            <tr align="left">
+                                              <th>Nama</th>
+                                              <th width="10px">:</th>
+                                              <th class="texts">{{ $profile->name }}</th>
+                                            </tr>
+                                            <tr align="left">
+                                              <th>TTL</th>
+                                              <th width="10px">:</th>
+                                              <th>{{ $profile->place_berth }}, {{ date('d-m-Y', strtotime($profile->date_berth)) }}</th>
+                                            </tr>
+                                            <tr align="left">
+                                              <th>NIK</th>
+                                              <th width="10px">:</th>
+                                              <th>{{ $profile->nik }}</th>
+                                            </tr>
+                                            <tr align="left">
+                                              <th>Terdaftar Tgl</th>
+                                              <th width="10px">:</th>
+                                              <th>{{ date('d-m-Y', strtotime($profile->created_at)) }}</th>
+                                            </tr>
+                                          </table>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
-                                <p class="text-center">Dalam Pengembangan</p>
                               </div>
                               <div class="tab-pane fade mt-4" id="nav-rev" role="tabpanel" aria-labelledby="nav-rev-tab">
                                 <div class="col-12 text-center mb-3">
