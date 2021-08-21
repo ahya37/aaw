@@ -220,7 +220,6 @@ class UserController extends Controller
     public function updateMyProfile(Request $request, $id)
     {        
         $user = User::where('id', $id)->first();
-        $id = encrypt($id);
 
         if ($request->hasFile('photo') || $request->hasFile('ktp')) {
             // delete foto lama
@@ -278,6 +277,7 @@ class UserController extends Controller
         }
 
         #jika akunnya, redireck ke dashboard akunnya sendiri
+        $id = encrypt($id);
         if ($user->id == Auth::user()->id) {
             return redirect()->route('home')->with('success','Profil telah diperbarui');
         }else{

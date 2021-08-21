@@ -6,10 +6,12 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-class MemberExportProvince implements FromCollection, WithHeadings, WithEvents
+class MemberExportProvince implements FromCollection, WithHeadings, WithEvents, WithDrawings
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -59,6 +61,18 @@ class MemberExportProvince implements FromCollection, WithHeadings, WithEvents
                 ]);
             }
         ];
+    }
+
+    public function drawings()
+    {
+        $drawing = new Drawing();
+        $drawing->setName('Logo');
+        $drawing->setDescription('This is my logo');
+        $drawing->setPath(public_path('assets/images/logos.png'));
+        $drawing->setHeight(90);
+        $drawing->setCoordinates('B2');
+
+        return $drawing;
     }
 
 }

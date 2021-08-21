@@ -39,6 +39,7 @@
                                 <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Profil</a>
                                 <a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-member" role="tab" aria-controls="nav-contact" aria-selected="false">Anggota Ku</a>
                                 <a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-kta" role="tab" aria-controls="nav-kta" aria-selected="false">KTA</a>
+                                <a class="nav-link" id="nav-rev-rev" data-toggle="tab" href="#nav-rev" role="tab" aria-controls="nav-kta" aria-selected="false">Reveral Ku</a>
                               </div>
                             </nav>
                             <div class="tab-content" id="nav-tabContent">
@@ -51,7 +52,7 @@
                                   @endif
                                   <div class="text-center">
                                       <a
-                                      href="{{ route('user-profile-edit', encrypt($profile->id)) }}"
+                                      href="{{ route('admin-profile-member-edit', encrypt($profile->id)) }}"
                                       class="btn btn-sm btn-sc-primary btn-lg"
                                     >
                                       Edit Profil
@@ -135,6 +136,12 @@
                                   <p class="text-center">{{ $profile->code }}</p>
                                 </div>
                                 <p class="text-center">Dalam Pengembangan</p>
+                              </div>
+                              <div class="tab-pane fade mt-4" id="nav-rev" role="tabpanel" aria-labelledby="nav-rev-tab">
+                                <div class="col-12 text-center mb-3">
+                                  <img width="150" src="{{ asset('storage/assets/user/qrcode/'.$profile->code.'.png') }}">
+                                  <p class="text-center">{{ $profile->code }}</p>
+                                </div>
                               </div>
                             </div>
                         </div>

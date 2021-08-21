@@ -116,13 +116,13 @@
                                      <label>Agama</label>
                                     <select class="form-control" name="religion" required autocomplete="off">
                                     <option value=""> -Pilih agama- </option>
-                                    <option value="islam">Islam</option>
-                                    <option value="kristen">Kristen</option>
-                                    <option value="katholik">Katholik</option>
-                                    <option value="hindu">Hindu</option>
-                                    <option value="budha">Budha</option>
-                                    <option value="kong hu cu">Kong Hu Chu</option>
-                                    <option value="aliran kepercayaan">Aliran Kepercayaan</option>
+                                    <option value="Islam">Islam</option>
+                                    <option value="Kristen">Kristen</option>
+                                    <option value="Katholik">Katholik</option>
+                                    <option value="Hindu">Hindu</option>
+                                    <option value="Budha">Budha</option>
+                                    <option value="Kong hu cu">Kong Hu Chu</option>
+                                    <option value="Aliran kepercayaan">Aliran Kepercayaan</option>
                             </select>
                                 </div>
                             </div>

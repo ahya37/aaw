@@ -57,6 +57,8 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'], function(){
 
         Route::get('member','MemberController@index')->name('admin-member');
         Route::get('member/profile/{id}','MemberController@profileMember')->name('admin-profile-member');
+        Route::get('member/profile/edit/{id}','MemberController@editMember')->name('admin-profile-member-edit');
+        Route::post('member/profile/update/{id}','MemberController@updateMember')->name('admin-profile-member-update');
 
         // report excel
         Route::get('member/province/export','DashboardController@exportDataProvinceExcel')->name('report-member-province-excel');
