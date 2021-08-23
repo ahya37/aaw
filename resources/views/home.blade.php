@@ -182,9 +182,9 @@
                                             {{ $row->name }}
                                           </a>
                                         </td>
-                                        <td>{{ $row->village->district->regency->name }}</td>
-                                        <td>{{ $row->village->district->name }}</td>
-                                        <td>{{ $row->village->name }}</td>
+                                        <td>{{ $row->village->district->regency->name ?? ''}}</td>
+                                        <td>{{ $row->village->district->name ?? ''}}</td>
+                                        <td>{{ $row->village->name ?? ''}}</td>
                                       </tr>
                                       @endforeach
                                     </tbody>
@@ -236,14 +236,14 @@
                                             cellpadding="0"
                                           >
                                             <tr align="left">
-                                              <td>{{ $profile->village->name }}</td>
+                                              <td>{{ $profile->village->name  ?? ''}}</td>
                                             </tr>
                                             <tr align="left">
-                                              <td>{{ $profile->village->district->name }}, {{ $profile->village->district->regency->name }}</td>
+                                              <td>{{ $profile->village->district->name ?? '' }}, {{ $profile->village->district->regency->name ?? '' }}</td>
                                             </tr>
                                             <tr align="left">
                                               <td>
-                                                <b> {{ $profile->village->district->regency->province->name }} </b>
+                                                <b> {{ $profile->village->district->regency->province->name ?? '' }} </b>
                                               </td>
                                             </tr>
                                           </table>

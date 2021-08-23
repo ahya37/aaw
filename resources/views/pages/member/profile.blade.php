@@ -123,13 +123,13 @@
                                         <div class="product-title">Nama</div>
                                         <div class="product-subtitle">{{ $profile->name}}</div>
                                         <div class="product-title">Desa</div>
-                                        <div class="product-subtitle">{{ $profile->village->name}}</div>
+                                        <div class="product-subtitle">{{ $profile->village->name ?? ''}}</div>
                                         <div class="product-title">Kecamatan</div>
-                                        <div class="product-subtitle">{{ $profile->village->district->name}}</div>
+                                        <div class="product-subtitle">{{ $profile->village->district->name ?? ''}}</div>
                                         <div class="product-title">Kabupaten/Kota</div>
-                                        <div class="product-subtitle">{{ $profile->village->district->regency->name}}</div>
+                                        <div class="product-subtitle">{{ $profile->village->district->regency->name ?? ''}}</div>
                                         <div class="product-title">Provinsi</div>
-                                        <div class="product-subtitle">{{ $profile->village->district->regency->province->name}}</div>
+                                        <div class="product-subtitle">{{ $profile->village->district->regency->province->name ?? ''}}</div>
                                         <div class="product-title">Alamat</div>
                                         <div class="product-subtitle">{{ $profile->address}}, {{'RT '. $profile->rt}}, {{'RW '. $profile->rw}}</div>
                                     </div>
@@ -177,9 +177,9 @@
                                             {{ $row->name }}
                                           </a>
                                         </td>
-                                        <td>{{ $row->village->district->regency->name }}</td>
-                                        <td>{{ $row->village->district->name }}</td>
-                                        <td>{{ $row->village->name }}</td>
+                                        <td>{{ $row->village->district->regency->name ?? ''}}</td>
+                                        <td>{{ $row->village->district->name ?? ''}}</td>
+                                        <td>{{ $row->village->name ?? ''}}</td>
                                       </tr>
                                       @endforeach
                                     </tbody>
@@ -230,14 +230,14 @@
                                             cellpadding="0"
                                           >
                                             <tr align="left">
-                                              <td>{{ $profile->village->name }}</td>
+                                              <td>{{ $profile->village->name ?? ''}}</td>
                                             </tr>
                                             <tr align="left">
-                                              <td>{{ $profile->village->district->name }}, {{ $profile->village->district->regency->name }}</td>
+                                              <td>{{ $profile->village->district->name ?? ''}}, {{ $profile->village->district->regency->name ?? ''}}</td>
                                             </tr>
                                             <tr align="left">
                                               <td>
-                                                <b> {{ $profile->village->district->regency->province->name }} </b>
+                                                <b> {{ $profile->village->district->regency->province->name ?? ''}} </b>
                                               </td>
                                             </tr>
                                           </table>
