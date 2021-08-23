@@ -44,7 +44,7 @@ class User extends Authenticatable
     {
         return [
             'number' => [
-                'length' => 8
+                'length' => 7
             ]
         ];
     }
