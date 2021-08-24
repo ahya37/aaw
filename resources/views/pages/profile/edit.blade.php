@@ -54,7 +54,7 @@
                                                 type="text"
                                                 class="form-control"
                                                 name="place_berth"
-                                                value="{{ date('d-m-Y', strtotime($profile->place_berth))}}" 
+                                                value="{{ $profile->place_berth }}" 
                                                 required
                                                 />
                                             </div>
@@ -66,7 +66,7 @@
                                                 id="datetimepicker6"
                                                 class="form-control"
                                                 name="date_berth"
-                                                value="{{ $profile->date_berth }}" 
+                                                value="{{ date('d-m-Y', strtotime($profile->date_berth))}}" 
                                                 required >
                                             </div>
                                         </div>
