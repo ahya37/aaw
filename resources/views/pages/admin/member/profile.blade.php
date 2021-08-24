@@ -25,7 +25,7 @@
         /* margin:10px; */
     }
     #qr {
-        margin-top: -150px;
+        margin-top: -100px;
         margin-left: 430px;
         border-radius: 8px; /* Rounded border */
         border-style: solid;
@@ -37,7 +37,7 @@
     }
     .texts-left {
         margin-top: 40px;
-        width: 200%;
+        width: 500%;
         font-size: 12px;
     }
     .address {
@@ -209,9 +209,7 @@
                                                   <br />
                                                   <br />
                                                   <b style="color: black">
-                                                    {{ date('m', strtotime($profile->created_at)) }}
-                                                    {{ date('Y', strtotime($profile->created_at)) }}
-                                                   {{ $profile->number }}
+                                                    {{ $profile->village->district->regency->province->id }}-{{ $profile->village->district->regency->id }}-{{ $profile->village->district->id }}-{{ $profile->number }}
                                                   </b>
                                                 </p>
                                               </td>
