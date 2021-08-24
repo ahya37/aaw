@@ -54,7 +54,7 @@
                                                 type="text"
                                                 class="form-control"
                                                 name="place_berth"
-                                                value="" 
+                                                autocomplete="off" 
                                                 required
                                                 />
                                             </div>
