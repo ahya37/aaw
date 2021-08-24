@@ -297,5 +297,12 @@ class UserController extends Controller
         return $pdf->download($title.'.pdf');
     }
 
+    public function downloadCard($id)
+    {
+        $profile = User::with('village')->where('id', $id)->first();
+        $pdf = PDF::LoadView('pages.card', compact('profile'))->setPaper('a4');
+        return $pdf->stream('card.pdf');
+    }
+
     
 }

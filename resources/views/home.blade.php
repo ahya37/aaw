@@ -6,11 +6,11 @@
     />
     <style>
       #idcard {
-        width: 965px;
+        width: 565px;
         height: 350px;
         margin: auto;
-        margin-right: 100px;
-        background-image: url("{{ url('assets/images/card.png') }}");
+        margin-right: 250px;
+        background-image: url("{{ url('assets/images/card2.png') }}");
         background-repeat: no-repeat;
         background-size: 100% 100%;
         -webkit-print-color-adjust: exact;
@@ -25,8 +25,8 @@
         /* margin:10px; */
     }
     #qr {
-        margin-top: -100px;
-        margin-left: 355px;
+        margin-top: -150px;
+        margin-left: 430px;
         border-radius: 8px; /* Rounded border */
         border-style: solid;
         border-color: #002efe;
@@ -35,13 +35,9 @@
         height: 100px;
         /* margin:10px; */
     }
-
-    .texts {
-        margin-top: 12px;
-        font-size: 12px;
-    }
     .texts-left {
-        margin-top: 20px;
+        margin-top: 40px;
+        width: 200%;
         font-size: 12px;
     }
     .address {
@@ -49,15 +45,9 @@
         margin-left: 20px;
         /* margin-top: 2px; */
         font-size: 12px;
+         width: 200%;
     }
-    .identity {
-        height: 350px;
-        margin-bottom: 100px;
-        margin-left: 80px;
-        padding-top: 39px; /* Some padding */
-        font-size: 12px;
-        font-style: bold;
-    }
+    
     </style>
 @endpush
 @section('title','Dashboard')
@@ -193,7 +183,10 @@
                               </div>
 
                               <div class="tab-pane fade mt-4" id="nav-kta" role="tabpanel" aria-labelledby="nav-kta-tab">
-                                <div class="col-12 text-center mb-3">
+                                <div class="col-12 text-right mb-2">
+                                  <a href="{{ route('member-card-download', $profile->id) }}" target="_blank" class="btn btn-sm btn-sc-primary text-white">Download KTA</a>
+                                </div>
+                                <div class="col-md-12 col-sm-12 text-center mb-3">
                                    <div id="idcard">
                                     <div class="col-md-12">
                                       <div class="row">
@@ -253,30 +246,6 @@
                                               src="{{ asset('storage/assets/user/qrcode/'.$profile->code.'.png') }}"
                                             />
                                           </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 identity texts">
-                                          <table border="0" cellpadding="0">
-                                            <tr align="left">
-                                              <th>Nama</th>
-                                              <th width="10px">:</th>
-                                              <th class="texts">{{ $profile->name }}</th>
-                                            </tr>
-                                            <tr align="left">
-                                              <th>TTL</th>
-                                              <th width="10px">:</th>
-                                              <th>{{ $profile->place_berth }}, {{ date('d-m-Y', strtotime($profile->date_berth)) }}</th>
-                                            </tr>
-                                            <tr align="left">
-                                              <th>NIK</th>
-                                              <th width="10px">:</th>
-                                              <th>{{ $profile->nik }}</th>
-                                            </tr>
-                                            <tr align="left">
-                                              <th>Terdaftar Tgl</th>
-                                              <th width="10px">:</th>
-                                              <th>{{ date('d-m-Y', strtotime($profile->created_at)) }}</th>
-                                            </tr>
-                                          </table>
                                         </div>
                                       </div>
                                     </div>

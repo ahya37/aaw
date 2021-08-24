@@ -39,6 +39,8 @@ Route::group(['prefix' => 'user','middleware' => ['auth']], function(){
         Route::get('create','UserController@createNewMember')->name('member-create');
         Route::post('/profile/store', 'UserController@store')->name('user-store-profile');
         Route::get('show/mymember/{id}','UserController@profileMyMember')->name('member-mymember');
+        Route::get('member/card/download/{id}','UserController@downloadCard')->name('member-card-download');
+
 
     });
 
@@ -65,7 +67,7 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'], function(){
         Route::get('member/regency/export/{regency_id}','DashboardController@exportDataRegencyExcel')->name('report-member-regency-excel');
         Route::get('member/district/export/{district_id}','DashboardController@exportDataDistrictExcel')->name('report-member-district-excel');
 
-        Route::get('member/card/download/{id}','DashboardController@downloadKTA')->name('member-card-download');
+        Route::get('member/card/download/{id}','DashboardController@downloadKTA')->name('admin-member-card-download');
 
     });
 });
