@@ -301,7 +301,7 @@ class UserController extends Controller
     {
         $profile = User::with('village')->where('id', $id)->first();
         $pdf = PDF::LoadView('pages.card', compact('profile'))->setPaper('a4');
-        return $pdf->stream('card.pdf');
+        return $pdf->download('e-kta-'.$profile->name.'.pdf');
     }
 
     

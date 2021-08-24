@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\File;
+use PDF;
 
 class MemberController extends Controller
 {
@@ -104,5 +105,12 @@ class MemberController extends Controller
 
         $id = encrypt($id);
         return redirect()->route('admin-profile-member', ['id' => $id]);
+    }
+
+    public function downloadCard($id)
+    {
+        $profile = User::with('village')->where('id', $id)->first();
+        $pdf = PDF::LoadView('pages.card', compact('profile'))->setPaper('a4');
+        return $pdf->download('e-kta-'.$profile->name.'.pdf');
     }
 }

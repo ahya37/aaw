@@ -184,7 +184,7 @@
 
                               <div class="tab-pane fade mt-4" id="nav-kta" role="tabpanel" aria-labelledby="nav-kta-tab">
                                 <div class="col-12 text-right mb-2">
-                                  <a href="{{ route('member-card-download', $profile->id) }}" target="_blank" class="btn btn-sm btn-sc-primary text-white">Download KTA</a>
+                                  <a href="{{ route('member-card-download', $profile->id) }}" class="btn btn-sm btn-sc-primary text-white">Download KTA</a>
                                 </div>
                                 <div class="col-md-12 col-sm-12 text-center mb-3">
                                    <div id="idcard">
