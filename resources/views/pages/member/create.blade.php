@@ -66,7 +66,8 @@
                                                 type="text"
                                                 class="form-control"
                                                 name="date_berth"
-                                                value="" 
+                                                value=""
+                                                autocomplete="off" 
                                                 required >
                                             </div>
                                         </div>

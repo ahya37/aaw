@@ -364,7 +364,7 @@
       <div class="title">KARTU TANDA ANGGOTA</div>
       <img class="logo" src="{{ public_path('assets/images/logo-aaw.png') }}" />
       <div>
-        <img class="img" src="{{ public_path('assets/images/anggota2.png') }}" />
+        <img class="img" src="{{ public_path('storage/'.$profile->photo) }}" />
         <p class="name">{{ $profile->name }}</p>
         <p class="base">Anggota</p>
         <p class="code">{{ $profile->village->district->regency->province->id }}-{{ $profile->village->district->regency->id }}-{{ $profile->village->district->id }}-{{ $profile->number }}</p>
