@@ -290,7 +290,8 @@ class UserController extends Controller
     {
         $id_user = Auth::user()->id;
         $name    = Auth::user()->name;
-        $title   = "Laporan-Anggota- $name";
+        $code    = Auth::user()->code;
+        $title   = "Laporan-Anggota- $name"."-$code";
         $no      = 1;
         $member  = User::with(['village'])->where('user_id', $id_user)->whereNotIn('id', [$id_user])->orderBy('name','ASC')->get();
         $pdf = PDF::loadView('pages.report.member', compact('member','title','no','name'))->setPaper('a4');
