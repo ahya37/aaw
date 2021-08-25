@@ -60,6 +60,9 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'], function(){
         Route::get('dashboard/regency/district/{district_id}','DashboardController@district')->name('admin-dashboard-district');
 
         Route::get('member','MemberController@index')->name('admin-member');
+        Route::get('member/create','MemberController@create')->name('admin-member-create');
+        Route::post('member/store','MemberController@store')->name('admin-member-store');
+
         Route::get('member/profile/{id}','MemberController@profileMember')->name('admin-profile-member');
         Route::get('member/profile/edit/{id}','MemberController@editMember')->name('admin-profile-member-edit');
         Route::post('member/profile/update/{id}','MemberController@updateMember')->name('admin-profile-member-update');

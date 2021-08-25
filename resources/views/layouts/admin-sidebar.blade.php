@@ -11,9 +11,15 @@
             </a>
             <a
               href="{{ route('admin-member') }}"
-              class="list-group-item list-group-item-action {{ (request()->is('admin/member*')) ? 'active' : '' }}"
+              class="list-group-item list-group-item-action {{ (request()->is('admin/member')) ? 'active' : '' }}"
             >
               Anggota Terdaftar
+            </a>
+            <a
+              href="{{ route('admin-member-create') }}"
+              class="list-group-item list-group-item-action {{ (request()->is('admin/member/create')) ? 'active' : '' }}"
+            >
+              Buat Anggota Baru
             </a>
             <a class="list-group-item d-lg-none list-group-item-action" href="{{ route('admin-logout') }}"
                     onclick="event.preventDefault();
