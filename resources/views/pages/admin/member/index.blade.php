@@ -53,11 +53,11 @@
                                         <td>{{ $row->village->district->name ?? '' }}</td>
                                         <td>{{ $row->village->name ?? '' }}</td>
                                         <td>
-                                            <img
-                                              src="{{ asset('storage/'.$row->reveral->photo) ?? '' }}"
+                                            {{-- <img
+                                              src="{{ asset('storage/'.$row->reveral->photo) ?? ''}}"
                                               class="rounded"
                                               width="30"
-                                            />
+                                            /> --}}
                                             {{ $row->reveral->name ?? '' }}
                                         </td>
                                       </tr>

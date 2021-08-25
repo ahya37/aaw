@@ -21,7 +21,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $guarded = [];
-    protected $append  = ['saved_nasdem'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -40,17 +39,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function getSavedNasdemAttribute()
-    {
-        if ($this->saved_nasdem == 1) {
-            return '<span class="badge badge-secondary"><i clas="fa fa-check"></i></span>';
-        }elseif ($this->saved_nasdem == 2) {
-            return '<span class="badge badge-danger"><i clas="fa fa-check"></i></span>';
-        }else{
-            
-        }
-    }
 
     public function getAutoNumberOptions()
     {
