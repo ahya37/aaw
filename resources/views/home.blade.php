@@ -284,9 +284,9 @@
             },
             columns:[
                 {data: 'photo', name:'photo'},
-                {data: 'village.district.regency.name', name:'village.district.regency.name'},
-                {data: 'village.district.name', name:'village.district.name'},
-                {data: 'village.name', name:'village.name'},
+                {data: 'regency', name:'regency'},
+                {data: 'district', name:'district'},
+                {data: 'village', name:'village'},
                 {
                     data: 'action', 
                     name:'action',

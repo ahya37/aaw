@@ -129,4 +129,17 @@ class User extends Authenticatable
                 where  b.district_id = $district_id  group by a.gender";
         return DB::select($sql);
     }
+
+    public function getMemberByUser($id_user)
+    {
+        $result = DB::table('users as a')
+                ->leftJoin('villages as b','a.village_id','=','b.id')
+                ->leftJoin('districts as c','b.district_id','=','c.id')
+                ->leftJoin('regencies as d','c.regency_id','=','d.id')
+                ->select('a.*','b.name as village','c.name as district','d.name as regency')
+                ->where('a.user_id', $id_user)
+                ->whereNotIn('a.id', [$id_user])
+                ->get();
+        return $result;
+    }
 }

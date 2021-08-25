@@ -42,7 +42,8 @@ class HomeController extends Controller
         }
 
         $profile = $userModel->with(['village','education'])->where('id', $id_user)->first();
-        $member  = $userModel->with(['village.district.regency','education'])->where('user_id', $id_user)->whereNotIn('id', [$id_user])->get();
+        // $member  = $userModel->with(['village.district.regency','education'])->where('user_id', $id_user)->whereNotIn('id', [$id_user])->get();
+        $member = $userModel->getMemberByUser($id_user);
         if (request()->ajax()) 
         {
             return DataTables::of($member)
