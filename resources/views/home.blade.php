@@ -1,9 +1,10 @@
 @extends('layouts.app')
 @push('addon-style')
-    <link
+    {{-- <link
       href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"
       rel="stylesheet"
-    />
+    /> --}}
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.24/datatables.min.css"/>
     <style>
       #idcard {
         width: 565px;
@@ -150,17 +151,18 @@
                                   <a href="{{ route('user-member-downloadpdf') }}" class="btn btn-sm btn-sc-primary text-white">Download</a>
                                 </div>
                                 <div class="table-responsive">
-                                  <table id="data" class="table table-sm table-striped">
+                                  <table id="data" class="table table-sm table-striped" width="100%">
                                     <thead>
                                       <tr>
-                                        <th scope="col">Nama</th>
-                                        <th scope="col">Kabupaten/Kota</th>
-                                        <th scope="col">Kecamatan</th>
-                                        <th scope="col">Desa</th>
+                                        <th>Nama</th>
+                                        <th>Kabupaten/Kota</th>
+                                        <th>Kecamatan</th>
+                                        <th>Desa</th>
+                                        <th></th>
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      @foreach ($member as $row)
+                                      {{-- @foreach ($member as $row)
                                       <tr>
                                         <td>
                                           <a href="{{ route('member-mymember', encrypt($row->id)) }}">
@@ -176,7 +178,7 @@
                                         <td>{{ $row->village->district->name ?? ''}}</td>
                                         <td>{{ $row->village->name ?? ''}}</td>
                                       </tr>
-                                      @endforeach
+                                      @endforeach --}}
                                     </tbody>
                                   </table>
                                 </div>
@@ -267,11 +269,33 @@
 @endsection
 
 @push('addon-script')
-<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.24/datatables.min.js"></script>
+{{-- <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script> --}}
 <script>
-      $(document).ready(function () {
-        $("#data").DataTable();
-      });
+      // $(document).ready(function () {
+      //   $("#data").DataTable();
+      // });
+      var datatable = $('#data').DataTable({
+            processing: true,
+            serverSide: true,
+            ordering: true,
+            ajax: {
+                url: '{!! url()->current() !!}',
+            },
+            columns:[
+                {data: 'photo', name:'photo'},
+                {data: 'village.district.regency.name', name:'village.district.regency.name'},
+                {data: 'village.district.name', name:'village.district.name'},
+                {data: 'village.name', name:'village.name'},
+                {
+                    data: 'action', 
+                    name:'action',
+                    orderable: false,
+                    searchable: false,
+                    width: '15%'
+                },
+            ]
+        });
 </script>
     
 @endpush
