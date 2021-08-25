@@ -280,7 +280,7 @@
       var datatable = $('#data').DataTable({
             processing: true,
             language:{
-              processing: '<i class="fa fa-spinner"></i><span class="sr-only">Loading...</span> '
+              processing: '<i class="fa fa-spinner fa-spin"></i>'
             },
             serverSide: true,
             ordering: true,
