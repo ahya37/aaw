@@ -261,7 +261,7 @@
       var datatable = $('#data').DataTable({
             processing: true,
             language:{
-              processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>'
+              processing: '<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>'
             },
             serverSide: true,
             ordering: true,
@@ -273,13 +273,13 @@
                 {data: 'regency', name:'regency'},
                 {data: 'district', name:'district'},
                 {data: 'village', name:'village'},
-                // {
-                //     data: 'action', 
-                //     name:'action',
-                //     orderable: false,
-                //     searchable: false,
-                //     width: '15%'
-                // },
+                {
+                    data: 'action', 
+                    name:'action',
+                    orderable: false,
+                    searchable: false,
+                    width: '15%'
+                },
             ]
         });
 </script>
