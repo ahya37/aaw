@@ -41,6 +41,8 @@ Route::group(['prefix' => 'user','middleware' => ['auth']], function(){
         Route::get('show/mymember/{id}','UserController@profileMyMember')->name('member-mymember');
         Route::get('member/card/download/{id}','UserController@downloadCard')->name('member-card-download');
 
+        Route::get('/registered/{id}','UserController@registeredNasdem');
+        Route::get('/saved/{id}','UserController@savedNasdem');
 
     });
 

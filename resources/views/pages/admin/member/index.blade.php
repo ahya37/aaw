@@ -42,7 +42,7 @@
                                         <td>
                                           <a href="{{ route('admin-profile-member', encrypt($row->id)) }}">
                                             <img
-                                              src="{{ asset('storage/'.$row->photo) }}"
+                                              src="{{ asset('storage/'.$row->photo) ?? ''}}"
                                               class="rounded"
                                               width="30"
                                             />

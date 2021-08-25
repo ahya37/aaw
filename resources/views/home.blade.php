@@ -160,6 +160,7 @@
                                         <th>Kecamatan</th>
                                         <th>Desa</th>
                                         {{-- <th></th> --}}
+                                        {{-- <th></th> --}}
                                       </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -253,6 +254,7 @@
 
 @push('addon-script')
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.24/datatables.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 {{-- <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script> --}}
 <script>
       // $(document).ready(function () {
@@ -273,6 +275,7 @@
                 {data: 'regency', name:'regency'},
                 {data: 'district', name:'district'},
                 {data: 'village', name:'village'},
+                // {data: 'saved_nasdem', name:'saved_nasdem'},
                 // {
                 //     data: 'action', 
                 //     name:'action',
@@ -282,6 +285,72 @@
                 // },
             ]
         });
+
+        // sweatealert
+
+        function registered(id){
+          var member = $('#'+id+'').attr("member");
+          swal({
+            title: "Sudah terdaftar di sistem Nasdem Sebelumnya ?",
+            text: member,
+            icon: "warning",
+            buttons: ["Batal", "Ya"],
+            dangerMode: true,
+            }).then((willDetele)=> {
+            if (willDetele) {
+              $.ajax({
+              url: "{{ url('/user/member/registered') }}" + '/' +id,
+              type: "GET",
+              success: function(data){
+                swal("Berhasil diproses!", {
+                icon: "success",
+                }).then(function(){
+                window.location.reload();
+                });
+              },
+              error : function(){
+                swal({
+                title: 'Gagal diproses!',
+                icon:'error',
+                timer: '1500'
+                });
+              }
+            });
+          }
+          });
+        }
+
+        function saved(id){
+          var member = $('#'+id+'').attr("member");
+          swal({
+            title: "Data sudah terinput dan tersimpan di Sistem Nasdem ?",
+            text: member,
+            icon: "warning",
+            buttons: ["Batal", "Ya"],
+            dangerMode: true,
+            }).then((willDetele)=> {
+            if (willDetele) {
+              $.ajax({
+              url: "{{ url('/user/member/saved') }}" + '/' +id,
+              type: "GET",
+              success: function(data){
+                swal("Berhasil diproses!", {
+                icon: "success",
+                }).then(function(){
+                window.location.reload();
+                });
+              },
+              error : function(){
+                swal({
+                title: 'Gagal diproses!',
+                icon:'error',
+                timer: '1500'
+                });
+              }
+            });
+          }
+          });
+        }
 </script>
     
 @endpush

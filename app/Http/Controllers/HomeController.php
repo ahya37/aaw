@@ -52,18 +52,12 @@ class HomeController extends Controller
                                 <div class="dropdown">
                                     <button class="btn btn-sm btn-sc-primary text-white dropdown-toggle mr-1 mb-1" type="button" data-toggle="dropdown">...</button>
                                     <div class="dropdown-menu">
-                                         <form action="" method="POST">
-                                            '. method_field('delete') . csrf_field() .'
-                                            <button type="submit" class="dropdown-item">
-                                               Tandai Tersimpan di Nasdem
+                                         <button type="button" class="dropdown-item" onclick="saved('.$item->id.')" id="'.$item->id.'" member="'.$item->name.'">
+                                                Sudah Tersimpan di Nasdem
                                             </button>
-                                        </form>
-                                        <form action="" method="POST">
-                                            '. method_field('delete') . csrf_field() .'
-                                            <button type="submit" class="dropdown-item text-danger">
+                                            <button type="button" class="dropdown-item text-danger" onclick="registered('.$item->id.')" id="'.$item->id.'" member="'.$item->name.'">
                                                 Sudah Terdaftar di Nasdem
                                             </button>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +71,16 @@ class HomeController extends Controller
                         </a>
                         ';
                     })
-                    ->rawColumns(['action','photo'])
+                    ->addColumn('saved_nasdem', function($item){
+                       if ($item->saved_nasdem == 1) {
+                           return '<img src="'.asset('assets/images/check-saved.svg').'">';
+                       }elseif ($item->saved_nasdem == 2) {
+                           return '<img src="'.asset('assets/images/check-registered.svg').'">';
+                       }else{
+
+                       }
+                    })
+                    ->rawColumns(['action','photo','saved_nasdem'])
                     ->make();
         }
         $total_member = count($member);

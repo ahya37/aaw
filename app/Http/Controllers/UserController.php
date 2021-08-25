@@ -305,5 +305,19 @@ class UserController extends Controller
         return $pdf->download('e-kta-'.$profile->name.'.pdf');
     }
 
+    public function savedNasdem($id)
+    {
+        $user = User::where('id', $id)->first();
+        $user->update(['saved_nasdem' => 1]);
+        return redirect()->back();
+    }
+
+    public function registeredNasdem($id)
+    {
+        $user = User::where('id', $id)->first();
+        $user->update(['saved_nasdem' => 2]);
+        return redirect()->back();
+    }
+
     
 }

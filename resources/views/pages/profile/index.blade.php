@@ -67,7 +67,7 @@
                                 {{ $profile->address }}, RT {{ $profile->rt }} , RW {{ $profile->rw }}
                                 </div>
                                 <div class="product-title">Desa</div>
-                                <div class="product-subtitle">{{ $profile->village }}</div>
+                                <div class="product-subtitle">{{ $profile->village  }}</div>
 
                                 <div class="product-title">Kecamatan</div>
                                 <div class="product-subtitle">{{ $profile->district }}</div>
