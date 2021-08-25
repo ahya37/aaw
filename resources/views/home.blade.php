@@ -159,28 +159,10 @@
                                         <th>Kabupaten/Kota</th>
                                         <th>Kecamatan</th>
                                         <th>Desa</th>
-                                        <th></th>
+                                        {{-- <th></th> --}}
                                       </tr>
                                     </thead>
-                                    <tbody>
-                                      {{-- @foreach ($member as $row)
-                                      <tr>
-                                        <td>
-                                          <a href="{{ route('member-mymember', encrypt($row->id)) }}">
-                                            <img
-                                              src="{{ asset('storage/'.$row->photo) }}"
-                                              class="rounded"
-                                              width="40"
-                                            />
-                                            {{ $row->name }}
-                                          </a>
-                                        </td>
-                                        <td>{{ $row->village->district->regency->name ?? ''}}</td>
-                                        <td>{{ $row->village->district->name ?? ''}}</td>
-                                        <td>{{ $row->village->name ?? ''}}</td>
-                                      </tr>
-                                      @endforeach --}}
-                                    </tbody>
+                                    <tbody></tbody>
                                   </table>
                                 </div>
                               </div>
@@ -291,13 +273,13 @@
                 {data: 'regency', name:'regency'},
                 {data: 'district', name:'district'},
                 {data: 'village', name:'village'},
-                {
-                    data: 'action', 
-                    name:'action',
-                    orderable: false,
-                    searchable: false,
-                    width: '15%'
-                },
+                // {
+                //     data: 'action', 
+                //     name:'action',
+                //     orderable: false,
+                //     searchable: false,
+                //     width: '15%'
+                // },
             ]
         });
 </script>
