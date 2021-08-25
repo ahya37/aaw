@@ -147,8 +147,8 @@ class User extends Authenticatable
 
     public function getReferalUnDirect($id_user)
     {
-        $sql = "SELECT sum(if(user_id != 16 ,1,0)) as total from users  where user_id in (
-                    SELECT id from users where user_id = 16
+        $sql = "SELECT sum(if(user_id != $id_user ,1,0)) as total from users  where user_id in (
+                    SELECT id from users where user_id = $id_user
                 ) and not id = $id_user";
         $result = collect(\DB::select($sql))->first();
         return $result;
@@ -156,8 +156,8 @@ class User extends Authenticatable
 
     public function getReferalDirect($id_user)
     {
-        $sql = "SELECT sum(if(user_id = 16 ,1,0)) as total from users  where user_id in (
-                    SELECT id from users where user_id = 16
+        $sql = "SELECT sum(if(user_id = $id_user ,1,0)) as total from users  where user_id in (
+                    SELECT id from users where user_id = $id_user
                 ) and not id = $id_user";
         $result = collect(\DB::select($sql))->first();
         return $result;
