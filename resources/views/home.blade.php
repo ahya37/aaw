@@ -273,13 +273,13 @@
                 {data: 'regency', name:'regency'},
                 {data: 'district', name:'district'},
                 {data: 'village', name:'village'},
-                {
-                    data: 'action', 
-                    name:'action',
-                    orderable: false,
-                    searchable: false,
-                    width: '15%'
-                },
+                // {
+                //     data: 'action', 
+                //     name:'action',
+                //     orderable: false,
+                //     searchable: false,
+                //     width: '15%'
+                // },
             ]
         });
 </script>
