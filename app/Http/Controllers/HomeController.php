@@ -42,7 +42,6 @@ class HomeController extends Controller
         }
 
         $profile = $userModel->with(['village','education'])->where('id', $id_user)->first();
-        // $member  = $userModel->with(['village.district.regency','education'])->where('user_id', $id_user)->whereNotIn('id', [$id_user])->get();
         $member = $userModel->getMemberByUser($id_user);
         if (request()->ajax()) 
         {
@@ -53,9 +52,12 @@ class HomeController extends Controller
                                 <div class="dropdown">
                                     <button class="btn btn-sm btn-sc-primary text-white dropdown-toggle mr-1 mb-1" type="button" data-toggle="dropdown">...</button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="">
-                                           Tandai Tersimpan di Nasdem
-                                        </a>
+                                         <form action="" method="POST">
+                                            '. method_field('delete') . csrf_field() .'
+                                            <button type="submit" class="dropdown-item">
+                                               Tandai Tersimpan di Nasdem
+                                            </button>
+                                        </form>
                                         <form action="" method="POST">
                                             '. method_field('delete') . csrf_field() .'
                                             <button type="submit" class="dropdown-item text-danger">
