@@ -144,4 +144,61 @@ class User extends Authenticatable
                 ->get();
         return $result;
     }
+
+    public function getReferalUnDirect($id_user)
+    {
+        $sql = "SELECT sum(if(user_id != 16 ,1,0)) as total from users  where user_id in (
+                    SELECT id from users where user_id = 16
+                ) and not id = $id_user";
+        $result = collect(\DB::select($sql))->first();
+        return $result;
+    }
+
+    public function getReferalDirect($id_user)
+    {
+        $sql = "SELECT sum(if(user_id = 16 ,1,0)) as total from users  where user_id in (
+                    SELECT id from users where user_id = 16
+                ) and not id = $id_user";
+        $result = collect(\DB::select($sql))->first();
+        return $result;
+    }
+
+    public function getDataByReferalUnDirect($id_user)
+    {
+        $sql = "SELECT a.id, a.name, e.name as reveral, b.name as village, c.name as districts, d.name as regency from users as a
+                left join villages as b on a.village_id = b.id
+                left join districts as c on b.district_id = c.id
+                left join regencies as d on c.regency_id = d.id
+                join users as e on a.user_id = e.id
+                where a.user_id in (SELECT id from users where user_id = $id_user)
+                and not a.user_id = $id_user";
+        $result = DB::select($sql);
+        return $result;
+    }
+
+    public function getDataByReferalDirect($id_user)
+    {
+        $sql = "SELECT a.id, a.user_id , a.name, e.name as reveral, b.name as village, c.name as districts, d.name as regency from users as a
+                left join villages as b on a.village_id = b.id
+                left join districts as c on b.district_id = c.id
+                left join regencies as d on c.regency_id = d.id
+                join users as e on a.user_id = e.id
+                where a.user_id in (SELECT id from users where user_id = $id_user)
+                and not a.id = $id_user and a.user_id = $id_user";
+        $result = DB::select($sql);
+        return $result;
+    }
+
+    public function getDataByTotalReferalDirect($id_user)
+    {
+         $sql = "SELECT a.id, a.user_id , a.name, e.name as reveral, b.name as village, c.name as districts, d.name as regency from users as a
+                left join villages as b on a.village_id = b.id
+                left join districts as c on b.district_id = c.id
+                left join regencies as d on c.regency_id = d.id
+                join users as e on a.user_id = e.id
+                where a.user_id in (SELECT id from users where user_id = $id_user)
+                and not a.id = $id_user";
+        $result = DB::select($sql);
+        return $result;
+    }
 }

@@ -83,7 +83,11 @@ class HomeController extends Controller
                     ->rawColumns(['action','photo','saved_nasdem'])
                     ->make();
         }
-        $total_member = count($member);
-        return view('home', compact('profile','member','total_member'));
+        
+        // referal langsung
+        $referal_undirect = $userModel->getReferalUnDirect($id_user);
+        $referal_direct = $userModel->getReferalDirect($id_user);
+        $total_referal = $referal_direct->total + $referal_undirect->total;
+        return view('home', compact('profile','member','total_referal','referal_undirect','referal_direct'));
     }
 }

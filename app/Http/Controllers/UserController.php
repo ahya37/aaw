@@ -319,5 +319,29 @@ class UserController extends Controller
         return redirect()->back();
     }
 
+    public function memberByUnDirectReferal()
+    {
+        $id_user    = Auth::user()->id;
+        $userModel  = new User();
+        $member     = $userModel->getDataByReferalUnDirect($id_user);
+        return $member; 
+    }
+
+    public function memberByDirectReferal()
+    {
+        $id_user    = Auth::user()->id;
+        $userModel  = new User();
+        $member     = $userModel->getDataByReferalDirect($id_user);
+        return $member; 
+    }
+
+    public function memberByDirectAllReferal()
+    {
+        $id_user    = Auth::user()->id;
+        $userModel  = new User();
+        $member     = $userModel->getDataByTotalReferalDirect($id_user);
+        return $member; 
+    }
+
     
 }
