@@ -23,3 +23,11 @@
 .cd-card-primary {
     background-color: #2471a3;
 }
+
+.cd-card-primary-cart {
+    background-color: #7cb5ec;
+}
+
+.cd-card-secondary-cart {
+    background-color: #434348;
+}

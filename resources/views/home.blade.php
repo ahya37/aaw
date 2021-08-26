@@ -6,6 +6,10 @@
     /> --}}
       <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.24/datatables.min.css"/>
       <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link
+      href="{{ asset('assets/style/style.css') }}"
+      rel="stylesheet"
+    />
     <style>
       #idcard {
         width: 565px;
@@ -67,10 +71,10 @@
               <div class="dashboard-content">
                 <div class="row">
                    <div class="col-md-3">
-                      <div class="card mb-2">
-                        <div class="card-body">
-                          <div class="dashboard-card-title">E-KTA</div>
-                          <div class="dashboard-card-subtitle">
+                      <div class="card mb-2 text-white bg-info">
+                        <div class="card-body ">
+                          <div class="dashboard-card-title text-white">E-KTA</div>
+                          <div class="dashboard-card-subtitle text-white">
                             <h6>
                               {{ $profile->village->district->regency->province->id }}-{{ $profile->village->district->regency->id }}-{{ $profile->village->district->id }}-{{ $profile->number }}
                             </h6>
@@ -79,41 +83,39 @@
                       </div>
                     </div>
                   <div class="col-md-3">
-                    <a href="{{ route('member-direct-referal') }}" style="text-decoration: none">
-                      <div class="card mb-2">
+                    {{-- <a href="{{ route('member-direct-referal') }}" style="text-decoration: none"> --}}
+                      <div class="card mb-2 text-white cd-card-primary">
                         <div class="card-body">
-                          <div class="dashboard-card-title">Referal Langsung</div>
+                          <div class="dashboard-card-title text-white">Referal Langsung</div>
                           <div class="dashboard-card-subtitle">
-                            <h5>{{ $referal_direct->total }}</h5>
+                            <h5 class="text-white">{{ $referal_direct }}</h5>
                           </div>
                         </div>
                       </div>
-                    </a>
+                    {{-- </a> --}}
                     </div>
                   <div class="col-md-3">
-                    <a href="{{ route('member-undirect-referal') }}" style="text-decoration: none">
-                      <div class="card mb-2">
+                    {{-- <a href="{{ route('member-undirect-referal') }}" style="text-decoration: none"> --}}
+                      <div class="card mb-2 text-white cd-card-primary">
                         <div class="card-body">
-                          <div class="dashboard-card-title">Referal Tidak Langsung</div>
+                          <div class="dashboard-card-title text-white">Referal Tidak Langsung</div>
                           <div class="dashboard-card-subtitle">
-                            <h5>{{ $referal_undirect->total }}</h5>
+                            <h5 class="text-white">{{ $referal_undirect }}</h5>
                           </div>
                         </div>
                       </div>
-                   </a>
+                   {{-- </a> --}}
                     </div>
-                  <div class="col-md-3">
-                    <a href="{{ route('member-direct-all-referal') }}" style="text-decoration: none">
-                      <div class="card mb-2">
-                        <div class="card-body">
-                          <div class="dashboard-card-title">Total Referal</div>
-                          <div class="dashboard-card-subtitle">
-                            <h5>{{ $total_referal }}</h5>
+                      <div class="col-md-3">
+                          <div class="card mb-2 text-white cs-card-danger">
+                            <div class="card-body">
+                              <div class="dashboard-card-title text-white">Total Referal</div>
+                              <div class="dashboard-card-subtitle">
+                                <h5 class="text-white">{{ $total_referal }}</h5>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </a>
-                    </div>
                 </div>
                 <div class="row">
                   <div class="col-md-12">
@@ -197,7 +199,7 @@
                                         <th>Kabupaten/Kota</th>
                                         <th>Kecamatan</th>
                                         <th>Desa</th>
-                                        {{-- <th></th> --}}
+                                        <th>Referal Dari</th>
                                         {{-- <th></th> --}}
                                       </tr>
                                     </thead>
@@ -313,6 +315,7 @@
                 {data: 'regency', name:'regency'},
                 {data: 'district', name:'district'},
                 {data: 'village', name:'village'},
+                {data: 'referal', name:'referal'},
                 // {data: 'saved_nasdem', name:'saved_nasdem'},
                 // {
                 //     data: 'action', 

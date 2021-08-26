@@ -43,7 +43,6 @@ Route::group(['prefix' => 'user','middleware' => ['auth']], function(){
 
         Route::get('/referal/undirect','UserController@memberByUnDirectReferal')->name('member-undirect-referal');
         Route::get('/referal/direct','UserController@memberByDirectReferal')->name('member-direct-referal');
-        Route::get('/referal/direct/all','UserController@memberByDirectAllReferal')->name('member-direct-all-referal');
 
         Route::get('/registered/{id}','UserController@registeredNasdem');
         Route::get('/saved/{id}','UserController@savedNasdem');

@@ -135,12 +135,39 @@
                       <div class="card-body">
                         <div id="gender"></div>
                       </div>
+                      <div class="row">
+                        <div class="col-6">
+                          <div class="card-body cd-card-primary-cart text-center">
+                            <span class="text-white">Pria</span>
+                            <br>
+                            <span class="text-white">
+                              {{ $total_male_gender }}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="card-body text-center cd-card-secondary-cart">
+                            <span class="text-white">Wanita</span>
+                            <br>
+                            <span class="text-white">
+                              {{ $total_female_gender }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="card mb-2">
                       <div class="card-body">
                         <div id="job"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="card mb-2">
+                      <div class="card-body">
+                        <div id="ageGroup"></div>
                       </div>
                     </div>
                   </div>
@@ -228,7 +255,7 @@
               // y: 60
           },
           tooltip: {
-              // pointFormat: '{series.name}: <b>{point.percentage:.1f}</b>'
+              pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
           },
           accessibility: {
               point: {
@@ -253,7 +280,7 @@
           },
           series: [{
               type: 'pie',
-              name: 'Jumlah',
+              name: 'Persentasi',
               innerSize: '50%',
               data: {!! json_encode($cat_gender) !!} ,
           }]
@@ -308,6 +335,45 @@
             data: {!! json_encode($cat_jobs) !!},
           },
         ],
+      });
+
+      // age group
+       Highcharts.chart('ageGroup', {
+          chart: {
+              type: 'column'
+          },
+          title: {
+              text: 'Anggota Berdasarkan Kelompok Umur'
+          },
+          xAxis: {
+              categories: {!! json_encode($cat_range_age) !!},
+              crosshair: true,
+          },
+          yAxis: {
+              min: 0,
+              title: false
+          },
+          tooltip: {
+              headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+              footerFormat: '</table>',
+              shared: true,
+              useHTML: true
+          },
+          plotOptions: {
+              column: {
+                  pointPadding: 0.2,
+                  borderWidth: 0
+              },
+              series: {
+                    stacking: 'normal',
+                    borderRadius: 3,
+                }
+          },
+          series: [{
+              name:"Jumlah",
+              data: {!! json_encode($cat_range_age_data) !!},
+
+          }]
       });
     </script>
 @endpush

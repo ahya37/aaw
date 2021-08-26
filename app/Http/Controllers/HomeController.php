@@ -42,7 +42,15 @@ class HomeController extends Controller
         }
 
         $profile = $userModel->with(['village','education'])->where('id', $id_user)->first();
-        $member = $userModel->getMemberByUser($id_user);
+        $member = $userModel->getDataByTotalReferalDirect($id_user); // berfungsi juga untuk menampilkan data total referal
+
+          // referal
+        $referal_undirect = $userModel->getReferalUnDirect($id_user);
+        $referal_undirect = $referal_undirect->total == NULL ? 0 : $referal_undirect->total;
+        $referal_direct = $userModel->getReferalDirect($id_user);
+        $referal_direct = $referal_direct->total == NULL ? 0 : $referal_direct->total; 
+        $total_referal = $referal_direct + $referal_undirect;
+
         if (request()->ajax()) 
         {
             return DataTables::of($member)
@@ -71,23 +79,22 @@ class HomeController extends Controller
                         </a>
                         ';
                     })
-                    ->addColumn('saved_nasdem', function($item){
-                       if ($item->saved_nasdem == 1) {
-                           return '<img src="'.asset('assets/images/check-saved.svg').'">';
-                       }elseif ($item->saved_nasdem == 2) {
-                           return '<img src="'.asset('assets/images/check-registered.svg').'">';
-                       }else{
-
-                       }
+                    ->addColumn('referal', function($item){
+                        return $item->referal;
                     })
-                    ->rawColumns(['action','photo','saved_nasdem'])
+                    // ->addColumn('saved_nasdem', function($item){
+                    //    if ($item->saved_nasdem == 1) {
+                    //        return '<img src="'.asset('assets/images/check-saved.svg').'">';
+                    //    }elseif ($item->saved_nasdem == 2) {
+                    //        return '<img src="'.asset('assets/images/check-registered.svg').'">';
+                    //    }else{
+
+                    //    }
+                    // })
+                    ->rawColumns(['action','photo','saved_nasdem','referal'])
                     ->make();
         }
         
-        // referal langsung
-        $referal_undirect = $userModel->getReferalUnDirect($id_user);
-        $referal_direct = $userModel->getReferalDirect($id_user);
-        $total_referal = $referal_direct->total + $referal_undirect->total;
         return view('home', compact('profile','member','total_referal','referal_undirect','referal_direct'));
     }
 }

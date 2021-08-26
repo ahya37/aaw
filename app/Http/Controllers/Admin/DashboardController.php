@@ -66,16 +66,39 @@ class DashboardController extends Controller
 
         // grafik data jenis kelamin
         $gender = $userModel->getGenderProvince($province_id);
-        $cat_gender =[];
+        $cat_gender = [];
+        $all_gender  = [];
+
+        // untuk menghitung jumlah keseluruhan jenis kelamin L/P
+        $total_gender = 0;
+        foreach ($gender as $key => $value) {
+            $total_gender += $value->total;
+        }
 
         foreach ($gender as  $val) {
+            $all_gender[]  = $val->total;
+
             $cat_gender[] = [
                 "name" => $val->gender == 0 ? 'Pria' : 'Wanita',
-                "y"    => $val->total
+                "y"    => ($val->total/$total_gender)*100,
+            ];
+        }
+        
+        $total_male_gender   =empty($all_gender[0]) ?  0 :  $all_gender[0];; // total gender pria
+        $total_female_gender = empty($all_gender[1]) ?  0 :  $all_gender[1]; // total gender wanita
+
+        // range umur
+        $range_age     = $userModel->rangeAgeProvince($province_id);
+        $cat_range_age = [];
+        $cat_range_age_data = [];
+        foreach ($range_age as $val) {
+            $cat_range_age[]      = $val->range_age;
+            $cat_range_age_data[] = [
+                'y'    => $val->total
             ];
         }
         $gF   = app('GlobalProvider'); // global function
-        return view('pages.admin.dashboard.index', compact('regency','cat_gender','cat_jobs','cat_regency_data','cat_regency','gF','total_member','persentage_target_member','target_member','total_village_filled','presentage_village_filled','total_village'));
+        return view('pages.admin.dashboard.index', compact('cat_range_age','cat_range_age_data','total_male_gender','total_female_gender','regency','cat_gender','cat_jobs','cat_regency_data','cat_regency','gF','total_member','persentage_target_member','target_member','total_village_filled','presentage_village_filled','total_village'));
     }
 
     public function regency($regency_id)
@@ -122,16 +145,38 @@ class DashboardController extends Controller
         // grafik data jenis kelamin
         $gender = $userModel->getGenderRegency($regency_id);
         $cat_gender =[];
+        $all_gender = [];
+
+        // untuk menghitung jumlah keseluruhan jenis kelamin L/P
+        $total_gender = 0;
+        foreach ($gender as $key => $value) {
+            $total_gender += $value->total;
+        }
 
         foreach ($gender as  $val) {
+            $all_gender[]  = $val->total;
             $cat_gender[] = [
                 "name" => $val->gender == 0 ? 'Pria' : 'Wanita',
-                "y"    => $val->total
+                "y"    => ($val->total/$total_gender)*100
             ];
         }
-        // dd(json_encode($gender));
+
+        $total_male_gender   =empty($all_gender[0]) ?  0 :  $all_gender[0];; // total gender pria
+        $total_female_gender = empty($all_gender[1]) ?  0 :  $all_gender[1]; // total gender wanita
+
+        // range umur
+        $range_age     = $userModel->rangeAgeRegency($regency_id);
+        $cat_range_age = [];
+        $cat_range_age_data = [];
+        foreach ($range_age as $val) {
+            $cat_range_age[]      = $val->range_age;
+            $cat_range_age_data[] = [
+                'y'    => $val->total
+            ];
+        }
+
         $gF   = app('GlobalProvider'); // global function
-        return view('pages.admin.dashboard.regency', compact('regency','gender','cat_gender','cat_jobs','total_member','target_member','persentage_target_member','gF','total_village','total_village_filled','presentage_village_filled','cat_districts','cat_districts_data'));
+        return view('pages.admin.dashboard.regency', compact('cat_range_age_data','cat_range_age','total_male_gender','total_female_gender','regency','gender','cat_gender','cat_jobs','total_member','target_member','persentage_target_member','gF','total_village','total_village_filled','presentage_village_filled','cat_districts','cat_districts_data'));
     }
 
     public function district($district_id)
@@ -181,15 +226,38 @@ class DashboardController extends Controller
         // grafik data jenis kelamin
         $gender = $userModel->getGenderDistrict($district_id);
         $cat_gender =[];
+        $all_gender = [];
 
+        // untuk menghitung jumlah keseluruhan jenis kelamin L/P
+        $total_gender = 0;
+        foreach ($gender as $key => $value) {
+            $total_gender += $value->total;
+        }
+        
         foreach ($gender as  $val) {
+            $all_gender[]  = $val->total;
             $cat_gender[] = [
                 "name" => $val->gender == 0 ? 'Pria' : 'Wanita',
-                "y"    => $val->total
+                "y"    => ($val->total/$total_gender)*100
             ];
         }
+
+        $total_male_gender   =empty($all_gender[0]) ?  0 :  $all_gender[0];; // total gender pria
+        $total_female_gender = empty($all_gender[1]) ?  0 :  $all_gender[1]; // total gender wanita
+        
+        // range umur
+        $range_age     = $userModel->rangeAgeDistrict($district_id);
+        $cat_range_age = [];
+        $cat_range_age_data = [];
+        foreach ($range_age as $val) {
+            $cat_range_age[]      = $val->range_age;
+            $cat_range_age_data[] = [
+                'y'    => $val->total
+            ];
+        }
+
         $gF   = app('GlobalProvider'); // global function
-        return view('pages.admin.dashboard.district', compact('cat_gender','cat_jobs','cat_districts','cat_districts_data','total_village_filled','presentage_village_filled','total_village','target_member','persentage_target_member','district','gF','total_member'));
+        return view('pages.admin.dashboard.district', compact('cat_range_age_data','cat_range_age','total_male_gender','total_female_gender','cat_gender','cat_jobs','cat_districts','cat_districts_data','total_village_filled','presentage_village_filled','total_village','target_member','persentage_target_member','district','gF','total_member'));
     }
 
     public function exportDataProvinceExcel()

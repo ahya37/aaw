@@ -4,6 +4,10 @@
       href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"
       rel="stylesheet"
     />
+    <link
+      href="{{ asset('assets/style/style.css') }}"
+      rel="stylesheet"
+    />
     <style>
       #idcard {
         width: 565px;
@@ -62,13 +66,49 @@
                 <p class="dashboard-subtitle">Sistem Keanggotaan AAW</p>
               </div>
               <div class="dashboard-content">
-                <div class="row">
+               <div class="row">
+                   <div class="col-md-3">
+                      <div class="card mb-2 text-white bg-info">
+                        <div class="card-body ">
+                          <div class="dashboard-card-title text-white">E-KTA</div>
+                          <div class="dashboard-card-subtitle text-white">
+                            <h6>
+                              {{ $profile->village->district->regency->province->id }}-{{ $profile->village->district->regency->id }}-{{ $profile->village->district->id }}-{{ $profile->number }}
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   <div class="col-md-3">
-                      <div class="card mb-2">
+                    {{-- <a href="{{ route('member-direct-referal') }}" style="text-decoration: none"> --}}
+                      <div class="card mb-2 text-white cd-card-primary">
                         <div class="card-body">
-                          <div class="dashboard-card-title">Jumlah Anggota</div>
+                          <div class="dashboard-card-title text-white">Referal Langsung</div>
                           <div class="dashboard-card-subtitle">
-                            <h5>{{ $total_member }}</h5>
+                            <h5 class="text-white">{{ $referal_direct }}</h5>
+                          </div>
+                        </div>
+                      </div>
+                    {{-- </a> --}}
+                    </div>
+                  <div class="col-md-3">
+                    {{-- <a href="{{ route('member-undirect-referal') }}" style="text-decoration: none"> --}}
+                      <div class="card mb-2 text-white cd-card-primary">
+                        <div class="card-body">
+                          <div class="dashboard-card-title text-white">Referal Tidak Langsung</div>
+                          <div class="dashboard-card-subtitle">
+                            <h5 class="text-white">{{ $referal_undirect }}</h5>
+                          </div>
+                        </div>
+                      </div>
+                   {{-- </a> --}}
+                    </div>
+                  <div class="col-md-3">
+                      <div class="card mb-2 text-white cs-card-danger">
+                        <div class="card-body">
+                          <div class="dashboard-card-title text-white">Total Referal</div>
+                          <div class="dashboard-card-subtitle">
+                            <h5 class="text-white">{{ $total_referal }}</h5>
                           </div>
                         </div>
                       </div>
@@ -157,7 +197,7 @@
                                       @foreach ($member as $row)
                                       <tr>
                                         <td>
-                                          <a href="#">
+                                          <a href="{{ route('member-mymember', encrypt($row->id)) }}">
                                             <img
                                               src="{{ asset('storage/'.$row->photo) }}"
                                               class="rounded"

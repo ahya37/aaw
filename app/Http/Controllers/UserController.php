@@ -35,8 +35,14 @@ class UserController extends Controller
         $userModel = new User();
         $profile = $userModel->with(['village'])->where('id', $id_user)->first();
         $member  = $userModel->with(['village'])->where('user_id', $id_user)->whereNotIn('id', [$id_user])->get();
-        $total_member = count($member);
-        return view('pages.member.profile', compact('profile','member','total_member'));
+
+        // referal langsung
+        $referal_undirect = $userModel->getReferalUnDirect($id_user);
+        $referal_undirect = $referal_undirect->total == NULL ? 0 : $referal_undirect->total;
+        $referal_direct = $userModel->getReferalDirect($id_user);
+        $referal_direct = $referal_direct->total == NULL ? 0 : $referal_direct->total; 
+        $total_referal = $referal_direct + $referal_undirect;
+        return view('pages.member.profile', compact('profile','member','total_referal','referal_undirect','referal_direct'));
 
 
     }
@@ -334,14 +340,5 @@ class UserController extends Controller
         $member     = $userModel->getDataByReferalDirect($id_user);
         return $member; 
     }
-
-    public function memberByDirectAllReferal()
-    {
-        $id_user    = Auth::user()->id;
-        $userModel  = new User();
-        $member     = $userModel->getDataByTotalReferalDirect($id_user);
-        return $member; 
-    }
-
     
 }

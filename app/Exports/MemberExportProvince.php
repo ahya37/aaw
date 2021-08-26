@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-class MemberExportProvince implements FromCollection, WithHeadings, WithEvents, WithDrawings
+class MemberExportProvince implements FromCollection, WithHeadings, WithEvents
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -31,7 +31,8 @@ class MemberExportProvince implements FromCollection, WithHeadings, WithEvents, 
                 ->join('villages as b','a.village_id','b.id')
                 ->join('districts as c','b.district_id','c.id')
                 ->join('regencies as d','c.regency_id','d.id')
-                ->select('a.name','d.name as regency','c.name as district','b.name as village','a.phone_number','a.whatsapp')
+                ->join('users as e','a.id','=','e.user_id')
+                ->select('a.name','d.name as regency','c.name as district','b.name as village','a.rt','a.rw','a.phone_number','a.whatsapp','e.code as reveral_code')
                 ->where('d.province_id', $this->province)
                 ->whereNotIn('a.level',[1])
                 ->orderBy('d.name','asc')
@@ -45,8 +46,11 @@ class MemberExportProvince implements FromCollection, WithHeadings, WithEvents, 
             'Kabupaten / Kota',
             'Kecamatan',
             'Desa',
+            'RT',
+            'RW',
             'Telpon',
-            'Whatsapp'
+            'Whatsapp',
+            'Reveral'
         ];
     }
 
@@ -54,25 +58,13 @@ class MemberExportProvince implements FromCollection, WithHeadings, WithEvents, 
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
-                $event->sheet->getStyle('A1:F1')->applyFromArray([
+                $event->sheet->getStyle('A1:H1')->applyFromArray([
                     'font' => [
                         'bold' => true
                     ]
                 ]);
             }
         ];
-    }
-
-    public function drawings()
-    {
-        $drawing = new Drawing();
-        $drawing->setName('Logo');
-        $drawing->setDescription('This is my logo');
-        $drawing->setPath(public_path('assets/images/logos.png'));
-        $drawing->setHeight(90);
-        $drawing->setCoordinates('B2');
-
-        return $drawing;
     }
 
 }
