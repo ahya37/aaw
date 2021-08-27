@@ -6,10 +6,8 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
-use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class MemberExportProvince implements FromCollection, WithHeadings, WithEvents
 {
@@ -27,16 +25,28 @@ class MemberExportProvince implements FromCollection, WithHeadings, WithEvents
     
     public function collection()
     {
-        return DB::table('users as a')
-                ->join('villages as b','a.village_id','b.id')
-                ->join('districts as c','b.district_id','c.id')
-                ->join('regencies as d','c.regency_id','d.id')
-                ->join('users as e','a.id','=','e.user_id')
-                ->select('a.name','d.name as regency','c.name as district','b.name as village','a.rt','a.rw','a.phone_number','a.whatsapp','e.code as reveral_code')
-                ->where('d.province_id', $this->province)
-                ->whereNotIn('a.level',[1])
-                ->orderBy('d.name','asc')
-                ->get();
+        // return DB::table('users as a')
+        //         ->join('villages as b','a.village_id','b.id')
+        //         ->join('districts as c','b.district_id','c.id')
+        //         ->join('regencies as d','c.regency_id','d.id')
+        //         ->join('users as e','a.id','=','e.user_id')
+        //         ->select('a.name','d.name as regency','c.name as district','b.name as village','a.rt','a.rw','a.phone_number','a.whatsapp','e.code as reveral_code')
+        //         ->where('d.province_id', $this->province)
+        //         ->whereNotIn('a.level',[1])
+        //         ->orderBy('d.name','asc')
+        //         ->get();
+        $province_id = $this->province;
+        $sql = "SELECT a.name, d.name as regency, c.name as district, b.name as village, a.rt, a.rw, a.phone_number, a.whatsapp,
+                e.code as referal_code
+                from users as a
+                join villages as b on a.village_id = b.id
+                join districts as c on b.district_id = c.id
+                join regencies as d on c.regency_id = d.id
+                join users as e on a.user_id = e.id
+                where d.province_id = $province_id and not a.level = 1
+                order by d.name";
+        $result = collect(\DB::select($sql));
+        return $result;
     }
 
     public function headings(): array
@@ -58,7 +68,7 @@ class MemberExportProvince implements FromCollection, WithHeadings, WithEvents
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
-                $event->sheet->getStyle('A1:H1')->applyFromArray([
+                $event->sheet->getStyle('A1:I1')->applyFromArray([
                     'font' => [
                         'bold' => true
                     ]
