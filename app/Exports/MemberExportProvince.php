@@ -25,18 +25,8 @@ class MemberExportProvince implements FromCollection, WithHeadings, WithEvents
     
     public function collection()
     {
-        // return DB::table('users as a')
-        //         ->join('villages as b','a.village_id','b.id')
-        //         ->join('districts as c','b.district_id','c.id')
-        //         ->join('regencies as d','c.regency_id','d.id')
-        //         ->join('users as e','a.id','=','e.user_id')
-        //         ->select('a.name','d.name as regency','c.name as district','b.name as village','a.rt','a.rw','a.phone_number','a.whatsapp','e.code as reveral_code')
-        //         ->where('d.province_id', $this->province)
-        //         ->whereNotIn('a.level',[1])
-        //         ->orderBy('d.name','asc')
-        //         ->get();
         $province_id = $this->province;
-        $sql = "SELECT a.name, d.name as regency, c.name as district, b.name as village, a.rt, a.rw, a.phone_number, a.whatsapp,
+        $sql = "SELECT a.name, d.name as regency, c.name as district, b.name as village, a.address, a.rt, a.rw, a.phone_number, a.whatsapp,
                 e.code as referal_code
                 from users as a
                 join villages as b on a.village_id = b.id
@@ -56,6 +46,7 @@ class MemberExportProvince implements FromCollection, WithHeadings, WithEvents
             'Kabupaten / Kota',
             'Kecamatan',
             'Desa',
+            'Alamat',
             'RT',
             'RW',
             'Telpon',
@@ -68,7 +59,7 @@ class MemberExportProvince implements FromCollection, WithHeadings, WithEvents
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
-                $event->sheet->getStyle('A1:I1')->applyFromArray([
+                $event->sheet->getStyle('A1:J1')->applyFromArray([
                     'font' => [
                         'bold' => true
                     ]
