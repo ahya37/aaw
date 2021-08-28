@@ -1,14 +1,12 @@
 @extends('layouts.admin')
 @push('addon-style')
     <link
-      href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"
-      rel="stylesheet"
-    />
-    <link
       href="{{ asset('assets/style/style.css') }}"
       rel="stylesheet"
     />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.24/datatables.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 @endpush
 @section('title','Dashboard')
 @section('content')
@@ -171,6 +169,33 @@
                       </div>
                     </div>
                   </div>
+                   <div class="col-md-12">
+                    <div class="card mb-2">
+                      <div class="card-body">
+                        <div class="dashboard-card-title">
+                          Daftar Pencapaian Lokasi / Daerah
+                        </div>
+                        <div class="dashboard-card-subtitle">
+                          <div class="table-responsive mt-2">
+                              <table id="achievment" class="table table-sm table-striped">
+                                  <thead>
+                                    <tr>
+                                    <th scope="col">Kabupaten/Kota</th>
+                                    <th scope="col">Total Kecamatan</th>
+                                    <th scope="col">Total Target / Kabupaten</th>
+                                    <th scope="col">Realisasi Jumlah Anggota</th>
+                                    <th scope="col">Persentasi</th>
+                                    <th scope="col">Pencapaian Hari Ini</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  </tbody>
+                                </table>
+                           </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -178,16 +203,39 @@
 @endsection
 
 @push('addon-script')
-<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <script src="{{ asset('assets/vendor/highcharts/highcharts.js') }}"></script>
 <script src="{{ asset('assets/vendor/highcharts/venn.js') }}"></script>
 <script src="{{ asset('assets/vendor/highcharts/exporting.js') }}"></script>
 <script src="{{ asset('assets/vendor/highcharts/export-data.js') }}"></script>
 <script src="{{ asset('assets/vendor/highcharts/accessibility.js') }}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.24/datatables.min.js"></script>
 <script>
-      $(document).ready(function () {
-        $("#data").DataTable();
-      });
+       var datatable = $('#achievment').DataTable({
+            processing: true,
+            language:{
+              processing: '<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>'
+            },
+            serverSide: true,
+            ordering: true,
+            ajax: {
+                url: '{!! url()->current() !!}',
+            },
+            columns:[
+                {data: 'name', name:'name'},
+                {data: 'total_district', name:'total_district', className: "text-right"},
+                {data: 'target_member', name:'target_member',className: "text-right"},
+                {data: 'realisasi_member', name:'realisasi_member',className: "text-right"},
+                {data: 'persentage', name:'persentage'},
+                {data: 'todays_achievement', name:'todays_achievement',className: "text-right"}
+
+            ],
+              columnDefs: [
+              {
+                targets: [1,2,3,5],
+                render: $.fn.dataTable.render.number('.', '.', 0, '')
+              }
+            ],
+        });
 </script>
  <script>
       // member calculate
@@ -370,7 +418,7 @@
                 }
           },
           series: [{
-              name:"Jumlah",
+              name:"Umur",
               data: {!! json_encode($cat_range_age_data) !!},
 
           }]

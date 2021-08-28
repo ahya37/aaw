@@ -99,4 +99,16 @@ class Village extends Model
                 where d.province_id = $province_id GROUP by a.village_id ";
         return DB::select($sql);
     }
+
+    public function achievementVillage($district_id)
+    {
+        $sql = "SELECT b.id, b.name,
+                COUNT(a.id) as realisasi_member, 
+                count(IF(date(a.created_at) = CURDATE() , a.id, NULL)) as todays_achievement
+                from users as a
+                right join villages as b on a.village_id = b.id
+                where b.district_id = $district_id
+                group by b.id, b.name";
+        return DB::select($sql);
+    }
 }

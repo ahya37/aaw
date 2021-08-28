@@ -38,7 +38,7 @@ class GlobalProvider extends ServiceProvider
 
     public function persen($data)
     {
-        $show = number_format($data,2);
+        $show = number_format($data,1);
         return $show;
     }
 }

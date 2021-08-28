@@ -1,9 +1,6 @@
 @extends('layouts.admin')
 @push('addon-style')
-    <link
-      href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.24/datatables.min.css"/>
     <link
       href="{{ asset('assets/style/style.css') }}"
       rel="stylesheet"
@@ -174,6 +171,34 @@
                       </div>
                     </div>
                   </div>
+                  <div class="col-md-12">
+                    <div class="card mb-2">
+                      <div class="card-body">
+                        <div class="dashboard-card-title">
+                          Daftar Pencapaian Lokasi / Daerah
+                        </div>
+                        <div class="dashboard-card-subtitle">
+                          <div class="table-responsive mt-2">
+                              <table id="achievment" class="table table-sm table-striped">
+                                  <thead>
+                                    <tr>
+                                    <th scope="col">Kecamatan</th>
+                                    <th scope="col">Total Desa</th>
+                                    <th scope="col">Target Anggota / Desa</th>
+                                    <th scope="col">Total Target</th>
+                                    <th scope="col">Realisasi Jumlah Anggota</th>
+                                    <th scope="col">Persentasi</th>
+                                    <th scope="col">Pencapaian Hari Ini</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  </tbody>
+                                </table>
+                           </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -181,16 +206,40 @@
 @endsection
 
 @push('addon-script')
-<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <script src="{{ asset('assets/vendor/highcharts/highcharts.js') }}"></script>
 <script src="{{ asset('assets/vendor/highcharts/venn.js') }}"></script>
 <script src="{{ asset('assets/vendor/highcharts/exporting.js') }}"></script>
 <script src="{{ asset('assets/vendor/highcharts/export-data.js') }}"></script>
 <script src="{{ asset('assets/vendor/highcharts/accessibility.js') }}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.24/datatables.min.js"></script>
 <script>
-      $(document).ready(function () {
-        $("#data").DataTable();
-      });
+       var datatable = $('#achievment').DataTable({
+            processing: true,
+            language:{
+              processing: '<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>'
+            },
+            serverSide: true,
+            ordering: true,
+            ajax: {
+                url: '{!! url()->current() !!}',
+            },
+            columns:[
+                {data: 'name', name:'name'},
+                {data: 'total_village', name:'total_village', className: "text-right"},
+                {data: 'target_member', name:'target_member',className: "text-right"},
+                {data: 'total_target_member', name:'total_target_member',className: "text-right"},
+                {data: 'realisasi_member', name:'realisasi_member',className: "text-right"},
+                {data: 'persentage', name:'persentage'},
+                {data: 'todays_achievement', name:'todays_achievement',className: "text-right"}
+
+            ],
+              columnDefs: [
+              {
+                targets: [1,2,3,6],
+                render: $.fn.dataTable.render.number('.', '.', 0, '')
+              }
+            ],
+        });
 </script>
  <script>
       // member calculate

@@ -80,4 +80,20 @@ class District extends Model
                 GROUP by  b.name, b.id";
         return DB::select($sql);
     }
+
+    public function achievementDistrict($regency_id)
+    {
+        $sql = "SELECT c.id, c.name,
+                count(DISTINCT(b.id)) as total_village,
+                ceil(5000 / count(DISTINCT(b.id))) target_member,
+                ceil(5000 / count(DISTINCT(b.id))) * count(DISTINCT(b.id))  as total_target_member,
+                count(a.id) as realisasi_member,
+                count(IF(date(a.created_at) = CURDATE() , a.id, NULL)) as todays_achievement
+                from users as a
+                right join villages as b on a.village_id = b.id
+                right join districts as c on b.district_id = c.id
+                where c.regency_id = $regency_id
+                group by c.id, c.name order by c.name asc";
+        return DB::select($sql);
+    }
 }

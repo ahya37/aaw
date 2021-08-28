@@ -14,6 +14,8 @@ use App\Exports\MemberExportRegency;
 use App\Http\Controllers\Controller;
 use App\Exports\MemberExportDistrict;
 use App\Exports\MemberExportProvince;
+use App\Providers\GlobalProvider;
+use Yajra\DataTables\Facades\DataTables;
 
 class DashboardController extends Controller
 {
@@ -26,19 +28,20 @@ class DashboardController extends Controller
     public function index()
     {
         $province_id = 36;
+        $gF   = app('GlobalProvider'); // global function
 
         $userModel        = new User();
         $member           = $userModel->getMemberProvince($province_id);
         $total_member     = count($member); // total anggota terdaftar
 
         $regencyModel     = new Regency();
-        $target_member    = $regencyModel->getRegencyProvince($province_id)->total_village * 1000;
+        $target_member    = $regencyModel->getRegencyProvince($province_id)->total_district * 5000;
         $persentage_target_member = ($total_member / $target_member) * 100; // persentai terdata
 
         $villageModel   = new Village();
-        $total_village        = $villageModel->getVillagesProvince($province_id)->total_village; // fungsi total desa di provinsi banten
+        $total_village  = $villageModel->getVillagesProvince($province_id)->total_village; // fungsi total desa di provinsi banten
         $village_filled = $villageModel->getVillageFillProvince($province_id); // fungsi total desa di provinsi banten
-        $total_village_filled = count($village_filled);
+        $total_village_filled      = count($village_filled);
         $presentage_village_filled = ($total_village_filled / $total_village) * 100; // persentasi jumlah desa terisi
 
         // Grfaik Data member
@@ -97,7 +100,25 @@ class DashboardController extends Controller
                 'y'    => $val->total
             ];
         }
-        $gF   = app('GlobalProvider'); // global function
+
+        // Daftar pencapaian lokasi / daerah
+        $achievments   = $regencyModel->achievementProvince($province_id);
+        if (request()->ajax()) {
+            return DataTables::of($achievments)
+                    ->addColumn('persentage', function($item){
+                        $gF   = app('GlobalProvider'); // global function
+                        $persentage = ($item->realisasi_member / $item->target_member)*100;
+                        $persentage = $gF->persen($persentage);
+                        $persentageWidth = $persentage + 30;
+                        return '
+                        <div class="mt-3 progress" style="width:100%;">
+                            <span class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: '.$persentageWidth.'%" aria-valuenow="'.$persentage.'" aria-valuemin="'.$persentage.'" aria-valuemax="'.$persentage.'"><strong>'.$persentage.'%</strong></span>
+                        </div>
+                        ';
+                    })
+                    ->rawColumns(['persentage'])
+                    ->make();
+        }
         return view('pages.admin.dashboard.index', compact('cat_range_age','cat_range_age_data','total_male_gender','total_female_gender','regency','cat_gender','cat_jobs','cat_regency_data','cat_regency','gF','total_member','persentage_target_member','target_member','total_village_filled','presentage_village_filled','total_village'));
     }
 
@@ -109,7 +130,7 @@ class DashboardController extends Controller
         $total_member     = count($member); // total anggota terdaftar
 
         $districtModel    = new District();
-        $target_member    = $districtModel->where('regency_id',$regency_id)->get()->count() * 1000; // target anggota tercapai, per kecamatan 1000 target
+        $target_member    = $districtModel->where('regency_id',$regency_id)->get()->count() * 5000; // target anggota tercapai, per kecamatan 1000 target
         $persentage_target_member = ($total_member / $target_member) * 100; // persentai terdata
         
         $villageModel   = new Village();
@@ -176,6 +197,26 @@ class DashboardController extends Controller
         }
 
         $gF   = app('GlobalProvider'); // global function
+
+        // Daftar pencapaian lokasi / daerah
+        $achievments   = $districtModel->achievementDistrict($regency_id);
+        if (request()->ajax()) {
+            return DataTables::of($achievments)
+                    ->addColumn('persentage', function($item){
+                        $gF   = app('GlobalProvider'); // global function
+                        $persentage = ($item->realisasi_member / $item->total_target_member)*100;
+                        $persentage = $gF->persen($persentage);
+                        $persentageWidth = $persentage + 30;
+                        return '
+                        <div class="mt-3 progress" style="width:100%;">
+                            <span class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: '.$persentageWidth.'%" aria-valuenow="'.$persentage.'" aria-valuemin="'.$persentage.'" aria-valuemax="'.$persentage.'"><strong>'.$persentage.'%</strong></span>
+                        </div>
+                        ';
+                    })
+                    ->rawColumns(['persentage'])
+                    ->make();
+        }
+
         return view('pages.admin.dashboard.regency', compact('cat_range_age_data','cat_range_age','total_male_gender','total_female_gender','regency','gender','cat_gender','cat_jobs','total_member','target_member','persentage_target_member','gF','total_village','total_village_filled','presentage_village_filled','cat_districts','cat_districts_data'));
     }
 
@@ -189,7 +230,7 @@ class DashboardController extends Controller
 
         // perentasi anggot  di kecamatan
         $districtModel    = new District();
-        $target_member    = $districtModel->where('id',$district_id)->get()->count() * 1000; // target anggota tercapai, per kecamatan 1000 target
+        $target_member    = $districtModel->where('id',$district_id)->get()->count() * 5000; // target anggota tercapai, per kecamatan 1000 target
         $persentage_target_member = ($total_member / $target_member) * 100; // persentai terdata
 
         $villageModel   = new Village();
@@ -257,6 +298,12 @@ class DashboardController extends Controller
         }
 
         $gF   = app('GlobalProvider'); // global function
+
+         // Daftar pencapaian lokasi / daerah
+        $achievments   = $villageModel->achievementVillage($district_id);
+        if (request()->ajax()) {
+            return DataTables::of($achievments)->make();
+        }
         return view('pages.admin.dashboard.district', compact('cat_range_age_data','cat_range_age','total_male_gender','total_female_gender','cat_gender','cat_jobs','cat_districts','cat_districts_data','total_village_filled','presentage_village_filled','total_village','target_member','persentage_target_member','district','gF','total_member'));
     }
 

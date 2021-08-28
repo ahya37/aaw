@@ -58,10 +58,10 @@ class Regency extends Model
 
     public function getRegencyProvince($province_id)
     {
-        $sql = "SELECT COUNT(a.name) as total_village from villages as a
-                join districts as b on a.district_id = b.id
-                join regencies as c on b.regency_id = c.id 
-                where c.province_id = $province_id";
+        $sql = "SELECT COUNT(DISTINCT (a.id)) as total_district 
+                from districts as a
+                join regencies as b on a.regency_id = b.id 
+                where b.province_id = $province_id";
         return collect(\DB::select($sql))->first();
     }
 
@@ -77,5 +77,22 @@ class Regency extends Model
                 GROUP by d.id, d.name";
         return DB::select($sql);
     }
+
+    public function achievementProvince($province_id)
+    {
+        $sql = "SELECT d.id, d.name,
+            count(DISTINCT(c.id)) as total_district,
+            count(DISTINCT(c.id)) * 5000 target_member,
+            count(a.id) as realisasi_member,
+            count(IF(date(a.created_at) = CURDATE() , a.id, NULL)) as todays_achievement
+            from users as a
+            right join villages as b on a.village_id = b.id
+            right join districts as c on b.district_id = c.id
+            right join regencies as d on c.regency_id = d.id 
+            where d.province_id = $province_id
+            group by d.id, d.name";
+        return DB::select($sql);
+    }
+    
     
 }
