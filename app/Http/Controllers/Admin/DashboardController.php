@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use App\Exports\MemberExportDistrict;
 use App\Exports\MemberExportProvince;
 use App\Providers\GlobalProvider;
+use App\Referal;
 use Yajra\DataTables\Facades\DataTables;
 
 class DashboardController extends Controller
@@ -119,7 +120,31 @@ class DashboardController extends Controller
                     ->rawColumns(['persentage'])
                     ->make();
         }
-        return view('pages.admin.dashboard.index', compact('cat_range_age','cat_range_age_data','total_male_gender','total_female_gender','regency','cat_gender','cat_jobs','cat_regency_data','cat_regency','gF','total_member','persentage_target_member','target_member','total_village_filled','presentage_village_filled','total_village'));
+         // grafik data job
+        $jobModel = new Job();
+        $jobs     = $jobModel->getJobProvince($province_id);
+        $cat_jobs =[];
+        foreach ($jobs as  $val) {
+            $cat_jobs[] = [
+                "name" => $val->name,
+                "y"    => $val->total_job
+            ];
+        }
+
+        // anggota dengan referal terbanyak
+        $referalModel = new Referal();
+        $referal      = $referalModel->getReferalProvince($province_id);
+        $cat_referal      = [];
+        $cat_referal_data = [];
+        foreach ($referal as $val) {
+            $cat_referal[] = $val->name; 
+            $cat_referal_data[] = [
+                "y" => $val->total_referal,
+                "url" => route('admin-dashboard')
+            ];
+        }
+
+        return view('pages.admin.dashboard.index', compact('cat_referal_data','cat_referal','cat_range_age','cat_range_age_data','total_male_gender','total_female_gender','regency','cat_gender','cat_jobs','cat_regency_data','cat_regency','gF','total_member','persentage_target_member','target_member','total_village_filled','presentage_village_filled','total_village'));
     }
 
     public function regency($regency_id)
@@ -217,7 +242,20 @@ class DashboardController extends Controller
                     ->make();
         }
 
-        return view('pages.admin.dashboard.regency', compact('cat_range_age_data','cat_range_age','total_male_gender','total_female_gender','regency','gender','cat_gender','cat_jobs','total_member','target_member','persentage_target_member','gF','total_village','total_village_filled','presentage_village_filled','cat_districts','cat_districts_data'));
+         // anggota dengan referal terbanyak
+        $referalModel = new Referal();
+        $referal      = $referalModel->getReferalRegency($regency_id);
+        $cat_referal      = [];
+        $cat_referal_data = [];
+        foreach ($referal as $val) {
+            $cat_referal[] = $val->name; 
+            $cat_referal_data[] = [
+                "y" => $val->total_referal,
+                "url" => route('admin-dashboard')
+            ];
+        }
+
+        return view('pages.admin.dashboard.regency', compact('cat_referal_data','cat_referal','cat_range_age_data','cat_range_age','total_male_gender','total_female_gender','regency','gender','cat_gender','cat_jobs','total_member','target_member','persentage_target_member','gF','total_village','total_village_filled','presentage_village_filled','cat_districts','cat_districts_data'));
     }
 
     public function district($district_id)
@@ -304,7 +342,19 @@ class DashboardController extends Controller
         if (request()->ajax()) {
             return DataTables::of($achievments)->make();
         }
-        return view('pages.admin.dashboard.district', compact('cat_range_age_data','cat_range_age','total_male_gender','total_female_gender','cat_gender','cat_jobs','cat_districts','cat_districts_data','total_village_filled','presentage_village_filled','total_village','target_member','persentage_target_member','district','gF','total_member'));
+
+        // anggota dengan referal terbanyak
+        $referalModel = new Referal();
+        $referal      = $referalModel->getReferalDistrict($district_id);
+        $cat_referal      = [];
+        $cat_referal_data = [];
+        foreach ($referal as $val) {
+            $cat_referal[] = $val->name; 
+            $cat_referal_data[] = [
+                "y" => $val->total_referal
+            ];
+        }
+        return view('pages.admin.dashboard.district', compact('cat_referal_data','cat_referal','cat_range_age_data','cat_range_age','total_male_gender','total_female_gender','cat_gender','cat_jobs','cat_districts','cat_districts_data','total_village_filled','presentage_village_filled','total_village','target_member','persentage_target_member','district','gF','total_member'));
     }
 
     public function exportDataProvinceExcel()

@@ -195,6 +195,13 @@
                       </div>
                     </div>
                   </div>
+                  <div class="col-md-12">
+                    <div class="card mb-2">
+                      <div class="card-body">
+                        <div id="referal"></div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -404,6 +411,48 @@
           series: [{
               name:"Jumlah",
               data: {!! json_encode($cat_range_age_data) !!},
+
+          }]
+      });
+
+      // grafik anggota referal terbanyak
+      Highcharts.chart('referal', {
+          chart: {
+              type: 'column'
+          },
+          title: {
+              text: 'Anggota Dengan Referal Terbanyak'
+          },
+          xAxis: {
+              categories: {!! json_encode($cat_referal) !!},
+              crosshair: true,
+          },
+          yAxis: {
+              min: 0,
+              title: {
+                  text: 'Jumlah'
+              }
+          },
+          tooltip: {
+              headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+              footerFormat: '</table>',
+              shared: true,
+              useHTML: true
+          },
+          plotOptions: {
+              column: {
+                  pointPadding: 0.2,
+                  borderWidth: 0
+              },
+              series: {
+                    stacking: 'normal',
+                    borderRadius: 3
+                }
+          },
+          series: [{
+              colorByPoint: true,
+              name:"Referal",
+              data: {!! json_encode($cat_referal_data) !!},
 
           }]
       });
