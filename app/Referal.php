@@ -18,6 +18,7 @@ class Referal extends Model
                 where e.province_id = $province_id 
                 and  not b.level = 1
                 group by b.name, b.id
+                order by count(b.id) desc
                 limit 10";
         return DB::select($sql);
     }
@@ -31,7 +32,8 @@ class Referal extends Model
                 left join districts as d on c.district_id = d.id 
                 where d.regency_id = $regency_id
                 and  not b.`level` = 1 
-                group by b.name, b.id 
+                group by b.name, b.id
+                order by count(b.id) desc 
                 limit 10";
         return DB::select($sql);
     }
@@ -44,7 +46,8 @@ class Referal extends Model
                 left join villages as c on b.village_id = c.id
                 where c.district_id = $district_id
                 and  not b.`level` = 1 
-                group by b.name, b.id 
+                group by b.name, b.id
+                order by count(b.id) desc
                 limit 10";
         return DB::select($sql);
     }
