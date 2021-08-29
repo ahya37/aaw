@@ -15,8 +15,8 @@ class Referal extends Model
                 left join villages as c on b.village_id = c.id
                 left join districts as   d on c.district_id = d.id 
                 left join regencies as e on d.regency_id = e.id
-                where e.province_id = 36 
-                and  not b.`level` = $province_id
+                where e.province_id = $province_id 
+                and  not b.level = 1
                 group by b.name, b.id
                 limit 10";
         return DB::select($sql);
