@@ -41,4 +41,16 @@ class GlobalProvider extends ServiceProvider
         $show = number_format($data,1);
         return $show;
     }
+
+    public function cutStringCardRegency($data)
+    {
+        $show = substr($data, 2);
+        return $show;
+    }
+
+    public function cutStringCardDistrict($data)
+    {
+        $show = substr($data, 4);
+        return $show;
+    }
 }

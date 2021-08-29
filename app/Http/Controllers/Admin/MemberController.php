@@ -8,6 +8,7 @@ use App\Providers\StrRandom;
 use Illuminate\Http\Request;
 use App\Providers\QrCodeProvider;
 use App\Http\Controllers\Controller;
+use App\Providers\GlobalProvider;
 use Illuminate\Support\Facades\File;
 
 class MemberController extends Controller
@@ -95,7 +96,9 @@ class MemberController extends Controller
         $profile = $userModel->with(['village'])->where('id', $id_user)->first();
         $member  = $userModel->with(['village','reveral'])->where('user_id', $id_user)->whereNotIn('id', [$id_user])->get();
         $total_member = count($member);
-        return view('pages.admin.member.profile', compact('profile','member','total_member'));
+
+        $gF = new GlobalProvider();
+        return view('pages.admin.member.profile', compact('gF','profile','member','total_member'));
     }
 
     public function editMember($id)
@@ -176,8 +179,10 @@ class MemberController extends Controller
 
     public function downloadCard($id)
     {
+        $gF = new GlobalProvider();
+
         $profile = User::with('village')->where('id', $id)->first();
-        $pdf = PDF::LoadView('pages.card', compact('profile'))->setPaper('a4');
+        $pdf = PDF::LoadView('pages.card', compact('profile','gF'))->setPaper('a4');
         return $pdf->download('e-kta-'.$profile->name.'.pdf');
     }
 }
