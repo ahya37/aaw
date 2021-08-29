@@ -303,7 +303,7 @@
     }
     .label-right {
       width: 100%;
-      margin-left: 229px;
+      margin-left: 258px;
       margin-top: -150px;
 
       font-family: sans-serif;
@@ -312,14 +312,15 @@
       font-size: 8px;
     }
     .ttd {
-      width: 72px;
+     width: 50px;
       height: 57px;
-      margin-left: 259px;
-      margin-top: -16px;
+      margin-left: 280px;
+      margin-top: -15px;
+      transform: rotate(30deg);
     }
     .author {
       width: 72px;
-      margin-left: 259px;
+      margin-left: 273px;
       margin-top: -11px;
 
       font-family: sans-serif;
@@ -331,7 +332,7 @@
     .line {
       width: 65px;
       height: 0.93px;
-      margin-left: 259px;
+      margin-left: 273px;
       margin-top: -1px;
 
       background: #000000;
@@ -458,9 +459,9 @@
         <div class="add">
           Jl. Pantai Binuangeun No. 1 Muara, Wanasalam Lebak, Banten
         </div>
-        <div class="label-right">JARINGAN DULUR KANG ASEP AW</div>
+        <div class="label-right">KETUA UMUM JALUR AW</div>
         <div>
-          <img class="ttd" src="{{ public_path('assets/images/ttd2.png') }}" />
+          <img class="ttd" src="{{ public_path('assets/images/ttd3.png') }}" />
         </div>
         <div class="author">Asep Awaludin</div>
         <div class="line"></div>
