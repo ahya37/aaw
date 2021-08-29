@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Providers\GlobalProvider;
 use Auth;
 use App\User;
 use PDF;
@@ -31,6 +32,7 @@ class UserController extends Controller
 
     public function profileMyMember($id)
     {
+        $gF = new GlobalProvider();
         $id_user = decrypt($id);
         $userModel = new User();
         $profile = $userModel->with(['village'])->where('id', $id_user)->first();
@@ -42,7 +44,7 @@ class UserController extends Controller
         $referal_direct = $userModel->getReferalDirect($id_user);
         $referal_direct = $referal_direct->total == NULL ? 0 : $referal_direct->total; 
         $total_referal = $referal_direct + $referal_undirect;
-        return view('pages.member.profile', compact('profile','member','total_referal','referal_undirect','referal_direct'));
+        return view('pages.member.profile', compact('gF','profile','member','total_referal','referal_undirect','referal_direct'));
 
 
     }
@@ -306,8 +308,9 @@ class UserController extends Controller
 
     public function downloadCard($id)
     {
+        $gF = new GlobalProvider();
         $profile = User::with('village')->where('id', $id)->first();
-        $pdf = PDF::LoadView('pages.card', compact('profile'))->setPaper('a4');
+        $pdf = PDF::LoadView('pages.card', compact('profile','gF'))->setPaper('a4');
         return $pdf->download('e-kta-'.$profile->name.'.pdf');
     }
 

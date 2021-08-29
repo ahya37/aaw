@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Providers\GlobalProvider;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -94,7 +95,9 @@ class HomeController extends Controller
                     ->rawColumns(['action','photo','saved_nasdem','referal'])
                     ->make();
         }
+
+        $gF = new GlobalProvider();
         
-        return view('home', compact('profile','member','total_referal','referal_undirect','referal_direct'));
+        return view('home', compact('gF','profile','member','total_referal','referal_undirect','referal_direct'));
     }
 }

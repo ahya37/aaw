@@ -248,7 +248,7 @@
                                                   <br />
                                                   <br />
                                                   <b style="color: black">
-                                                   {{ $profile->village->district->regency->province->id ?? '' }}-{{ $profile->village->district->regency->id ?? '' }}-{{ $profile->village->district->id ?? '' }}-{{ $profile->number }}
+                                                   {{ $profile->village->district->regency->province->id ?? '' }}-{{$gF->cutStringCardRegency($profile->village->district->regency->id) ?? '' }}-{{$gF->cutStringCardDistrict($profile->village->district->id) ?? '' }}-{{ $profile->number }}
                                                   </b>
                                                 </p>
                                               </td>
