@@ -183,6 +183,6 @@ class MemberController extends Controller
 
         $profile = User::with('village')->where('id', $id)->first();
         $pdf = PDF::LoadView('pages.card', compact('profile','gF'))->setPaper('a4');
-        return $pdf->download('e-kta-'.$profile->name.'.pdf');
+        return $pdf->stream('e-kta-'.$profile->name.'.pdf');
     }
 }

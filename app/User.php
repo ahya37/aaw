@@ -196,7 +196,7 @@ class User extends Authenticatable
                 left join districts as c on b.district_id = c.id
                 left join regencies as d on c.regency_id = d.id
                 join users as e on a.user_id = e.id
-                where a.user_id in (SELECT id from users where user_id = $id_user)
+                where a.user_id in (SELECT id from users where id = $id_user)
                 and not a.id = $id_user";
         $result = DB::select($sql);
         return $result;
