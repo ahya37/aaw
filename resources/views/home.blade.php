@@ -76,7 +76,7 @@
                           <div class="dashboard-card-title text-white">E-KTA</div>
                           <div class="dashboard-card-subtitle text-white">
                             <h6>
-                              {{ $profile->village->district->regency->province->id }}-{{ $profile->village->district->regency->id }}-{{ $profile->village->district->id }}-{{ $profile->number }}
+                              {{ $profile->village->district->regency->province->id }}-{{$gF->cutStringCardRegency($profile->village->district->regency->id) }}-{{$gF->cutStringCardDistrict($profile->village->district->id) }}-{{$gF->cutStringCardVillage($profile->village->id) }}-{{ $profile->number }}
                             </h6>
                           </div>
                         </div>
