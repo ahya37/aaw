@@ -53,4 +53,10 @@ class GlobalProvider extends ServiceProvider
         $show = substr($data, 4);
         return $show;
     }
+
+    public function cutStringCardVillage($data)
+    {
+        $show = substr($data, 6);
+        return $show;
+    }
 }

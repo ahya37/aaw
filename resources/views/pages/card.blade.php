@@ -368,7 +368,7 @@
         <img class="img" src="{{ public_path('storage/'.$profile->photo) }}" />
         <p class="name">{{ $profile->name }}</p>
         <p class="base">Anggota</p>
-        <p class="code">{{ $profile->village->district->regency->province->id }}-{{$gF->cutStringCardRegency($profile->village->district->regency->id) }}-{{$gF->cutStringCardDistrict($profile->village->district->id) }}-{{ $profile->number }}</p>
+        <p class="code">{{ $profile->village->district->regency->province->id }}-{{$gF->cutStringCardRegency($profile->village->district->regency->id) }}-{{$gF->cutStringCardDistrict($profile->village->district->id) }}-{{$gF->cutStringCardVillage($profile->village->id) }}-{{ $profile->number }}</p>
       </div>
        <div>
       <img class="flat1" src="{{ public_path('assets/images/flat-blue.png')}}" />
