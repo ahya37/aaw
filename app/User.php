@@ -71,7 +71,7 @@ class User extends Authenticatable
         return $this->belongsTo(User::class,'user_id');
     }
 
-    public function createBy()
+    public function create_by()
     {
         return $this->belongsTo(User::class,'cby');
     }

@@ -16,9 +16,10 @@ class MemberController extends Controller
 {
     public function index()
     {
-        $userModel = new User();
-        $member    = $userModel->getAllMember();
-
+        $member = User::with(['village.district.regency','reveral','create_by'])
+                    ->whereNotNull('nik')
+                    ->whereNotIn('level',[1])
+                    ->orderBy('created_at','DESC')->get();
         if (request()->ajax()) 
         {
             return DataTables::of($member)
@@ -41,7 +42,7 @@ class MemberController extends Controller
                     })
                     ->addColumn('photo', function($item){
                         return '
-                        <a href="'.route('admin-profile-member', encrypt($item->id)).'">
+                        <a href="'.route('member-mymember', encrypt($item->id)).'">
                             <img  class="rounded" width="40" src="'.asset('storage/'.$item->photo).'">
                             '.$item->name.'
                         </a>

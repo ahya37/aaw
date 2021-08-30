@@ -66,11 +66,11 @@
             },
             columns:[
                 {data: 'photo', name:'photo'},
-                {data: 'regency', name:'regency'},
-                {data: 'district', name:'district'},
-                {data: 'village', name:'village'},
-                {data: 'referal', name:'referal'},
-                {data: 'cby', name:'cby'},
+                {data: 'village.district.regency.name', name:'village.district.regency.name'},
+                {data: 'village.district.name', name:'village.district.name'},
+                {data: 'village.name', name:'village.name'},
+                {data: 'reveral.name', name:'reveral.name'},
+                {data: 'create_by.name', name:'create_by.name'},
                 // {data: 'saved_nasdem', name:'saved_nasdem'},
                 // {
                 //     data: 'action', 
