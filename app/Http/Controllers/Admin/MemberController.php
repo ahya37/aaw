@@ -42,7 +42,7 @@ class MemberController extends Controller
                     })
                     ->addColumn('photo', function($item){
                         return '
-                        <a href="'.route('member-mymember', encrypt($item->id)).'">
+                        <a href="'.route('admin-profile-member', encrypt($item->id)).'">
                             <img  class="rounded" width="40" src="'.asset('storage/'.$item->photo).'">
                             '.$item->name.'
                         </a>
