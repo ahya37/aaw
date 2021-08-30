@@ -1,6 +1,10 @@
 <html>
   <head>
     <title>Card</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap" rel="stylesheet"> 
+   
   </head>
 
   <style>
@@ -41,7 +45,7 @@
       margin-right: 201px;
       margin-top: 9px;
 
-      font-family: sans-serif;
+      font-family: "Nunito", sans-serif;
       font-style: normal;
       font-weight: 900;
       font-size: 14px;
@@ -59,9 +63,9 @@
     }
     .img {
       /* position: absolute; */
-      width: 50px;
-      height: 60px;
-      margin-top: 10px;
+      width: 60px;
+      height: 70px;
+      margin-top: 20px;
       margin-left: 10px;
       border-radius: 8px;
     }
@@ -69,9 +73,9 @@
       position: absolute;
       width: 100%;
       height: 14px;
-      margin-top: 25px;
+      margin-top: 50px;
       margin-left: 8px;
-      font-family: sans-serif;
+      font-family: "Nunito", sans-serif;
       font-style: normal;
       font-weight: bold;
       font-size: 12px;
@@ -84,10 +88,10 @@
       position: absolute;
       width: 100%;
       height: 16px;
-      margin-top: 40px;
+      margin-top: 65px;
       margin-left: 3px;
 
-      font-family: sans-serif;
+      font-family: "Nunito", sans-serif;
       font-style: normal;
       font-weight: bold;
       font-size: 10px;
@@ -99,10 +103,10 @@
       position: absolute;
      width: 100%;
       height: 14px;
-      margin-top: 53px;
+      margin-top: 78px;
       /* margin-left: 2px; */
 
-      font-family: sans-serif;
+      font-family: "Nunito", sans-serif;
       font-style: normal;
       font-weight: bold;
       font-size: 10px;
@@ -115,9 +119,9 @@
      width: 100%;
       height: 14px;
       left: 358px;
-      top: 480px;
+      top: 485px;
 
-      font-family: sans-serif;
+      font-family: "Nunito", sans-serif;
       font-style: normal;
       font-weight: normal;
       font-size: 10px;
@@ -130,9 +134,9 @@
       width: 100%;
       height: 14px;
       left: 358px;
-      top: 494px;
+      top: 500px;
 
-      font-family: sans-serif;
+      font-family: "Nunito", sans-serif;
       font-style: normal;
       font-weight: normal;
       font-size: 10px;
@@ -145,9 +149,9 @@
       width: 100%;
       height: 14px;
       left: 358px;
-      top: 507px;
+      top: 515px;
 
-      font-family: sans-serif;
+      font-family: "Nunito", sans-serif;
       font-style: normal;
       font-weight: bold;
       font-size: 10px;
@@ -160,7 +164,7 @@
       /* left: 100px;
       top: 178px; */
       /* background: #002efe; */
-      top:73.5px;
+      top:53.5px;
     }
     .flat2 {
       position: absolute;
@@ -180,10 +184,10 @@
       position: absolute;
       width: 40px;
       height: 9px;
-      left: 668px;
-      top: 447px;
+      left: 658px;
+      top: 457px;
 
-      font-family: sans-serif;
+      font-family: "Nunito", sans-serif;
       font-style: bold;
       font-weight: 900;
       font-size: 10px;
@@ -193,10 +197,10 @@
     }
     .layout-qr {
       position: absolute;
-      width: 45px;
-      height: 50px;
-      left: 664px;
-      top: 460px;
+      width: 60px;
+      height: 60px;
+      left: 644px;
+      top: 470px;
 
       background: #ffffff;
       border: 2px solid #002efe;
@@ -205,10 +209,11 @@
     }
     .qr {
       /* position: absolute; */
-      width: 100%;
-      height: 100%;
+      width: 93%;
+      /* height: 100%; */
       /* left: 665px;
       top: 461px; */
+      padding: 2px;
       border-radius: 3px;
     }
     .flat-right {
@@ -232,7 +237,7 @@
       margin-top: 2px;
       margin-bottom: 2px;
 
-      font-family: sans-serif;
+      font-family: "Nunito", sans-serif;
       font-style: normal;
       font-weight: 900;
       font-size: 10px;
@@ -245,12 +250,12 @@
       width: 50%;
       height: 10px;
       margin-left: 3px;
-      margin-top: 1px;
+      margin-top: -2px;
 
-      font-family: sans-serif;
+      font-family: "Nunito", sans-serif;
       font-style: bold;
       font-weight: 900;
-      font-size: 10px;
+      font-size: 8px;
       line-height: 5px;
     }
     .name-lable3 {
@@ -260,19 +265,19 @@
       margin-top: -2px;
       margin-bottom: 1px;
 
-      font-family: sans-serif;
+      font-family: "Nunito", sans-serif;
       font-style: bold;
       font-weight: 900;
-      font-size: 10px;
+      font-size: 8px;
     }
     .desc {
       width: 100%;
       margin-left: 4px;
       margin-top: -100px;
 
-      font-family: sans-serif;
+      font-family: "Nunito", sans-serif;
       font-style: normal;
-      font-size: 9px;
+      font-size: 7.8px;
       line-height: 8px;
 
       color: #000000;
@@ -281,12 +286,12 @@
       width: 100%;
       height: 10px;
       margin-left: 20px;
-      margin-top: 2px;
+      margin-top: 1px;
 
-      font-family: sans-serif;
+      font-family: "Nunito", sans-serif;
       font-style: bold;
       font-weight: 900;
-      font-size: 10px;
+      font-size: 8px;
       /* identical to box height */
 
       color: #000000;
@@ -297,16 +302,16 @@
       margin-left: 20px;
       margin-top: 2px;
 
-      font-family: sans-serif;
+      font-family: "Nunito", sans-serif;
       font-style: normal;
-      font-size: 9px;
+      font-size: 7.8px;
     }
     .label-right {
       width: 100%;
       margin-left: 258px;
       margin-top: -150px;
 
-      font-family: sans-serif;
+      font-family: "Nunito", sans-serif;
       font-style: bold;
       font-weight: 900;
       font-size: 8px;
@@ -323,7 +328,7 @@
       margin-left: 273px;
       margin-top: -11px;
 
-      font-family: sans-serif;
+      font-family: "Nunito", sans-serif;
       font-style: bold;
       font-weight: 900;
       font-size: 9px;
@@ -343,7 +348,7 @@
       margin-left: 600px;
       top: 229px;
 
-      font-family: Seaweed Script;
+      font-family: "Nunito", sans-serif;
       font-style: normal;
       font-weight: normal;
       font-size: 50px;
@@ -353,6 +358,22 @@
       text-align: center;
 
       color: #0070FF;
+
+    }
+    .title-bottom{
+      width: 100%;
+      /* height: 10px; */
+      /* left: 560px; */
+      margin-left: 212px;
+      margin-top: 63px;
+
+      font-family: "Nunito", sans-serif;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 9px;
+      line-height: 12px;
+
+      color: #FFFFFF;
 
     }
   </style>
@@ -370,17 +391,20 @@
         <p class="base">Anggota</p>
         <p class="code">{{ $profile->village->district->regency->province->id }}-{{$gF->cutStringCardRegency($profile->village->district->regency->id) }}-{{$gF->cutStringCardDistrict($profile->village->district->id) }}-{{$gF->cutStringCardVillage($profile->village->id) }}-{{ $profile->number }}</p>
       </div>
-       <div>
-      <img class="flat1" src="{{ public_path('assets/images/flat-blue.png')}}" />
-    </div>
-    <div>
-      <img class="flat3" src="{{ public_path('assets/images/flat3-left.png')}}" />
-    </div>
-    <div>
-      <img class="flat2" src="{{ public_path('assets/images/flat2-left.png')}}" />
-    </div>
-  
-
+      <div>
+        <img class="flat1" src="{{ public_path('assets/images/flat-blue.png')}}" />
+      </div>
+      <div>
+        <img class="flat3" src="{{ public_path('assets/images/flat3-left.png')}}" />
+      </div>
+      <div>
+        <img class="flat2" src="{{ public_path('assets/images/flat2-left.png')}}" />
+      </div>
+      <div>
+        <p class="title-bottom">
+          JARINGAN DULUR KANG ASEP AW
+        </p>
+      </div>
     </div>
     <div class="address">
       <p>{{ $profile->address }}</p>
@@ -458,6 +482,8 @@
         <div class="sekretariat">Sekretariat JALUR AAW</div>
         <div class="add">
           Jl. Pantai Binuangeun No. 1 Muara, Wanasalam Lebak, Banten
+          <br><br>
+          admin@putramuara.com
         </div>
         <div class="label-right">KETUA UMUM JALUR AW</div>
         <div>
