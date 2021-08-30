@@ -71,6 +71,27 @@ class User extends Authenticatable
         return $this->belongsTo(User::class,'user_id');
     }
 
+    public function createBy()
+    {
+        return $this->belongsTo(User::class,'cby');
+    }
+
+    public function getAllMember()
+    {
+        $sql = "SELECT a.id, a.photo, a.name, e.name as referal, e.id as referal_id, 
+                e.photo as photo_referal, b.name as village, 
+                c.name as district, d.name as regency, f.name as cby
+                from users as a
+                left join villages as b on a.village_id = b.id
+                left join districts as c on b.district_id = c.id
+                left join regencies as d on c.regency_id = d.id
+                join users as e on a.user_id = e.id
+                join users as f on e.id = f.cby
+                where a.nik is not null and not  a.level = 1
+                order by a.name asc";
+        return DB::select($sql);
+    }
+
     public function getMemberProvince($province_id)
     {
         $sql = "SELECT a.name

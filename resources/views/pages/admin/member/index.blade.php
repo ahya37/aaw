@@ -1,10 +1,9 @@
 @extends('layouts.admin')
 @section('title','Anggota Terdaftar')
 @push('addon-style')
-    <link
-      href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"
-      rel="stylesheet"
-    />
+         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.24/datatables.min.css"/>
+      <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
 @endpush
 @section('content')
 <!-- Section Content -->
@@ -26,42 +25,19 @@
                     <div class="card">
                       <div class="card-body">
                        <div class="table-responsive">
-                                  <table id="data" class="table table-sm table-striped">
+                                  <table id="data" class="table table-sm table-striped" width="100%">
                                     <thead>
                                       <tr>
                                         <th scope="col">Nama</th>
                                         <th scope="col">Kabupaten/Kota</th>
                                         <th scope="col">Kecamatan</th>
                                         <th scope="col">Desa</th>
-                                        <th scope="col">Rekomendasi Dari</th>
+                                        <th scope="col">Referal Dari</th>
+                                        <th scope="col">Input Dari</th>
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      @foreach ($member as $row)
-                                      <tr>
-                                        <td>
-                                          <a href="{{ route('admin-profile-member', encrypt($row->id)) }}">
-                                            <img
-                                              src="{{ asset('storage/'.$row->photo) ?? ''}}"
-                                              class="rounded"
-                                              width="30"
-                                            />
-                                            {{ $row->name }}
-                                          </a>
-                                        </td>
-                                        <td>{{ $row->village->district->regency->name ?? '' }}</td>
-                                        <td>{{ $row->village->district->name ?? '' }}</td>
-                                        <td>{{ $row->village->name ?? '' }}</td>
-                                        <td>
-                                            {{-- <img
-                                              src="{{ asset('storage/'.$row->reveral->photo) ?? ''}}"
-                                              class="rounded"
-                                              width="30"
-                                            /> --}}
-                                            {{ $row->reveral->name ?? '' }}
-                                        </td>
-                                      </tr>
-                                      @endforeach
+                                     
                                     </tbody>
                                   </table>
                         </div>
@@ -75,10 +51,35 @@
 @endsection
 
 @push('addon-script')
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.24/datatables.min.js"></script>
+
     <script>
-      $(document).ready(function () {
-        $("#data").DataTable();
-      });
+     var datatable = $('#data').DataTable({
+            processing: true,
+            language:{
+              processing: '<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>'
+            },
+            serverSide: true,
+            ordering: true,
+            ajax: {
+                url: '{!! url()->current() !!}',
+            },
+            columns:[
+                {data: 'photo', name:'photo'},
+                {data: 'regency', name:'regency'},
+                {data: 'district', name:'district'},
+                {data: 'village', name:'village'},
+                {data: 'referal', name:'referal'},
+                {data: 'cby', name:'cby'},
+                // {data: 'saved_nasdem', name:'saved_nasdem'},
+                // {
+                //     data: 'action', 
+                //     name:'action',
+                //     orderable: false,
+                //     searchable: false,
+                //     width: '15%'
+                // },
+            ]
+        });
     </script>
 @endpush
