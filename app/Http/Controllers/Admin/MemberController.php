@@ -19,7 +19,7 @@ class MemberController extends Controller
         $member = User::with(['village.district.regency','reveral','create_by'])
                     ->whereNotNull('nik')
                     ->whereNotIn('level',[1])
-                    ->orderBy('created_at','DESC')->get();
+                    ->orderBy('name','ASC')->get();
         if (request()->ajax()) 
         {
             return DataTables::of($member)
