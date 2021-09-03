@@ -15,7 +15,6 @@ use Maatwebsite\Excel\Excel;
 use App\Providers\GlobalProvider;
 use App\Providers\QrCodeProvider;
 use Illuminate\Support\Facades\File;
-use App\Providers\ExportDataProvider;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
@@ -123,9 +122,9 @@ class UserController extends Controller
                       'user_id' => $cek_code->id,
                       'code' => $string,
                       'nik'  => $request->nik,
-                      'name' => $request->name,
+                      'name' => strtoupper($request->name),
                       'gender' => $request->gender,
-                      'place_berth' => $request->place_berth,
+                      'place_berth' => strtoupper($request->place_berth),
                       'date_berth' => date('Y-m-d', strtotime($request->date_berth)),
                       'blood_group' => $request->blood_group,
                       'marital_status' => $request->marital_status,
@@ -139,7 +138,7 @@ class UserController extends Controller
                       'village_id'   => $request->village_id,
                       'rt'           => $request->rt,
                       'rw'           => $request->rw,
-                      'address'      => $request->address,
+                      'address'      => strtoupper($request->address),
                       'photo'        => $photo,
                       'ktp'          => $ktp,
                       'cby'          => Auth::user()->id,
@@ -201,9 +200,9 @@ class UserController extends Controller
 
             $user->update([
                 'nik'  => $request->nik,
-                'name' => $request->name,
+                'name' => strtoupper($request->name),
                 'gender' => $request->gender,
-                'place_berth' => $request->place_berth,
+                'place_berth' => strtoupper($request->place_berth),
                 'date_berth' => date('Y-m-d', strtotime($request->date_berth)),
                 'blood_group' => $request->blood_group,
                 'marital_status' => $request->marital_status,
@@ -216,7 +215,7 @@ class UserController extends Controller
                 'village_id'   => $request->village_id,
                 'rt'           => $request->rt,
                 'rw'           => $request->rw,
-                'address'      => $request->address,
+                'address'      => strtoupper($request->address),
                 'photo'        => $photo,
                 'ktp'          => $ktp
             ]);
@@ -226,9 +225,9 @@ class UserController extends Controller
         }else{
             $user->update([
                 'nik'  => $request->nik,
-                'name' => $request->name,
+                'name' => strtoupper($request->name),
                 'gender' => $request->gender,
-                'place_berth' => $request->place_berth,
+                'place_berth' => strtoupper($request->place_berth),
                 'date_berth' => date('Y-m-d', strtotime($request->date_berth)),
                 'blood_group' => $request->blood_group,
                 'marital_status' => $request->marital_status,
@@ -241,7 +240,7 @@ class UserController extends Controller
                 'village_id'   => $request->village_id,
                 'rt'           => $request->rt,
                 'rw'           => $request->rw,
-                'address'      => $request->address,
+                'address'      => strtoupper($request->address),
             ]);
         }
 
@@ -272,9 +271,9 @@ class UserController extends Controller
             $ktp   = $request->ktp   != null ? $request->file('ktp')->store('assets/user/ktp','public') : $user->ktp;
 
             $user->update([
-                'name' => $request->name,
+                'name' => strtoupper($request->name),
                 'gender' => $request->gender,
-                'place_berth' => $request->place_berth,
+                'place_berth' => strtoupper($request->place_berth),
                 'date_berth' => date('Y-m-d', strtotime($request->date_berth)),
                 'blood_group' => $request->blood_group,
                 'marital_status' => $request->marital_status,
@@ -287,7 +286,7 @@ class UserController extends Controller
                 'village_id'   => $request->village_id,
                 'rt'           => $request->rt,
                 'rw'           => $request->rw,
-                'address'      => $request->address,
+                'address'      => strtoupper($request->address),
                 'photo'        => $photo,
                 'ktp'          => $ktp,
                 'cby'          => Auth::user()->id,
@@ -295,9 +294,9 @@ class UserController extends Controller
 
         }else{
             $user->update([
-                'name' => $request->name,
+                'name' => strtoupper($request->name),
                 'gender' => $request->gender,
-                'place_berth' => $request->place_berth,
+                'place_berth' => strtoupper($request->place_berth),
                 'date_berth' => date('Y-m-d', strtotime($request->date_berth)),
                 'blood_group' => $request->blood_group,
                 'marital_status' => $request->marital_status,
@@ -310,7 +309,7 @@ class UserController extends Controller
                 'village_id'   => $request->village_id,
                 'rt'           => $request->rt,
                 'rw'           => $request->rw,
-                'address'      => $request->address,
+                'address'      => strtoupper($request->address),
                 'cby'          => Auth::user()->id,
             ]);
         }

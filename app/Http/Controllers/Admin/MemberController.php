@@ -100,9 +100,9 @@ class MemberController extends Controller
                       'user_id' => $cek_code->id,
                       'code' => $string,
                       'nik'  => $request->nik,
-                      'name' => $request->name,
+                      'name' => strtoupper($request->name),
                       'gender' => $request->gender,
-                      'place_berth' => $request->place_berth,
+                      'place_berth' => strtoupper($request->place_berth),
                       'date_berth' => date('Y-m-d', strtotime($request->date_berth)),
                       'blood_group' => $request->blood_group,
                       'marital_status' => $request->marital_status,
@@ -116,7 +116,7 @@ class MemberController extends Controller
                       'village_id'   => $request->village_id,
                       'rt'           => $request->rt,
                       'rw'           => $request->rw,
-                      'address'      => $request->address,
+                      'address'      => strtoupper($request->address),
                       'photo'        => $photo,
                       'ktp'          => $ktp,
                       'cby'          => 16,
@@ -176,9 +176,9 @@ class MemberController extends Controller
 
             $user->update([
                 'nik'  => $request->nik,
-                'name' => $request->name,
+                'name' => strtoupper($request->name),
                 'gender' => $request->gender,
-                'place_berth' => $request->place_berth,
+                'place_berth' => strtoupper($request->place_berth),
                 'date_berth' => date('Y-m-d', strtotime($request->date_berth)),
                 'blood_group' => $request->blood_group,
                 'marital_status' => $request->marital_status,
@@ -191,7 +191,7 @@ class MemberController extends Controller
                 'village_id'   => $request->village_id,
                 'rt'           => $request->rt,
                 'rw'           => $request->rw,
-                'address'      => $request->address,
+                'address'      => strtoupper($request->address),
                 'photo'        => $photo,
                 'ktp'          => $ktp
             ]);
@@ -199,9 +199,9 @@ class MemberController extends Controller
         }else{
             $user->update([
                 'nik'  => $request->nik,
-                'name' => $request->name,
+                'name' => strtoupper($request->name),
                 'gender' => $request->gender,
-                'place_berth' => $request->place_berth,
+                'place_berth' => strtoupper($request->place_berth),
                 'date_berth' => date('Y-m-d', strtotime($request->date_berth)),
                 'blood_group' => $request->blood_group,
                 'marital_status' => $request->marital_status,
@@ -214,7 +214,7 @@ class MemberController extends Controller
                 'village_id'   => $request->village_id,
                 'rt'           => $request->rt,
                 'rw'           => $request->rw,
-                'address'      => $request->address,
+                'address'      => strtoupper($request->address),
             ]);
         }
 
