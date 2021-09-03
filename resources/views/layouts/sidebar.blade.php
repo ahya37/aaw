@@ -1,20 +1,16 @@
 <div class="border-right" id="sidebar-wrapper">
           <div class="sidebar-heading text-center">
-            <img src="{{ asset('assets/images/logos.png') }}" width="150" />
+            <img src="{{ asset('assets/images/logo2-3.png') }}" width="170" />
           </div>
           <div class="list-group list-group-flush">
+            @foreach ($userMenu as $menu)
             <a
-              href="{{ route('home') }}"
-              class="list-group-item list-group-item-action {{ (request()->is('user/home*')) ? 'active' : '' }}"
+              href="{{ route($menu->route) }}"
+              class="list-group-item list-group-item-action {{ (request()->is($menu->url.'*')) ? 'active' : '' }}"
             >
-              Dashboard
+              {{ $menu->menu }}
             </a>
-            <a
-              href="{{ route('member-create') }}"
-              class="list-group-item list-group-item-action {{ (request()->is('user/member/create*')) ? 'active' : '' }}"
-            >
-              Buat Anggota Baru
-            </a>
+            @endforeach
              <a class="list-group-item d-lg-none list-group-item-action" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">

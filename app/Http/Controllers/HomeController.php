@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Providers\GlobalProvider;
+use App\AdminDistrict;
+use App\Job;
 use App\User;
+use App\Referal;
+use App\Models\Village;
+use App\Models\District;
 use Illuminate\Http\Request;
+use App\Providers\GlobalProvider;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -30,7 +35,12 @@ class HomeController extends Controller
         #jika data profil belum dilengkapi
         $id_user   = Auth::user()->id;
         $userModel = new User();
-        $user    = $userModel->with(['reveral'])->select('nik','user_id')->where('id', $id_user)->first();
+        $user    = $userModel->with(['reveral'])->select('nik','user_id','status')->where('id', $id_user)->first();
+
+        // jika user belum melakukan verifikasi email
+        if ($user->status == 0) {
+            return view('pages.before-verify-email');
+        }
 
         // jika user_id null,  atau belum konek ke reveral
         if ($user->user_id == null) {
@@ -83,16 +93,7 @@ class HomeController extends Controller
                     ->addColumn('referal', function($item){
                         return $item->referal;
                     })
-                    // ->addColumn('saved_nasdem', function($item){
-                    //    if ($item->saved_nasdem == 1) {
-                    //        return '<img src="'.asset('assets/images/check-saved.svg').'">';
-                    //    }elseif ($item->saved_nasdem == 2) {
-                    //        return '<img src="'.asset('assets/images/check-registered.svg').'">';
-                    //    }else{
-
-                    //    }
-                    // })
-                    ->rawColumns(['action','photo','saved_nasdem','referal'])
+                    ->rawColumns(['action','photo','referal'])
                     ->make();
         }
 
@@ -100,4 +101,114 @@ class HomeController extends Controller
         
         return view('home', compact('gF','profile','member','total_referal','referal_undirect','referal_direct'));
     }
+
+    public function dashboardAdminDistrict()
+    {
+        $district_id = $this->getDistrictIdbyAdmin(); // get district_id berdasarkan user_id admin yg login
+        
+        $district    = District::with(['regency'])->where('id', $district_id)->first();
+        // jumlah anggota di kecamatan
+        $userModel  = new User();
+        $member     = $userModel->getMemberDistrict($district_id);
+        $total_member = count($member);
+
+        // perentasi anggot  di kecamatan
+        $districtModel    = new District();
+        $target_member    = $districtModel->where('id',$district_id)->get()->count() * 5000; // target anggota tercapai, per kecamatan 1000 target
+        $persentage_target_member = ($total_member / $target_member) * 100; // persentai terdata
+
+        $villageModel   = new Village();
+        $villages       = $villageModel->getVillagesDistrct($district_id); // fungsi total desa di kab
+        $total_village  = count($villages);
+
+        $village_filled = $villageModel->getVillageFilledDistrict($district_id); //fungsi total desa yang terisi 
+        $total_village_filled      = count($village_filled); // total desa yang terisi
+        $presentage_village_filled = ($total_village_filled / $total_village) * 100; // persentasi jumlah desa terisi
+
+        // Grfaik Data member
+        $districts = $districtModel->getGrafikTotalMemberDistrict($district_id);
+        $cat_districts      = [];
+        $cat_districts_data = [];
+        foreach ($districts as $val) {
+            $cat_districts[] = $val->district; 
+            $cat_districts_data[] = [
+                "y" => $val->total_member,
+                "url" => route('admin-dashboard-district', $val->distric_id)
+            ];
+        }
+
+        // grafik data job
+        $jobModel = new Job();
+        $jobs     = $jobModel->getJobDistrict($district_id);
+        $cat_jobs =[];
+        foreach ($jobs as  $val) {
+            $cat_jobs[] = [
+                "name" => $val->name,
+                "y"    => $val->total_job
+            ];
+        }
+        
+        // grafik data jenis kelamin
+        $gender = $userModel->getGenderDistrict($district_id);
+        $cat_gender =[];
+        $all_gender = [];
+
+        // untuk menghitung jumlah keseluruhan jenis kelamin L/P
+        $total_gender = 0;
+        foreach ($gender as $key => $value) {
+            $total_gender += $value->total;
+        }
+        
+        foreach ($gender as  $val) {
+            $all_gender[]  = $val->total;
+            $cat_gender[] = [
+                "name" => $val->gender == 0 ? 'Pria' : 'Wanita',
+                "y"    => ($val->total/$total_gender)*100
+            ];
+        }
+
+        $total_male_gender   = empty($all_gender[0]) ?  0 :  $all_gender[0];; // total gender pria
+        $total_female_gender = empty($all_gender[1]) ?  0 :  $all_gender[1]; // total gender wanita
+        
+        // range umur
+        $range_age     = $userModel->rangeAgeDistrict($district_id);
+        $cat_range_age = [];
+        $cat_range_age_data = [];
+        foreach ($range_age as $val) {
+            $cat_range_age[]      = $val->range_age;
+            $cat_range_age_data[] = [
+                'y'    => $val->total
+            ];
+        }
+
+        $gF   = app('GlobalProvider'); // global function
+
+         // Daftar pencapaian lokasi / daerah
+        $achievments   = $villageModel->achievementVillage($district_id);
+        if (request()->ajax()) {
+            return DataTables::of($achievments)->make();
+        }
+
+        // anggota dengan referal terbanyak
+        $referalModel = new Referal();
+        $referal      = $referalModel->getReferalDistrict($district_id);
+        $cat_referal      = [];
+        $cat_referal_data = [];
+        foreach ($referal as $val) {
+            $cat_referal[] = $val->name; 
+            $cat_referal_data[] = [
+                "y" => $val->total_referal
+            ];
+        }
+        return view('pages.admin-district.dashboard-district',compact('district_id','cat_referal_data','cat_referal','cat_range_age_data','cat_range_age','total_male_gender','total_female_gender','cat_gender','cat_jobs','cat_districts','cat_districts_data','total_village_filled','presentage_village_filled','total_village','target_member','persentage_target_member','district','gF','total_member'));
+    }
+
+    public function getDistrictIdbyAdmin()
+    {
+        $user_id = Auth::user()->id;
+        $adminDistrtictModel = new AdminDistrict();
+        $district_id         = $adminDistrtictModel->getDataDistrictIdbyAdmin($user_id)->district_id;
+        return $district_id;
+    }
+
 }

@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Education;
+use App\Job;
 use App\User;
+use App\Education;
+use App\Mail\RegisterMail;
+use Illuminate\Support\Str;
 use App\Providers\StrRandom;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Job;
 use App\Providers\QrCodeProvider;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -75,8 +78,11 @@ class RegisterController extends Controller
             'code' => $string,
             'name' => $data['name'],
             'email' => $data['email'],
+            'activate_token' => Str::random(10),
             'password' => Hash::make($data['password']),
         ]);
+
+        Mail::to($data['email'])->send(new RegisterMail($user)); // send email untuk verifikasi akun
 
         #generate qrcode
         $qrCode       = new QrCodeProvider();

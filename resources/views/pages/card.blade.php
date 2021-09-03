@@ -153,9 +153,32 @@
 
       font-family: "Nunito", sans-serif;
       font-style: normal;
-      font-weight: bold;
       font-size: 10px;
       line-height: 12px;
+    }
+    .labelregkta{
+        position: absolute;
+        width: 100%;
+        height: 14px;
+        left: 580px;
+        top: 500px;
+
+        font-family: "Nunito", sans-serif;
+        font-style: normal;
+        font-size: 10px;
+        line-height: 12px;
+    }
+    .regkta{
+        position: absolute;
+        width: 100%;
+        height: 14px;
+        left: 580px;
+        top: 513px;
+
+        font-family: "Nunito", sans-serif;
+        font-style: normal;
+        font-size: 10px;
+        line-height: 12px;
     }
     .flat1 {
       position: absolute;
@@ -224,8 +247,8 @@
       top: 376px;
     }
     .logo2 {
-      width: 87px;
-      height: 58px;
+      width: 70px;
+      /* height: 50px; */
       margin-left: 281px;
       margin-top: -60px;
       margin-bottom: 101.9px;
@@ -262,6 +285,18 @@
       width: 60%;
       height: 10px;
       margin-left: 6px;
+      margin-top: -2px;
+      margin-bottom: 1px;
+
+      font-family: "Nunito", sans-serif;
+      font-style: bold;
+      font-weight: 900;
+      font-size: 8px;
+    }
+    .name-lable4 {
+      width: 60%;
+      height: 10px;
+      margin-left: 12px;
       margin-top: -2px;
       margin-bottom: 1px;
 
@@ -376,6 +411,16 @@
       color: #FFFFFF;
 
     }
+    .title-logo{
+        position: absolute;
+      width: 80px;
+      left: 635px;
+      top: 422px;
+
+      font-family: "Nunito", sans-serif;
+      font-size: 3.2px;
+      font-style: bold;
+    }
   </style>
 
   <body>
@@ -389,7 +434,7 @@
         <img class="img" src="{{ public_path('storage/'.$profile->photo) }}" />
         <p class="name">{{ $profile->name }}</p>
         <p class="base">Anggota</p>
-        <p class="code">{{ $profile->village->district->regency->province->id }}-{{$gF->cutStringCardRegency($profile->village->district->regency->id) }}-{{$gF->cutStringCardDistrict($profile->village->district->id) }}-{{$gF->cutStringCardVillage($profile->village->id) }}-{{ $profile->number }}</p>
+        <p class="code">{{ $profile->village->district->regency->province->id }}{{$gF->cutStringCardRegency($profile->village->district->regency->id) }}-{{$gF->cutStringCardDistrict($profile->village->district->id) }}{{$gF->cutStringCardVillage($profile->village->id) }}-{{ $profile->number }}</p>
       </div>
       <div>
         <img class="flat1" src="{{ public_path('assets/images/flat-blue.png')}}" />
@@ -407,15 +452,25 @@
       </div>
     </div>
     <div class="address">
-      <p>{{ $profile->address }}</p>
+      <p>{{ strtoupper($profile->address)  ?? ''}} RT/RW {{'0'. strtoupper($profile->rt)  ?? ''}}/{{'0'. strtoupper($profile->rw)  ?? ''}}</p>
     </div>
     <div class="regency">
-      <p>{{ $profile->village->name }},{{ $profile->village->district->name }},{{ $profile->village->district->regency->name }}</p>
+      <p>{{ $profile->village->name  ?? ''}}, {{'KECAMATAN '. $profile->village->district->name ?? '' }}</p>
     </div>
     <div class="province">
-      <p>{{ $profile->village->district->regency->province->name }}</p>
+      <p>{{ $profile->village->district->regency->name ?? '' }} - {{ $profile->village->district->regency->province->name ?? '' }}</p>
     </div>
-
+    <div class="labelregkta">
+      <p>Reg. eKTA</p>
+    </div>
+     <div class="regkta">
+      <p>{{$gF->mountFormat(date('m', strtotime($profile->created_at))) }} {{date('Y', strtotime($profile->created_at)) }}</p>
+    </div>
+    <div class="title-logo">
+      <b>
+      JARINGAN DULUR KANG ASEP AWALUDIN
+      </b>
+    </div>
     <div class="scan">S C A N</div>
     <div class="layout-qr">
       <img class="qr" src="{{ public_path('storage/assets/user/qrcode/'.$profile->code.'.png')}}" />
@@ -451,7 +506,7 @@
         </table>
         <div class="name-lable3">KARTU TANDA ANGGOTA JALUR AAW</div>
         <div>
-          <img class="logo2" src="{{ public_path('assets/images/logo-aaw.png') }}" />
+          <img class="logo2" src="{{ public_path('assets/images/logo2-3.png') }}" />
         </div>
         <table class="desc" cellpadding="0" cellspacing="1">
           <tr>
@@ -485,7 +540,7 @@
           <br><br>
           admin@putramuara.com
         </div>
-        <div class="label-right">KETUA UMUM JALUR AW</div>
+        <div class="label-right">KETUA UMUM JALUR AAW</div>
         <div>
           <img class="ttd" src="{{ public_path('assets/images/ttd3.png') }}" />
         </div>

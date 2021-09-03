@@ -291,5 +291,15 @@ class User extends Authenticatable
         return $result;
     }
 
+    public function getMemberForCreateAdmin($district_id)
+    {
+        $sql = "SELECT a.id, a.name, c.user_id FROM users as a
+                join villages as b on a.village_id = b.id
+                left join admin_districts as c on a.id = c.user_id 
+                where b.district_id = $district_id  and c.user_id is NULL ";
+        $result = DB::select($sql);
+        return $result;
+    }
+
 
 }

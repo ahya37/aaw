@@ -60,7 +60,7 @@ class MemberController extends Controller
 
                     //    }
                     // })
-                    ->rawColumns(['action','photo','saved_nasdem','referal'])
+                    ->rawColumns(['action','photo','referal'])
                     ->make();
         }
         return view('pages.admin.member.index');
@@ -118,7 +118,8 @@ class MemberController extends Controller
                       'rw'           => $request->rw,
                       'address'      => $request->address,
                       'photo'        => $photo,
-                      'ktp'          => $ktp
+                      'ktp'          => $ktp,
+                      'cby'          => 16,
                   ]);
    
                   #generate qrcode

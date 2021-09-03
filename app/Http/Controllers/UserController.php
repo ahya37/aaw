@@ -2,17 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Providers\GlobalProvider;
-use Auth;
-use App\User;
 use PDF;
+use Auth;
+use App\Menu;
+use App\User;
+use App\UserMenu;
+use App\AdminDistrict;
+use App\Models\District;
 use App\Providers\StrRandom;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Excel;
+use App\Providers\GlobalProvider;
 use App\Providers\QrCodeProvider;
 use Illuminate\Support\Facades\File;
+use App\Providers\ExportDataProvider;
+use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
+    private $district_id;
+
+    public function __construct(District $district_id)
+    {
+        $this->district_id = $district_id;
+    }
+    
     public function index()
     {
         $id      = Auth::user()->id;
@@ -67,7 +81,7 @@ class UserController extends Controller
             return redirect()->back()->with(['error' => 'kode Reveral tidak tersedia']);
         }else{
             $user    = User::where('id', $id)->first();
-            $user->update(['user_id' => $user_id->id]);
+            $user->update(['user_id' => $user_id->id,'cby' => Auth::user()->id]);
         }
 
         return redirect()->route('user-create-profile')->with(['success' => 'koder Reveral berhasil disimpan']);
@@ -127,7 +141,8 @@ class UserController extends Controller
                       'rw'           => $request->rw,
                       'address'      => $request->address,
                       'photo'        => $photo,
-                      'ktp'          => $ktp
+                      'ktp'          => $ktp,
+                      'cby'          => Auth::user()->id,
                   ]);
    
                   #generate qrcode
@@ -158,6 +173,18 @@ class UserController extends Controller
         
         $user = User::where('id', $id)->first();
         $id = encrypt($id);
+
+        // set secara defualt menunya ketika mendaftar
+        $menu_default = Menu::select('id','name')->get();
+        // karena menu dashboard itu ada di array pertama maka kita hapus,
+        // karena saat mendaftar user tidak bisa mengakses menu dashboard jika bukan admin district 
+        unset($menu_default[0]);
+        foreach($menu_default as $val){
+            UserMenu::create([
+                'user_id' => $user->id,
+                'menu_id' => $val->id
+            ]);
+        }         
 
         if ($request->hasFile('photo') || $request->hasFile('ktp')) {
             // delete foto lama
@@ -193,6 +220,8 @@ class UserController extends Controller
                 'photo'        => $photo,
                 'ktp'          => $ktp
             ]);
+
+            // simpan data ke user menu untuk akses menu default
 
         }else{
             $user->update([
@@ -260,7 +289,8 @@ class UserController extends Controller
                 'rw'           => $request->rw,
                 'address'      => $request->address,
                 'photo'        => $photo,
-                'ktp'          => $ktp
+                'ktp'          => $ktp,
+                'cby'          => Auth::user()->id,
             ]);
 
         }else{
@@ -281,6 +311,7 @@ class UserController extends Controller
                 'rt'           => $request->rt,
                 'rw'           => $request->rw,
                 'address'      => $request->address,
+                'cby'          => Auth::user()->id,
             ]);
         }
 
@@ -343,5 +374,62 @@ class UserController extends Controller
         $member     = $userModel->getDataByReferalDirect($id_user);
         return $member; 
     }
-    
+
+    public function memberByAdminDistrict($district_id)
+    {
+        $district_id = decrypt($district_id); 
+        // $userModel   = new User();
+        // $member      = $userModel->getMemberDistrict($district_id);
+         $member = User::with(['village.district.regency','reveral','create_by'])
+                    ->whereNotNull('nik')
+                    ->whereNotIn('id', [Auth::user()->id])
+                    ->whereHas('village', function($q) use ($district_id){
+                        $q->where('district_id', $district_id);
+                    })
+                    ->orderBy('name','ASC')->get();
+        if (request()->ajax()) 
+        {
+            return DataTables::of($member)
+                    ->addColumn('action', function($item){
+                        return '
+                            <div class="btn-group">
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-sc-primary text-white dropdown-toggle mr-1 mb-1" type="button" data-toggle="dropdown">...</button>
+                                    <div class="dropdown-menu">
+                                         <button type="button" class="dropdown-item" onclick="saved('.$item->id.')" id="'.$item->id.'" member="'.$item->name.'">
+                                                Sudah Tersimpan di Nasdem
+                                            </button>
+                                            <button type="button" class="dropdown-item text-danger" onclick="registered('.$item->id.')" id="'.$item->id.'" member="'.$item->name.'">
+                                                Sudah Terdaftar di Nasdem
+                                            </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ';
+                    })
+                    ->addColumn('photo', function($item){
+                        return '
+                            <img  class="rounded" width="40" src="'.asset('storage/'.$item->photo).'">
+                            '.$item->name.'
+                        ';
+                    })
+                    ->addColumn('referal', function($item){
+                        return $item->referal;
+                    })
+                    ->rawColumns(['action','photo','referal'])
+                    ->make();
+        }
+       return view('pages.admin-district.all-member');
+    }
+
+    public function verificationEmail($activate_token)
+    {
+        $user = User::where('activate_token', $activate_token)->first();
+        $user->update([
+            'activate_token' => NULL,
+            'status'        => 1
+        ]);
+
+        return redirect()->route('home');
+    }
 }

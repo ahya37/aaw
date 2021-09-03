@@ -19,8 +19,12 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+
 Route::group(['prefix' => 'user','middleware' => ['auth']], function(){
     Route::get('/home', 'HomeController@index')->name('home');
+
+    // verification email
+    Route::get('verifymail/{activate_token}','UserController@verificationEmail')->name('verify-email');
 
     Route::get('/profile', 'UserController@index')->name('user-profile');
     Route::get('/profile/edit/{id}', 'UserController@edit')->name('user-profile-edit');
@@ -32,7 +36,7 @@ Route::group(['prefix' => 'user','middleware' => ['auth']], function(){
     Route::post('/profile/reveral/store/{id}', 'UserController@storeReveral')->name('user-store-reveral');
 
     Route::get('/member/download','UserController@memberReportPdf')->name('user-member-downloadpdf');
-
+    Route::get('dashboard','HomeController@dashboardAdminDistrict')->name('member-dashboard');
 
     Route::group(['prefix' => 'member'], function(){
         Route::get('index','UserController@indexMember')->name('member-index');
@@ -43,6 +47,7 @@ Route::group(['prefix' => 'user','middleware' => ['auth']], function(){
 
         Route::get('/referal/undirect','UserController@memberByUnDirectReferal')->name('member-undirect-referal');
         Route::get('/referal/direct','UserController@memberByDirectReferal')->name('member-direct-referal');
+        Route::get('/all/member/{district_id}','UserController@memberByAdminDistrict')->name('all-member-byadmin');
 
         Route::get('/registered/{id}','UserController@registeredNasdem');
         Route::get('/saved/{id}','UserController@savedNasdem');
@@ -76,6 +81,12 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'], function(){
         Route::get('member/district/export/{district_id}','DashboardController@exportDataDistrictExcel')->name('report-member-district-excel');
 
         Route::get('member/card/download/{id}','MemberController@downloadCard')->name('admin-member-card-download');
+
+        // Admin District
+        Route::get('admincontrol/district','AdminDistrictController@index')->name('admin-admincontroll-district');
+        Route::get('admincontrol/createadmin/district','AdminDistrictController@create')->name('admin-admincontroll-district-create');
+        Route::get('admincontrol/createadmin/district/save/{id}','AdminDistrictController@saveAdminDistrict')->name('admin-admincontroll-district-save');
+
 
     });
 });

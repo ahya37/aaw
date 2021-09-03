@@ -5,7 +5,7 @@
       rel="stylesheet"
     />
     <style>
-     #idcard {
+      #idcard {
         width: 565px;
         height: 350px;
         margin: auto;
@@ -25,7 +25,7 @@
         /* margin:10px; */
     }
     #qr {
-        margin-top: -100px;
+         margin-top: -112px;
         margin-left: 430px;
         border-radius: 8px; /* Rounded border */
         border-style: solid;
@@ -36,9 +36,19 @@
         /* margin:10px; */
     }
     .texts-left {
-        margin-top: 40px;
+        margin-top: 100px;
         width: 500%;
         font-size: 12px;
+
+    }
+    .title-logo{
+       margin-top: -190px;
+        width: 200px;
+        font-size: 5px;
+        font-style: bold;
+        font-family: sans-serif;
+        margin-left:370px;
+
     }
     .address {
         margin-right: 120px;
@@ -47,6 +57,7 @@
         font-size: 12px;
          width: 200%;
     }
+   
     </style>
 @endpush
 @section('title','Dashboard')
@@ -220,15 +231,23 @@
                                             class="address"
                                             cellpadding="0"
                                           >
-                                            <tr align="left">
-                                              <td>{{ $profile->village->name }}</td>
+                                             <tr align="left">
+                                              <td>{{ strtoupper($profile->address)  ?? ''}} RT/RW {{'0'. strtoupper($profile->rt)  ?? ''}}/{{'0'. strtoupper($profile->rw)  ?? ''}}</td>
+                                            </tr>
+                                             <tr align="left">
+                                              <td>{{ $profile->village->name  ?? ''}}, {{'KECAMATAN '. $profile->village->district->name ?? '' }}</td>
                                             </tr>
                                             <tr align="left">
-                                              <td>{{ $profile->village->district->name }}, {{ $profile->village->district->regency->name }}</td>
+                                              <td>{{ $profile->village->district->regency->name ?? '' }} - {{ $profile->village->district->regency->province->name ?? '' }}</td>
                                             </tr>
-                                            <tr align="left">
+                                            <tr align="right">
                                               <td>
-                                                <b> {{ $profile->village->district->regency->province->name }} </b>
+                                                <p style="margin-right: 20px; margin-top:-35px">Reg. eKTA</p>
+                                              </td>
+                                            </tr>
+                                             <tr align="right">
+                                              <td>
+                                                <p style="margin-right: 20px; margin-top:-20px">{{$gF->mountFormat(date('m', strtotime($profile->created_at))) }} {{date('Y', strtotime($profile->created_at)) }}</p>
                                               </td>
                                             </tr>
                                           </table>
@@ -237,6 +256,11 @@
                                               class="img-thumbnail"
                                               src="{{ asset('storage/assets/user/qrcode/'.$profile->code.'.png') }}"
                                             />
+                                          </div>
+                                           <div class="title-logo">
+                                                   <b>
+                                                     JARINGAN DULUR KANG ASEP AWALUDIN
+                                                    </b>
                                           </div>
                                         </div>
                                        

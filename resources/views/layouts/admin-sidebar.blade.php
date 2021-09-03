@@ -1,6 +1,6 @@
 <div class="border-right" id="sidebar-wrapper">
           <div class="sidebar-heading text-center">
-            <img src="{{ asset('assets/images/logos.png') }}" width="100" />
+            <img src="{{ asset('assets/images/logo2-3.png') }}" width="170" />
           </div>
           <div class="list-group list-group-flush">
             <a
@@ -20,6 +20,18 @@
               class="list-group-item list-group-item-action {{ (request()->is('admin/member/create')) ? 'active' : '' }}"
             >
               Buat Anggota Baru
+            </a>
+            <a
+              href="{{ route('admin-admincontroll-district-create') }}"
+              class="list-group-item list-group-item-action {{ (request()->is('admin/admincontrol/createadmin/district')) ? 'active' : '' }}"
+            >
+              Tambah Admin
+            </a>
+            <a
+              href="{{ route('admin-admincontroll-district') }}"
+              class="list-group-item list-group-item-action {{ (request()->is('admin/admincontrol/district')) ? 'active' : '' }}"
+            >
+              Daftar Admin
             </a>
             <a class="list-group-item d-lg-none list-group-item-action" href="{{ route('admin-logout') }}"
                     onclick="event.preventDefault();
