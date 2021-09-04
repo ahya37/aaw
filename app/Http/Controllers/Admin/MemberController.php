@@ -78,6 +78,8 @@ class MemberController extends Controller
                'ktp' => 'required|mimes:png,jpg,jpeg',
                'phone_number' => 'numeric',
            ]);
+
+           $cby_id = User::select('id')->where('level', 1)->first();
            
            $cek_nik = User::select('nik')->where('nik', $request->nik)->first();
            #cek nik jika sudah terpakai
@@ -120,7 +122,7 @@ class MemberController extends Controller
                       'address'      => strtoupper($request->address),
                       'photo'        => $photo,
                       'ktp'          => $ktp,
-                      'cby'          => 16,
+                      'cby'          => $cby_id->id,
                   ]);
    
                   #generate qrcode
