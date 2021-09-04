@@ -28,13 +28,13 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <span class="required">*</span>
                                                 <label>Nama Lengkap</label>
                                                 <input type="text" name="name" value="" required class="form-control" />
                                             
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <span class="required">*</span>
                                                 <label>Jenis Kelamin</label>
                                                 <select name="gender" class="form-control" required>
@@ -47,7 +47,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <span class="required">*</span>
                                                 <label>Tempat Lahir</label>
                                                 <input
@@ -58,7 +58,7 @@
                                                 required
                                                 />
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <span class="required">*</span>
                                                 <label>Tanggal Lahir</label>
                                                 <input
@@ -73,7 +73,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <label>Golongan Darah</label>
                                                 <select name="blood_group" class="form-control">
                                                     <option value="">-Pilih golongan darah-</option>
@@ -84,7 +84,7 @@
                                                     <option value="O">O</option>
                                                 </select>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <span class="required">*</span>
                                                 <label>Status Perkawinan</label>
                                             <select name="marital_status" class="form-control">
@@ -98,7 +98,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <span class="required">*</span>
                                                 <label>Status Pekerjaan</label>
                                                 <select class="form-control" id="pekerjaan" name="job_id" required
@@ -108,7 +108,7 @@
 
                                         </select>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <span class="required">*</span>
                                                 <label>Agama</label>
                                                 <select class="form-control" name="religion" required autocomplete="off">
@@ -126,7 +126,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <span class="required">*</span>
                                                 <label>NIK</label>
                                                     <input
@@ -139,7 +139,7 @@
                                                             @change="checkForNikAvailability()"
                                                         />
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <span class="required">*</span>
                                                 <label>Pendidikan Terakhir</label>
                                                     <select class="form-control" name="education_id" required
@@ -154,7 +154,7 @@
 
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <span class="required">*</span>
                                                 <label
                                                 >No. Telp/HP
@@ -167,7 +167,7 @@
                                                 required
                                                 />
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <span class="required">*</span>
                                                 <label
                                                 >Whatsapp
@@ -185,14 +185,14 @@
                                         <hr class="mb-4 mt-4">
                                     <div class="form-group">
                                             <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <span class="required">*</span>
                                                 <label>Provinsi</label>
                                                 <select id="provinces_id" class="form-control" v-model="provinces_id" v-if="provinces">
                                                 <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
                                             </select>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <label>Kabpuaten/Kota</label>
                                                 <select id="regencies_id" class="form-control select2" v-model="regencies_id" v-if="regencies">
                                                 <option v-for="regency in regencies" :value="regency.id">@{{ regency.name }}</option>
@@ -202,14 +202,14 @@
                                     </div>
                                     <div class="form-group">
                                             <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <span class="required">*</span>
                                                 <label>Kecamatan</label>
                                                 <select id="districts_id" class="form-control" v-model="districts_id" v-if="districts">
                                                 <option v-for="district in districts" :value="district.id">@{{ district.name }}</option>
                                             </select>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <span class="required">*</span>
                                                 <label>Desa</label>
                                                 <select name="village_id" id="villages_id" required class="form-control" v-model="villages_id" v-if="districts">
@@ -220,7 +220,7 @@
                                         </div>
                                     <div class="form-group">
                                             <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <span class="required">*</span>
                                                 <label>RT</label>
                                                 <input
@@ -230,7 +230,7 @@
                                                 required
                                                 />
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <span class="required">*</span>
                                                 <label>RW</label>
                                                 <input
