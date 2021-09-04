@@ -274,7 +274,7 @@
                                               <td>{{ strtoupper($profile->address)  ?? ''}} RT/RW {{'0'. strtoupper($profile->rt)  ?? ''}}/{{'0'. strtoupper($profile->rw)  ?? ''}}</td>
                                             </tr>
                                             <tr align="left">
-                                              <td>{{ $profile->village->name  ?? ''}}, {{'KECAMATAN '. $profile->village->district->name ?? '' }}</td>
+                                              <td>{{ $profile->village->name  ?? ''}}, {{$profile->village->district->name ?? '' }}</td>
                                             </tr>
                                             <tr align="left">
                                               <td>

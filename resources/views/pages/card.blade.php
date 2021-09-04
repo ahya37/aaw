@@ -455,7 +455,7 @@
       <p>{{ strtoupper($profile->address)  ?? ''}} RT/RW {{'0'. strtoupper($profile->rt)  ?? ''}}/{{'0'. strtoupper($profile->rw)  ?? ''}}</p>
     </div>
     <div class="regency">
-      <p>{{ $profile->village->name  ?? ''}}, {{'KECAMATAN '. $profile->village->district->name ?? '' }}</p>
+      <p>{{ $profile->village->name  ?? ''}}, {{$profile->village->district->name ?? '' }}</p>
     </div>
     <div class="province">
       <p>{{ $profile->village->district->regency->name ?? '' }} - {{ $profile->village->district->regency->province->name ?? '' }}</p>
@@ -480,7 +480,7 @@
         <img class="flat-right" src="{{ public_path('assets/images/flat-right.png')}}" />
       </div>
       <div>
-        <table class="name-label" cellpadding="2" cellspacing="3">
+        <table class="name-label" cellpadding="2" cellspacing="3" >
           <tr>
             <td>Nama</td>
             <td>:</td>
@@ -489,7 +489,7 @@
           <tr>
             <td>TTL</td>
             <td>:</td>
-            <td>{{ $profile->place_berth }}, {{ date('d-m-Y', strtotime($profile->date_berth)) }}</td>
+            <td  width="100%">{{ $profile->place_berth }}, {{ date('d-m-Y', strtotime($profile->date_berth)) }}</td>
           </tr>
           <tr>
             <td>NIK</td>

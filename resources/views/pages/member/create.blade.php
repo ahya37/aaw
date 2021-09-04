@@ -333,7 +333,7 @@
     $(document).ready(function(){
         jQuery('#datetimepicker6').datetimepicker({
             timepicker:false,
-            format:'d/m/Y'
+            format:'d-m-Y'
             });
             $.datetimepicker.setLocale('id');
     });
