@@ -6,7 +6,7 @@
     />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.24/datatables.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 @endpush
 @section('title','Dashboard')
 @section('content')
@@ -135,8 +135,8 @@
                       </div>
                       <div class="row">
                         <div class="col-6">
-                          <div class="card-body cd-card-primary-cart text-center">
-                            <span class="text-white">Pria</span>
+                          <div class="card-body cart-gender-male text-center">
+                            <span class="text-white">Laki-laki</span>
                             <br>
                             <span class="text-white">
                               {{ $total_male_gender }}
@@ -144,8 +144,8 @@
                           </div>
                         </div>
                         <div class="col-6">
-                          <div class="card-body text-center cd-card-secondary-cart">
-                            <span class="text-white">Wanita</span>
+                          <div class="card-body text-center cart-gender-female">
+                            <span class="text-white">Perempuan</span>
                             <br>
                             <span class="text-white">
                               {{ $total_female_gender }}
@@ -210,6 +210,8 @@
 @endsection
 
 @push('addon-script')
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 <script src="{{ asset('assets/vendor/highcharts/highcharts.js') }}"></script>
 <script src="{{ asset('assets/vendor/highcharts/venn.js') }}"></script>
 <script src="{{ asset('assets/vendor/highcharts/exporting.js') }}"></script>
@@ -297,49 +299,13 @@
       });
 
       // Gender
-     Highcharts.chart('gender', {
-          chart: {
-              plotBackgroundColor: null,
-              plotBorderWidth: 0,
-              plotShadow: false
-          },
-          title: {
-              text: 'Anggota Berdasarkan Gender',
-              align: 'center',
-              // verticalAlign: 'middle',
-              // y: 60
-          },
-          tooltip: {
-              pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-          },
-          accessibility: {
-              point: {
-                  valueSuffix: ''
-              }
-          },
-          plotOptions: {
-              pie: {
-                  dataLabels: {
-                      enabled: true,
-                      distance: -50,
-                      style: {
-                          fontWeight: 'bold',
-                          color: 'white'
-                      }
-                  },
-                  startAngle: -90,
-                  endAngle: 90,
-                  center: ['50%', '75%'],
-                  size: '110%'
-              }
-          },
-          series: [{
-              type: 'pie',
-              name: 'Persentasi',
-              innerSize: '50%',
-              data: {!! json_encode($cat_gender) !!} ,
-          }]
-      });
+      var donut_chart = Morris.Donut({
+          element: 'gender',
+          data: {!! json_encode($cat_gender) !!},
+          colors: ["#063df7","#EC407A"],
+          resize: true,
+          formatter: function (x) { return x + "%"}
+          });
 
       // Job
       Highcharts.setOptions({

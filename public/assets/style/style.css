@@ -31,3 +31,11 @@
 .cd-card-secondary-cart {
     background-color: #434348;
 }
+
+.cart-gender-female {
+    background-color: #ec407a;
+}
+
+.cart-gender-male {
+    background-color: #063df7;
+}

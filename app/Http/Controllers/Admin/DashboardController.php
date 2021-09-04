@@ -83,8 +83,8 @@ class DashboardController extends Controller
             $all_gender[]  = $val->total;
 
             $cat_gender[] = [
-                "name" => $val->gender == 0 ? 'Pria' : 'Wanita',
-                "y"    => ($val->total/$total_gender)*100,
+                "label" => $val->gender == 0 ? 'Laki-laki' : 'Perempuan',
+                "value"    => $gF->persen(($val->total/$total_gender)*100),
             ];
         }
         
