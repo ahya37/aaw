@@ -73,7 +73,7 @@
       position: absolute;
       width: 100%;
       height: 14px;
-      margin-top: 50px;
+      margin-top: 47px;
       margin-left: 8px;
       font-family: "Nunito", sans-serif;
       font-style: normal;
