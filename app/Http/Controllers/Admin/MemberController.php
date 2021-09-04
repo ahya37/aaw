@@ -76,6 +76,7 @@ class MemberController extends Controller
            $this->validate($request, [
                'photo' => 'required|mimes:png,jpg,jpeg',
                'ktp' => 'required|mimes:png,jpg,jpeg',
+               'phone_number' => 'numeric',
            ]);
            
            $cek_nik = User::select('nik')->where('nik', $request->nik)->first();
