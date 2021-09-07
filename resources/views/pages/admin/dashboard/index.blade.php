@@ -104,7 +104,7 @@
                     <div class="card mb-2 text-white cs-card-danger">
                       <div class="card-body">
                         <div class="dashboard-card-title text-white">
-                          Todal Desa
+                          Total Desa
                         </div>
                         <div class="dashboard-card-subtitle">
                           <h4 class="text-white">{{ $gF->decimalFormat($total_village) }}</h4>
@@ -156,13 +156,29 @@
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="card mb-2">
+                    <div class="card">
                       <div class="card-body">
-                        <div id="job"></div>
+                       <div style="width: 100%">
+                           {!! $chart_jobs->container() !!}
+                        </div>
                       </div>
+                      {{-- <div class="col-md-12 col-sm-12">
+                        <small>Kategori Pekerjaan Terbanyak</small>
+                        <div class="row">
+                          @foreach ($most_jobs as $row)
+                          <div class="col-md-2 col-sm-2 mt-3 mb-2">
+                           <div class="btn btn-primary w-20" data-toggle="tooltip" data-placement="top" title="{{ $row->name }} : {{ $row->total_job }}">
+                            <small>
+                              {{ $row->total_job }}
+                            </small>
+                          </div>
+                          </div>
+                          @endforeach
+                       </div>
+                      </div> --}}
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-6 mt-3">
                     <div class="card mb-2">
                       <div class="card-body">
                         <div id="ageGroup"></div>
@@ -218,6 +234,8 @@
 <script src="{{ asset('assets/vendor/highcharts/export-data.js') }}"></script>
 <script src="{{ asset('assets/vendor/highcharts/accessibility.js') }}"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.24/datatables.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
+{!! $chart_jobs->script() !!}
 <script>
        var datatable = $('#achievment').DataTable({
             processing: true,
@@ -328,35 +346,7 @@
       });
 
       // Build the chart
-      Highcharts.chart("job", {
-        chart: {
-          plotBackgroundColor: null,
-          plotBorderWidth: null,
-          plotShadow: false,
-          type: "pie",
-        },
-        title: {
-          text: "Anggota Berdasarkan Pekerjaan",
-        },
-        plotOptions: {
-          pie: {
-            allowPointSelect: true,
-            cursor: "pointer",
-            dataLabels: {
-              enabled: true,
-              format: "<b>{point.name}</b>",
-              connectorColor: "silver",
-            },
-          },
-        },
-        series: [
-          {
-            name: "Jumlah",
-            colorByPoint: true,
-            data: {!! json_encode($cat_jobs) !!},
-          },
-        ],
-      });
+     
 
       // age group
        Highcharts.chart('ageGroup', {

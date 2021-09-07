@@ -14,9 +14,9 @@ use App\Exports\MemberExportRegency;
 use App\Http\Controllers\Controller;
 use App\Exports\MemberExportDistrict;
 use App\Exports\MemberExportProvince;
-use App\Providers\GlobalProvider;
 use App\Referal;
 use Yajra\DataTables\Facades\DataTables;
+use App\Charts\JobChart;
 
 class DashboardController extends Controller
 {
@@ -59,14 +59,34 @@ class DashboardController extends Controller
         }
          // grafik data job
         $jobModel = new Job();
+        $most_jobs = $jobModel->getMostJobsProvince($province_id);
         $jobs     = $jobModel->getJobProvince($province_id);
         $cat_jobs =[];
+        $sum_jobs = collect($jobs)->sum(function($q){return $q->total_job; }); // fungsi untuk menjumlahkan total job
         foreach ($jobs as  $val) {
-            $cat_jobs[] = [
-                "name" => $val->name,
-                "y"    => $val->total_job
-            ];
+            $cat_jobs['label'][] = $val->name;
+            $cat_jobs['data'][] = ($val->total_job / $sum_jobs)*100;
         }
+
+        $data_cat_jobs = collect($cat_jobs);
+        $labels_jobs = collect($cat_jobs['label']);
+        $data_jobs   =  $cat_jobs['data'];
+        $colors = $labels_jobs->map(function($item){
+            return $rand_color = '#' . substr(md5(mt_rand()),0,6);
+        });
+        $chart_jobs = new JobChart();
+        $chart_jobs->labels($labels_jobs);
+        $chart_jobs->dataset('Anggota Berdasarkan Pekerjaan','pie', $data_jobs)->backgroundColor($colors);
+        $chart_jobs->options([
+            'tooltip' => false,
+            'legend' => [
+                'position' => 'bottom',
+                'display' => true,
+            ],
+            'title' => [
+                'display' => true,
+                'text' => 'Anggota Berdasarkan Pekerjaan (%)']
+            ]);
 
         // grafik data jenis kelamin
         $gender = $userModel->getGenderProvince($province_id);
@@ -120,16 +140,6 @@ class DashboardController extends Controller
                     ->rawColumns(['persentage'])
                     ->make();
         }
-         // grafik data job
-        $jobModel = new Job();
-        $jobs     = $jobModel->getJobProvince($province_id);
-        $cat_jobs =[];
-        foreach ($jobs as  $val) {
-            $cat_jobs[] = [
-                "name" => $val->name,
-                "y"    => $val->total_job
-            ];
-        }
 
         // anggota dengan referal terbanyak
         $referalModel = new Referal();
@@ -144,7 +154,7 @@ class DashboardController extends Controller
             ];
         }
 
-        return view('pages.admin.dashboard.index', compact('cat_referal_data','cat_referal','cat_range_age','cat_range_age_data','total_male_gender','total_female_gender','regency','cat_gender','cat_jobs','cat_regency_data','cat_regency','gF','total_member','persentage_target_member','target_member','total_village_filled','presentage_village_filled','total_village'));
+        return view('pages.admin.dashboard.index', compact('most_jobs','colors','chart_jobs','cat_referal_data','cat_referal','cat_range_age','cat_range_age_data','total_male_gender','total_female_gender','regency','cat_gender','cat_jobs','cat_regency_data','cat_regency','gF','total_member','persentage_target_member','target_member','total_village_filled','presentage_village_filled','total_village'));
     }
 
     public function regency($regency_id)

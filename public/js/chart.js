@@ -1,200 +1,60 @@
-// member calculate
-      Highcharts.chart('districts', {
-          chart: {
-              type: 'column'
-          },
-          title: {
-              text: 'Anggota Terdaftar'
-          },
-          xAxis: {
-              categories: {!! json_encode($cat_regency) !!},
-              crosshair: true,
-          },
-          yAxis: {
-              min: 0,
-              title: {
-                  text: 'Jumlah'
-              }
-          },
-          tooltip: {
-              headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-              footerFormat: '</table>',
-              shared: true,
-              useHTML: true
-          },
-          plotOptions: {
-              column: {
-                  pointPadding: 0.2,
-                  borderWidth: 0
-              },
-              series: {
-                    stacking: 'normal',
-                    borderRadius: 3,
-                    cursor: 'pointer',
-                    point: {
-                        events: {
-                            click: function(event) {
-                            // console.log(this.url);
-                            window.open(this.url);
-                            }
-                        }
-                    }
-                }
-          },
-          series: [{
-              colorByPoint: true,
-              name:"Anggota",
-              data: {!! json_encode($cat_regency_data) !!},
+  $(function(){
+   var catJobs = {!! json_encode($cat_jobs) !!};
+   var jobs    = $("#job");
+   var job_label = [];
+   var job_data = [];
+   var ict_unit = [];
+   var efficiency = [];
+   var coloR = [];
 
-          }]
-      });
+   var dynamicColors = function() {
+                    var r = Math.floor(Math.random() * 255);
+                    var g = Math.floor(Math.random() * 255);
+                    var b = Math.floor(Math.random() * 255);
+                    return "rgb(" + r + "," + g + "," + b + ")";
+                 };
 
-      // Gender
-      var donut_chart = Morris.Donut({
-          element: 'gender',
-          data: {!! json_encode($cat_gender) !!},
-          colors: ["#063df7","#EC407A"],
-          resize: true,
-          formatter: function (x) { return x + "%"}
-          });
+   for(var i in catJobs){
+     job_label.push(catJobs[i].label);
+     job_data.push(catJobs[i].data);
 
-      // Job
-      Highcharts.setOptions({
-        colors: Highcharts.map(
-          Highcharts.getOptions().colors,
-          function (color) {
-            return {
-              radialGradient: {
-                cx: 0.5,
-                cy: 0.3,
-                r: 0.7,
-              },
-              stops: [
-                [0, color],
-                [1, Highcharts.color(color).brighten(-0.3).get("rgb")], // darken
-              ],
-            };
-          }
-        ),
-      });
-
-      // Build the chart
-      Highcharts.chart("job", {
-        chart: {
-          plotBackgroundColor: null,
-          plotBorderWidth: null,
-          plotShadow: false,
-          type: "pie",
-        },
-        title: {
-          text: "Anggota Berdasarkan Pekerjaan",
-        },
-        plotOptions: {
-          pie: {
-            allowPointSelect: true,
-            cursor: "pointer",
-            dataLabels: {
-              enabled: true,
-              format: "<b>{point.name}</b>",
-              connectorColor: "silver",
-            },
-          },
-        },
-        series: [
+     ict_unit.push(catJobs[i].ict_unit);
+     efficiency.push(catJobs[i].efficiency);
+     coloR.push(dynamicColors([1]));
+   }
+    //pie chart data
+      var data = {
+        labels: job_label,
+        datasets: [
           {
-            name: "Jumlah",
-            colorByPoint: true,
-            data: {!! json_encode($cat_jobs) !!},
-          },
-        ],
+            label: "Users Count",
+            data: job_data,
+            backgroundColor: coloR,
+          }
+        ]
+      }
+      //options
+      var options = {
+        responsive: true,
+        title: {
+          display: true,
+          position: "top",
+          text: "Last Week Registered Users -  Day Wise Count",
+          fontSize: 18,
+          fontColor: "#111"
+        },
+        legend: {
+          display: true,
+          position: "bottom",
+          labels: {
+            fontColor: "#333",
+            fontSize: 16
+          }
+        }
+      };
+      var chartJobs = new Chart(jobs,{
+        type:'pie',
+        data:data,
+        options: options
       });
-
-      // age group
-       Highcharts.chart('ageGroup', {
-          chart: {
-              type: 'column'
-          },
-          title: {
-              text: 'Anggota Berdasarkan Kelompok Umur'
-          },
-          xAxis: {
-              categories: {!! json_encode($cat_range_age) !!},
-              crosshair: true,
-          },
-          yAxis: {
-              min: 0,
-              title: false
-          },
-          tooltip: {
-              headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-              footerFormat: '</table>',
-              shared: true,
-              useHTML: true
-          },
-          plotOptions: {
-              column: {
-                  pointPadding: 0.2,
-                  borderWidth: 0
-              },
-              series: {
-                    stacking: 'normal',
-                    borderRadius: 3,
-                }
-          },
-          series: [{
-              name:"Umur",
-              data: {!! json_encode($cat_range_age_data) !!},
-
-          }]
-      });
-
-      // grafik anggota referal terbanyak
-      Highcharts.chart('referal', {
-          chart: {
-              type: 'column'
-          },
-          title: {
-              text: 'Anggota Dengan Referal Terbanyak'
-          },
-          xAxis: {
-              categories: {!! json_encode($cat_referal) !!},
-              crosshair: true,
-          },
-          yAxis: {
-              min: 0,
-              title: {
-                  text: 'Jumlah'
-              }
-          },
-          tooltip: {
-              headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-              footerFormat: '</table>',
-              shared: true,
-              useHTML: true
-          },
-          plotOptions: {
-              column: {
-                  pointPadding: 0.2,
-                  borderWidth: 0
-              },
-              series: {
-                    stacking: 'normal',
-                    borderRadius: 3,
-                    cursor: 'pointer',
-                    point: {
-                        events: {
-                            click: function(event) {
-                            // console.log(this.url);
-                            window.open(this.url);
-                            }
-                        }
-                    }
-                }
-          },
-          series: [{
-              colorByPoint: true,
-              name:"Referal",
-              data: {!! json_encode($cat_referal_data) !!},
-
-          }]
-      });
+  });

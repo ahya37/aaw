@@ -39,3 +39,12 @@
 .cart-gender-male {
     background-color: #063df7;
 }
+
+.card-width-jobs {
+    width: 100px;
+    height: 50px;
+    font-size: 10px;
+    padding: 2px;
+    text-align: justify;
+    margin-top: -6px;
+}
