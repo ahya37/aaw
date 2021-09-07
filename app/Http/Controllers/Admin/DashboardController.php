@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Charts\InputerChart;
 use App\Job;
 use App\User;
 use App\Models\Regency;
@@ -141,8 +142,23 @@ class DashboardController extends Controller
                     ->make();
         }
 
-        // anggota dengan referal terbanyak
         $referalModel = new Referal();
+        // input admin terbanyak
+        $inputer      = $referalModel->getInputerProvince($province_id);
+        $cat_inputer = [];
+        foreach($inputer as $val){
+            $cat_inputer['label'][] = $val->name;
+            $cat_inputer['data'][]  = $val->total_data;
+        }
+        $data_cat_inputer = collect($cat_inputer);
+        $label_inputer    = collect($cat_inputer['label']);
+        $data_inputer     = $cat_inputer['data'];
+        $colors           = $label_inputer->map(function($item){return $rand_color = '#' . substr(md5(mt_rand()),0,6);});
+        $chart_inputer    = new InputerChart();
+        $chart_inputer->labels($label_inputer);
+        $chart_inputer->dataset('Jumlah','bar', $data_inputer)->backgroundColor($colors);
+        $chart_inputer->options(['legend' => false]);
+        // anggota dengan referal terbanyak
         $referal      = $referalModel->getReferalProvince($province_id);
         $cat_referal      = [];
         $cat_referal_data = [];
@@ -154,7 +170,7 @@ class DashboardController extends Controller
             ];
         }
 
-        return view('pages.admin.dashboard.index', compact('most_jobs','colors','chart_jobs','cat_referal_data','cat_referal','cat_range_age','cat_range_age_data','total_male_gender','total_female_gender','regency','cat_gender','cat_jobs','cat_regency_data','cat_regency','gF','total_member','persentage_target_member','target_member','total_village_filled','presentage_village_filled','total_village'));
+        return view('pages.admin.dashboard.index', compact('chart_inputer','most_jobs','colors','chart_jobs','cat_referal_data','cat_referal','cat_range_age','cat_range_age_data','total_male_gender','total_female_gender','regency','cat_gender','cat_jobs','cat_regency_data','cat_regency','gF','total_member','persentage_target_member','target_member','total_village_filled','presentage_village_filled','total_village'));
     }
 
     public function regency($regency_id)
