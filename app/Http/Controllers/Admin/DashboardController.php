@@ -123,6 +123,17 @@ class DashboardController extends Controller
             ];
         }
 
+        // generasi umur
+        $gen_age     = $userModel->generationAgeProvince($province_id);
+        $cat_gen_age = [];
+        $cat_gen_age_data = [];
+        foreach ($gen_age as $val) {
+            $cat_gen_age[]      = $val->gen_age;
+            $cat_gen_age_data[] = [
+                'y'    => $val->total
+            ];
+        }
+
         // Daftar pencapaian lokasi / daerah
         $achievments   = $regencyModel->achievementProvince($province_id);
         if (request()->ajax()) {
@@ -176,7 +187,7 @@ class DashboardController extends Controller
             ];
         }
 
-        return view('pages.admin.dashboard.index', compact('chart_inputer','most_jobs','colors','chart_jobs','cat_referal_data','cat_referal','cat_range_age','cat_range_age_data','total_male_gender','total_female_gender','regency','cat_gender','cat_jobs','cat_regency_data','cat_regency','gF','total_member','persentage_target_member','target_member','total_village_filled','presentage_village_filled','total_village'));
+        return view('pages.admin.dashboard.index', compact('cat_gen_age_data','cat_gen_age','chart_inputer','most_jobs','colors','chart_jobs','cat_referal_data','cat_referal','cat_range_age','cat_range_age_data','total_male_gender','total_female_gender','regency','cat_gender','cat_jobs','cat_regency_data','cat_regency','gF','total_member','persentage_target_member','target_member','total_village_filled','presentage_village_filled','total_village'));
     }
 
     public function regency($regency_id)

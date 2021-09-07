@@ -238,6 +238,30 @@ class User extends Authenticatable
         return $result;
     }
 
+    public function generationAgeProvince($province_id)
+    {
+        $sql = "SELECT 
+                CASE 
+                when age between 17 and 40 then '17 - 40'
+                when age between 41 and 50 then '41 - 50'
+                when age > 50 then '>50'
+                when age is null then '(NULL)'                 
+                end as gen_age,
+                count(*) as total
+                
+            from 
+            (
+                select date_berth, TIMESTAMPDIFF(YEAR, date_berth, CURDATE()) as age from users as a
+                join villages as b on a.village_id = b.id
+                join districts as c on b.district_id = c.id
+                join regencies as d on c.regency_id = d.id
+                where d.province_id = $province_id
+            ) as tb_age
+            group by gen_age order by gen_age asc";
+        $result = DB::select($sql);
+        return $result;
+    }
+
     public function rangeAgeRegency($regency_id)
     {
         $sql = "SELECT 
