@@ -128,10 +128,13 @@ class DashboardController extends Controller
         $cat_gen_age = [];
         $cat_gen_age_data = [];
         foreach ($gen_age as $val) {
-            $cat_gen_age[]      = $val->gen_age;
-            $cat_gen_age_data[] = [
-                'y'    => $val->total
-            ];
+            if (isset($val->gen_age) != null) {
+                # code...
+                $cat_gen_age[]      = $val->gen_age;
+                $cat_gen_age_data[] = [
+                    'y'    => $val->total
+                ];
+            }
         }
 
         // Daftar pencapaian lokasi / daerah
