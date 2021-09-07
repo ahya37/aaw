@@ -238,10 +238,6 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 <script src="{{ asset('assets/vendor/highcharts/highcharts.js') }}"></script>
-<script src="{{ asset('assets/vendor/highcharts/venn.js') }}"></script>
-<script src="{{ asset('assets/vendor/highcharts/exporting.js') }}"></script>
-<script src="{{ asset('assets/vendor/highcharts/export-data.js') }}"></script>
-<script src="{{ asset('assets/vendor/highcharts/accessibility.js') }}"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.24/datatables.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
 {!! $chart_jobs->script() !!}
