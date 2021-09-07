@@ -161,7 +161,7 @@ class DashboardController extends Controller
             'legend' => false,
             'title' => [
                 'display' => true,
-                'text' => 'Anggota Dengan Input Terbanyak'
+                'text' => 'Admin Dengan Input Terbanyak'
             ]
             ]);
         // anggota dengan referal terbanyak
