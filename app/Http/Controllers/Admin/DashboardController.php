@@ -157,7 +157,13 @@ class DashboardController extends Controller
         $chart_inputer    = new InputerChart();
         $chart_inputer->labels($label_inputer);
         $chart_inputer->dataset('Jumlah','bar', $data_inputer)->backgroundColor($colors);
-        $chart_inputer->options(['legend' => false]);
+        $chart_inputer->options([
+            'legend' => false,
+            'title' => [
+                'display' => true,
+                'text' => 'Anggota Dengan Input Terbanyak'
+            ]
+            ]);
         // anggota dengan referal terbanyak
         $referal      = $referalModel->getReferalProvince($province_id);
         $cat_referal      = [];
