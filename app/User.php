@@ -243,8 +243,8 @@ class User extends Authenticatable
         $sql = "SELECT 
                 CASE 
                 when age between 17 and 40 then '17 - 40'
-                when age between 41 and 50 then '41 - 60'
-                when age > 60 then '>60'
+                when age between 41 and 50 then '41 - 50'
+                when age > 50 then '50 - ...'
                 when age is null then '(NULL)'                 
                 end as gen_age,
                 count(*) as total
