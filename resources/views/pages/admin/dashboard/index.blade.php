@@ -396,7 +396,7 @@
           },
           legend: {enabled: false},
           title: {
-              text: 'Anggota Berdasarkan Kelompok Umur'
+              text: 'Anggota Berdasarkan Generasi Umur'
           },
           xAxis: {
               categories: {!! json_encode($cat_gen_age) !!},
