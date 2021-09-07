@@ -185,13 +185,13 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6 mt-3">
+                  {{-- <div class="col-md-6 mt-3">
                     <div class="card mb-2">
                       <div class="card-body">
                         <div id="ageGen"></div>
                       </div>
                     </div>
-                  </div>
+                  </div> --}}
                    <div class="col-md-12">
                     <div class="card mb-2">
                       <div class="card-body">
