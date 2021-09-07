@@ -65,12 +65,12 @@ class DashboardController extends Controller
         $sum_jobs = collect($jobs)->sum(function($q){return $q->total_job; }); // fungsi untuk menjumlahkan total job
         foreach ($jobs as  $val) {
             $cat_jobs['label'][] = $val->name;
-            $cat_jobs['data'][] = ($val->total_job / $sum_jobs)*100;
+            $cat_jobs['data'][] = $gF->persen(($val->total_job / $sum_jobs)*100);
         }
 
         $data_cat_jobs = collect($cat_jobs);
         $labels_jobs = collect($cat_jobs['label']);
-        $data_jobs   =  $cat_jobs['data'];
+        $data_jobs   = $cat_jobs['data'];
         $colors = $labels_jobs->map(function($item){
             return $rand_color = '#' . substr(md5(mt_rand()),0,6);
         });
