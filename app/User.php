@@ -218,7 +218,9 @@ class User extends Authenticatable
                 when age between 35 and 40 then '35 - 40'
                 when age between 40 and 45 then '40 - 45'
                 when age between 45 and 50 then '45 - 50'
-                when age >= 50 then '50 - ...'
+                when age between 50 and 60 then '50 - 55'
+                when age between 55 and 60 then '55 - 60'
+                when age >= 60 then '60 - ...'
                 when age is null then '(NULL)'
                 end as range_age,
                 count(*) as total

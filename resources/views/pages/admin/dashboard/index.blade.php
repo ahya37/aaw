@@ -273,6 +273,9 @@
  <script>
       // member calculate
       Highcharts.chart('districts', {
+        credits: {
+            enabled: false
+        },
           chart: {
               type: 'column'
           },
@@ -356,9 +359,13 @@
 
       // age group
        Highcharts.chart('ageGroup', {
+          credits: {
+            enabled: false
+        },
           chart: {
               type: 'column'
           },
+          legend: {enabled: false},
           title: {
               text: 'Anggota Berdasarkan Kelompok Umur'
           },
@@ -395,6 +402,10 @@
 
       // grafik anggota referal terbanyak
       Highcharts.chart('referal', {
+         credits: {
+            enabled: false
+        },
+        legend: {enabled: false},
           chart: {
               type: 'column'
           },
