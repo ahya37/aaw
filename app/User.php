@@ -257,7 +257,7 @@ class User extends Authenticatable
                 join regencies as d on c.regency_id = d.id
                 where d.province_id = $province_id
             ) as tb_age
-            group by gen_age order by gen_age desc";
+            group by gen_age order by gen_age asc";
         $result = DB::select($sql);
         return $result;
     }
