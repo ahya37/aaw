@@ -78,7 +78,6 @@ class DashboardController extends Controller
                 'legend' => false,
                 'title' => [
                     'display' => true,
-                    'text' => 'Anggota Terdaftar VS Target (%)'
                 ]
             ]);
 
@@ -110,7 +109,7 @@ class DashboardController extends Controller
             ],
             'title' => [
                 'display' => true,
-                'text' => 'Anggota Berdasarkan Pekerjaan (%)']
+                ]
             ]);
 
         // grafik data jenis kelamin
@@ -199,7 +198,7 @@ class DashboardController extends Controller
             'legend' => false,
             'title' => [
                 'display' => true,
-                'text' => 'Admin Dengan Input Terbanyak'
+                // 'text' => 'Admin Dengan Input Terbanyak'
             ]
             ]);
         // anggota dengan referal terbanyak

@@ -131,6 +131,7 @@
                   <div class="col-md-12">
                     <div class="card mb-2">
                       <div class="card-body">
+                        <h6 class="text-center">Anggota Terdaftar VS Target (%)</h6>
                         <div>
                           {!! $chart_member_registered->container() !!}
                         </div>
@@ -145,6 +146,7 @@
                   <div class="col-md-6">
                     <div class="card mb-2">
                       <div class="card-body">
+                        <h6 class="text-center">Anggota Berdasarkan Jenis Kelamin (%)</h6>
                         <div id="gender"></div>
                       </div>
                       <div class="row">
@@ -172,6 +174,7 @@
                   <div class="col-md-6">
                     <div class="card">
                       <div class="card-body">
+                        <h6 class="text-center">Anggota Berdasarkan Pekerjaan (%)</h6>
                        <div>
                            {!! $chart_jobs->container() !!}
                         </div>
@@ -209,7 +212,8 @@
                    <div class="col-md-12">
                     <div class="card mb-2">
                       <div class="card-body">
-                        <div>
+                        <h6 class="text-center">Admin Berdasarkan Input Terbanyak</h6>
+                        <div id="ex">
                           {!! $chart_inputer->container() !!}
                         </div>
                       </div>
@@ -219,6 +223,24 @@
                     <div class="card mb-2">
                       <div class="card-body">
                         <div id="referal"></div>
+                      </div>
+                    </div>
+                  </div>
+                   <div class="col-md-12">
+                    <div class="card mb-2">
+                      <div class="card-body">
+                        <h6 class="text-center">Capaian Anggota Perhari Selama Satu Bulan</h6>
+                        <div>
+                                <div class="input-group mb-3 col-md-4 float-right">
+                                    <input type="text" id="created_at" name="date" class="form-control">
+                                    {{-- <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="button" id="filter">Filter</button>
+                                    </div> --}}
+                                </div>
+                        </div>
+                        <div id="memberPerMonth">
+
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -256,6 +278,10 @@
 @endsection
 
 @push('addon-script')
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
 <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 <script src="{{ asset('assets/vendor/highcharts/highcharts.js') }}"></script>
@@ -264,6 +290,42 @@
 {!! $chart_jobs->script() !!}
 {!! $chart_inputer->script() !!}
 {!! $chart_member_registered->script() !!}
+<script>
+  $(document).ready(function(){
+    let start = moment().startOf('month');
+    let end   = moment().endOf('month');
+
+    $.ajax({
+        url: '{{ url('api/member') }}/' + start.format('YYYY-MM-DD') + '+' + end.format('YYYY-MM-DD'),
+        method:'GET',
+        data : '_token={{ csrf_token() }}',
+        success:function(data){
+          for(var i in data){
+            $('#memberPerMonth').replaceWith("<h2>"+data[i].name+"</h2>")
+          }
+        }
+      });
+
+    $('#created_at').daterangepicker({
+      startDate: start,
+      endDate: end,
+
+    },function(first, last){
+      var self = this;
+      $.ajax({
+        url: '{{ url('api/member') }}/' + first.format('YYYY-MM-DD') + '+' + last.format('YYYY-MM-DD'),
+        method:'GET',
+        data: {first:self.first, last:self.last},
+        dataType:'json',
+        success:function(data){
+         for(var i in data){
+            $('#memberPerMonth').replaceWith("<h2>"+data[i].name+"</h2>")
+          }
+        }
+      })
+    });
+  })
+</script>
 <script>
        var datatable = $('#achievment').DataTable({
             processing: true,
@@ -456,7 +518,7 @@
               type: 'column'
           },
           title: {
-              text: 'Anggota Dengan Referal Terbanyak'
+              text: 'Anggota Berdasarkan Referal Terbanyak'
           },
           xAxis: {
               categories: {!! json_encode($cat_referal) !!},

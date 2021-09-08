@@ -29,3 +29,5 @@ Route::get('nik/check', 'Auth\RegisterController@nik')->name('api-nik-check');
 Route::get('register/check', 'Auth\RegisterController@check')->name('api-register-check');
 Route::get('reveral/check', 'Auth\RegisterController@reveral')->name('api-reveral-check');
 Route::get('reveral/name/{code}', 'Auth\RegisterController@reveralName');
+
+Route::get('member/{daterange}','API\DashboardController@memberReportPerMount')->name('member-range');
