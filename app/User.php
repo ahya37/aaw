@@ -333,9 +333,9 @@ class User extends Authenticatable
                 count(DISTINCT(c.id)) * 5000 target_member,
                 count(a.id) as realisasi_member
                 from users as a
-                right join villages as b on a.village_id = b.id
-                right join districts as c on b.district_id = c.id
-                right join regencies as d on c.regency_id = d.id 
+                join villages as b on a.village_id = b.id
+                join districts as c on b.district_id = c.id
+                join regencies as d on c.regency_id = d.id 
                 where d.province_id = $province_id
                 group by d.id, d.name";
         $result = DB::select($sql);
