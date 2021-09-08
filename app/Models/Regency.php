@@ -70,9 +70,9 @@ class Regency extends Model
          $sql = "SELECT d.id  as regency_id, d.name as regency,
                 count(a.name) as total_member
                 from users as a 
-                right join villages as b on a.village_id = b.id 
-                right join districts as c on b.district_id = c.id
-                right join regencies as d on c.regency_id = d.id
+                join villages as b on a.village_id = b.id 
+                join districts as c on b.district_id = c.id
+                join regencies as d on c.regency_id = d.id
                 where d.province_id = $province_id
                 GROUP by d.id, d.name";
         return DB::select($sql);
