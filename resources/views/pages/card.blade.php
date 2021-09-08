@@ -254,7 +254,7 @@
       margin-bottom: 101.9px;
     }
     .name-label {
-      width: 50%;
+      width: 100%;
       height: 10px;
       margin-left: 1px;
       margin-top: 2px;
