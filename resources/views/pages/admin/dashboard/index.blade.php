@@ -126,6 +126,20 @@
                 </div>
               </div>
 
+               <div class="dashboard-content mt-3">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="card mb-2">
+                      <div class="card-body">
+                        <div>
+                          {!! $chart_member_registered->container() !!}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div class="dashboard-content mt-3">
                 <div class="row">
                   <div class="col-md-6">
@@ -249,6 +263,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
 {!! $chart_jobs->script() !!}
 {!! $chart_inputer->script() !!}
+{!! $chart_member_registered->script() !!}
 <script>
        var datatable = $('#achievment').DataTable({
             processing: true,
@@ -283,6 +298,8 @@
         credits: {
             enabled: false
         },
+         legend: {enabled: false},
+
           chart: {
               type: 'column'
           },
@@ -465,15 +482,6 @@
               series: {
                     stacking: 'normal',
                     borderRadius: 3,
-                    cursor: 'pointer',
-                    point: {
-                        events: {
-                            click: function(event) {
-                            // console.log(this.url);
-                            window.open(this.url);
-                            }
-                        }
-                    }
                 }
           },
           series: [{

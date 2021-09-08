@@ -327,5 +327,20 @@ class User extends Authenticatable
         return $result;
     }
 
+    public function getMemberRegistered($province_id)
+    {
+         $sql = "SELECT d.id, d.name,
+                count(DISTINCT(c.id)) * 5000 target_member,
+                count(a.id) as realisasi_member
+                from users as a
+                join villages as b on a.village_id = b.id
+                join districts as c on b.district_id = c.id
+                join regencies as d on c.regency_id = d.id 
+                where d.province_id = $province_id
+                group by d.id, d.name";
+        $result = DB::select($sql);
+        return $result;
+    }
+
 
 }

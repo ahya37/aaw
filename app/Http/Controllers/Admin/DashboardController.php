@@ -18,6 +18,7 @@ use App\Exports\MemberExportProvince;
 use App\Referal;
 use Yajra\DataTables\Facades\DataTables;
 use App\Charts\JobChart;
+use App\Charts\MemberVsTargetChart;
 
 class DashboardController extends Controller
 {
@@ -58,7 +59,30 @@ class DashboardController extends Controller
                 "url" => route('admin-dashboard-regency', $val->regency_id)
             ];
         }
-         // grafik data job
+        
+        // grafik data anggota terdaftar vs target
+        $member_registered  = $userModel->getMemberRegistered($province_id);
+        $cat_member_registered = [];
+        foreach($member_registered as $val){
+            $cat_member_registered['label'][] = $val->name;
+            $cat_member_registered['data'][]  = $gF->persen(($val->realisasi_member / $val->target_member)*100);
+        }
+        $data_cat_member_registered = collect($cat_member_registered);
+        $label_member_registered    = collect($cat_member_registered['label']);
+        $data_member_registered     = $cat_member_registered['data'];
+        $colors           = $label_member_registered->map(function($item){return $rand_color = '#' . substr(md5(mt_rand()),0,6);});
+        $chart_member_registered    = new MemberVsTargetChart();
+        $chart_member_registered->labels($label_member_registered);
+        $chart_member_registered->dataset('Persen','bar', $data_member_registered)->backgroundColor($colors);
+        $chart_member_registered->options([
+                'legend' => false,
+                'title' => [
+                    'display' => true,
+                    'text' => 'Anggota Terdaftar VS Target (%)'
+                ]
+            ]);
+
+        // grafik data job
         $jobModel = new Job();
         $most_jobs = $jobModel->getMostJobsProvince($province_id);
         $jobs     = $jobModel->getJobProvince($province_id);
@@ -190,7 +214,7 @@ class DashboardController extends Controller
             ];
         }
 
-        return view('pages.admin.dashboard.index', compact('cat_gen_age_data','cat_gen_age','chart_inputer','most_jobs','colors','chart_jobs','cat_referal_data','cat_referal','cat_range_age','cat_range_age_data','total_male_gender','total_female_gender','regency','cat_gender','cat_jobs','cat_regency_data','cat_regency','gF','total_member','persentage_target_member','target_member','total_village_filled','presentage_village_filled','total_village'));
+        return view('pages.admin.dashboard.index', compact('chart_member_registered','cat_gen_age_data','cat_gen_age','chart_inputer','most_jobs','colors','chart_jobs','cat_referal_data','cat_referal','cat_range_age','cat_range_age_data','total_male_gender','total_female_gender','regency','cat_gender','cat_jobs','cat_regency_data','cat_regency','gF','total_member','persentage_target_member','target_member','total_village_filled','presentage_village_filled','total_village'));
     }
 
     public function regency($regency_id)
