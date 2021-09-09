@@ -78,7 +78,8 @@ class DashboardController extends Controller
                 'legend' => false,
                 'title' => [
                     'display' => true,
-                ]
+                ],
+                'responsive' => true,
             ]);
 
         // grafik data job

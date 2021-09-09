@@ -128,7 +128,7 @@
 
                <div class="dashboard-content mt-3">
                 <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-md-12 col-sm-12">
                     <div class="card mb-2">
                       <div class="card-body">
                         <h6 class="text-center">Anggota Terdaftar VS Target (%)</h6>
@@ -332,11 +332,22 @@
                   datasets:[{
                     label: 'Jumlah',
                     backgroundColor: coloR,
-                    data: value
-                  }]
+                    data: value,
+                    order: 1
+                  },{
+                    label: 'Jumlah',
+                    data: value,
+                    type: 'line',
+                    order: 2,
+                    borderColor: "rgba(54, 162, 235, 1)",
+                    borderWidth: 2,
+                    fill: false
+                  }
+                  ]
                 },
                 options:{
-                  legend: false
+                  legend: false,
+                  responsive: true,
                 }
               });
           }
@@ -362,21 +373,31 @@
                 var ctx =  document.getElementById('memberPerMonth').getContext('2d');
                 startDay = first.format('YYYY-MM-DD');
                 lastDay  = last.format('YYYY-MM-DD');
-           
                 var chart = new Chart(ctx, {
-                  type: 'bar',
-                  data: {
-                    labels: [startDay,lastDay],
-                    datasets:[{
-                      label: 'Jumlah',
-                      backgroundColor: [],
-                      data: [0,0]
-                    }]
-                  },
-                  options:{
-                    legend: false
+                type: 'bar',
+                data: {
+                  labels: label,
+                  datasets:[{
+                    label: 'Jumlah',
+                    backgroundColor: coloR,
+                    data: value,
+                    order: 1
+                  },{
+                    label: 'Jumlah',
+                    data: value,
+                    type: 'line',
+                    order: 2,
+                    borderColor: "rgba(54, 162, 235, 1)",
+                    borderWidth: 2,
+                    fill: false
                   }
-                });
+                  ]
+                },
+                options:{
+                  legend: false,
+                  responsive: true,
+                }
+              });
           }else{
               var label = [];
               var value = [];
@@ -404,11 +425,22 @@
                     datasets:[{
                       label: 'Jumlah',
                       backgroundColor: coloR,
-                      data: value
-                    }]
+                      data: value,
+                      order: 1
+                    },{
+                      label: 'Jumlah',
+                      data: value,
+                      type: 'line',
+                      order: 2,
+                      borderColor: "rgba(54, 162, 235, 1)",
+                      borderWidth: 2,
+                      fill: false
+                    }
+                    ]
                   },
                   options:{
-                    legend: false
+                    legend: false,
+                    responsive: true,
                   }
                 });
           }
