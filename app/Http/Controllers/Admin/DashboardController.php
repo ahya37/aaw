@@ -105,8 +105,8 @@ class DashboardController extends Controller
         $chart_jobs->options([
             'tooltip' => false,
             'legend' => [
-                'position' => 'right',
-                'display' => false,
+                'position' => 'bottom',
+                'display' => true,
             ],
             'title' => [
                 'display' => true,
