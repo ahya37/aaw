@@ -106,7 +106,7 @@ class DashboardController extends Controller
             'tooltip' => false,
             'legend' => [
                 'position' => 'right',
-                'display' => true,
+                'display' => false,
             ],
             'title' => [
                 'display' => true,
