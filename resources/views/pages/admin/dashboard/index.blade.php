@@ -331,7 +331,7 @@
                   labels: label,
                   datasets:[{
                     label: 'Jumlah',
-                    backgroundColor: coloR,
+                    backgroundColor:  'rgb(54, 162, 235)',
                     data: value,
                     order: 1
                   },{
@@ -339,7 +339,7 @@
                     data: value,
                     type: 'line',
                     order: 2,
-                    borderColor: "rgba(54, 162, 235, 1)",
+                    borderColor: 'rgb(255, 99, 132)',
                     borderWidth: 2,
                     fill: false
                   }
@@ -408,7 +408,7 @@
                   labels: [startDay, lastDay],
                   datasets:[{
                     label: 'Jumlah',
-                    backgroundColor: coloR,
+                    backgroundColor: 'rgb(54, 162, 235)',
                     data: [0,0],
                     order: 1
                   },{
@@ -416,7 +416,7 @@
                     data: [0,0],
                     type: 'line',
                     order: 2,
-                    borderColor: "rgba(54, 162, 235, 1)",
+                    borderColor: 'rgb(255, 99, 132)',
                     borderWidth: 2,
                     fill: false
                   }
@@ -453,7 +453,7 @@
                     labels: label,
                     datasets:[{
                       label: 'Jumlah',
-                      backgroundColor: coloR,
+                      backgroundColor: 'rgb(54, 162, 235)',
                       data: value,
                       order: 1
                     },{
@@ -461,7 +461,7 @@
                       data: value,
                       type: 'line',
                       order: 2,
-                      borderColor: "rgba(54, 162, 235, 1)",
+                      borderColor: 'rgb(255, 99, 132)',
                       borderWidth: 2,
                       fill: false
                     }
