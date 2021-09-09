@@ -229,47 +229,50 @@
                    <div class="col-md-12">
                     <div class="card mb-2">
                       <div class="card-body">
-                        <h6 class="text-center">Capaian Anggota Perhari Selama Satu Bulan</h6>
-                        <div>
-                                <div class="input-group mb-3 col-md-4 float-right">
-                                    <input type="text" id="created_at" name="date" class="form-control">
-                                    {{-- <div class="input-group-append">
-                                        <button class="btn btn-secondary" type="button" id="filter">Filter</button>
-                                    </div> --}}
-                                </div>
-                        </div>
-                        <div id="memberPerMonth">
-
+                        <h6 class="text-center">Capaian Anggota Perhari</h6>
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="input-group mb-3 col-md-4 float-right">
+                                <input type="text" id="created_at" name="date" class="form-control">
+                          </div>
                         </div>
                       </div>
+                      <div class="row">
+                          <div class="col-12" id="divMemberPerMonth">
+                            <canvas id="memberPerMonth"></canvas>
+                          </div>
+                        </div>
                     </div>
                   </div>
-                   <div class="col-md-12">
-                    <div class="card mb-2">
-                      <div class="card-body">
-                        <div class="dashboard-card-title">
-                          Daftar Pencapaian Lokasi / Daerah
-                        </div>
-                        <div class="dashboard-card-subtitle">
-                          <div class="table-responsive mt-2">
-                              <table id="achievment" class="table table-sm table-striped">
-                                  <thead>
-                                    <tr>
-                                    <th scope="col">Kabupaten/Kota</th>
-                                    <th scope="col">Total Kecamatan</th>
-                                    <th scope="col">Total Target / Kabupaten</th>
-                                    <th scope="col">Realisasi Jumlah Anggota</th>
-                                    <th scope="col">Persentasi</th>
-                                    <th scope="col">Pencapaian Hari Ini</th>
-                                  </tr>
-                                  </thead>
-                                  <tbody>
-                                  </tbody>
-                                </table>
-                           </div>
-                        </div>
-                      </div>
-                    </div>
+                  <div class="row">
+
+                    <div class="col-md-12">
+                     <div class="card mb-2">
+                       <div class="card-body">
+                         <div class="dashboard-card-title">
+                           Daftar Pencapaian Lokasi / Daerah
+                         </div>
+                         <div class="dashboard-card-subtitle">
+                           <div class="table-responsive mt-2">
+                               <table id="achievment" class="table table-sm table-striped">
+                                   <thead>
+                                     <tr>
+                                     <th scope="col">Kabupaten/Kota</th>
+                                     <th scope="col">Total Kecamatan</th>
+                                     <th scope="col">Total Target / Kabupaten</th>
+                                     <th scope="col">Realisasi Jumlah Anggota</th>
+                                     <th scope="col">Persentasi</th>
+                                     <th scope="col">Pencapaian Hari Ini</th>
+                                   </tr>
+                                   </thead>
+                                   <tbody>
+                                   </tbody>
+                                 </table>
+                            </div>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
                   </div>
                 </div>
               </div>
@@ -287,6 +290,7 @@
 <script src="{{ asset('assets/vendor/highcharts/highcharts.js') }}"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.24/datatables.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
+  
 {!! $chart_jobs->script() !!}
 {!! $chart_inputer->script() !!}
 {!! $chart_member_registered->script() !!}
@@ -298,10 +302,43 @@
     $.ajax({
         url: '{{ url('api/member') }}/' + start.format('YYYY-MM-DD') + '+' + end.format('YYYY-MM-DD'),
         method:'GET',
-        data : '_token={{ csrf_token() }}',
+        data: {first:self.first, last:self.last},
+        dataType:'json',
+        cache: false,
         success:function(data){
-          for(var i in data){
-            $('#memberPerMonth').replaceWith("<h2>"+data[i].name+"</h2>")
+          if(data.length === 0){
+          }else{
+              var label = [];
+              var value = [];
+              var coloR = [];
+
+              var dynamicColors = function() {
+                    var r = Math.floor(Math.random() * 255);
+                    var g = Math.floor(Math.random() * 255);
+                    var b = Math.floor(Math.random() * 255);
+                    return "rgb(" + r + "," + g + "," + b + ")";
+                 };
+
+                for(var i in data){
+                  label.push(data[i].day);
+                  value.push(data[i].count);
+                  coloR.push(dynamicColors());
+                }
+              var ctx =  document.getElementById('memberPerMonth').getContext('2d');
+              var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: label,
+                  datasets:[{
+                    label: 'Jumlah',
+                    backgroundColor: coloR,
+                    data: value
+                  }]
+                },
+                options:{
+                  legend: false
+                }
+              });
           }
         }
       });
@@ -317,9 +354,63 @@
         method:'GET',
         data: {first:self.first, last:self.last},
         dataType:'json',
+        cache: false,
         success:function(data){
-         for(var i in data){
-            $('#memberPerMonth').replaceWith("<h2>"+data[i].name+"</h2>")
+          if(data.length === 0){
+             $('#memberPerMonth').remove();
+              $('#divMemberPerMonth').append('<canvas id="memberPerMonth"></canvas>');
+                var ctx =  document.getElementById('memberPerMonth').getContext('2d');
+                startDay = first.format('YYYY-MM-DD');
+                lastDay  = last.format('YYYY-MM-DD');
+           
+                var chart = new Chart(ctx, {
+                  type: 'bar',
+                  data: {
+                    labels: [startDay,lastDay],
+                    datasets:[{
+                      label: 'Jumlah',
+                      backgroundColor: [],
+                      data: [0,0]
+                    }]
+                  },
+                  options:{
+                    legend: false
+                  }
+                });
+          }else{
+              var label = [];
+              var value = [];
+              var coloR = [];
+
+              var dynamicColors = function() {
+                    var r = Math.floor(Math.random() * 255);
+                    var g = Math.floor(Math.random() * 255);
+                    var b = Math.floor(Math.random() * 255);
+                    return "rgb(" + r + "," + g + "," + b + ")";
+                 };
+
+                for(var i in data){
+                  label.push(data[i].day);
+                  value.push(data[i].count);
+                  coloR.push(dynamicColors());
+                }
+                $('#memberPerMonth').remove();
+                $('#divMemberPerMonth').append('<canvas id="memberPerMonth"></canvas>');
+                var ctx =  document.getElementById('memberPerMonth').getContext('2d');
+                var chart = new Chart(ctx, {
+                  type: 'bar',
+                  data: {
+                    labels: label,
+                    datasets:[{
+                      label: 'Jumlah',
+                      backgroundColor: coloR,
+                      data: value
+                    }]
+                  },
+                  options:{
+                    legend: false
+                  }
+                });
           }
         }
       })

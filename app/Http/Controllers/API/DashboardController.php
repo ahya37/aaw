@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
@@ -17,8 +18,20 @@ class DashboardController extends Controller
             $end   = Carbon::parse($date[1])->format('Y-m-d') . ' 23:59:59'; 
         }
 
-        $member_ajax =  User::select('id','name')->whereBetween('created_at', [$start, $end])->get();
-        return response()->json($member_ajax);
+        $member =  User::select([
+            DB::raw('count(id) as count'),
+            DB::raw('DATE(created_at) as day')
+        ])->groupBy('day')
+        ->whereBetWeen('created_at',[$start, $end])->get();
+        
+        $data = [];
+        foreach ($member as $value) {
+            $data[] = [
+                'day' => date('d-m-Y', strtotime($value->day)),
+                'count' => $value->count
+            ];
+        }
+        return $data;
     }
 
 }
