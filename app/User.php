@@ -342,5 +342,17 @@ class User extends Authenticatable
         return $result;
     }
 
+    public function getMemberRegisteredByDay($province_id, $start, $end)
+    {
+        $sql  = "select count(a.id) as total, DATE(a.created_at) as day from users as a
+                    join villages as b on a.village_id = b.id 
+                    join districts as c on b.district_id = c.id
+                    join regencies as d on c.regency_id = d.id
+                    where a.created_at between '".$start."' and '".$end."' and d.province_id = ".$province_id."
+                    group by day";
+        $result = DB::select($sql);
+        return $result;
+    }
+
 
 }

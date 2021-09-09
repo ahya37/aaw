@@ -14,21 +14,20 @@ class DashboardController extends Controller
     {
         if ($daterange != '') {
             $date  = explode('+', $daterange);
-            $start = Carbon::parse($date[0])->format('Y-m-d') . ' 00:00:01';
-            $end   = Carbon::parse($date[1])->format('Y-m-d') . ' 23:59:59'; 
+            $start = Carbon::parse($date[0])->format('Y-m-d');
+            $end   = Carbon::parse($date[1])->format('Y-m-d'); 
         }
+        // dd($start);
 
-        $member =  User::select([
-            DB::raw('count(id) as count'),
-            DB::raw('DATE(created_at) as day')
-        ])->groupBy('day')
-        ->whereBetWeen('created_at',[$start, $end])->get();
-        
+        $province_id = 36;
+        $userModel = new User();
+        $member    = $userModel->getMemberRegisteredByDay($province_id, $start, $end); 
+       
         $data = [];
         foreach ($member as $value) {
             $data[] = [
                 'day' => date('d-m-Y', strtotime($value->day)),
-                'count' => $value->count
+                'count' => $value->total
             ];
         }
         return $data;

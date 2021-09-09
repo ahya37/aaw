@@ -289,8 +289,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 <script src="{{ asset('assets/vendor/highcharts/highcharts.js') }}"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.24/datatables.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
-  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>  
 {!! $chart_jobs->script() !!}
 {!! $chart_inputer->script() !!}
 {!! $chart_member_registered->script() !!}
@@ -306,6 +305,7 @@
         dataType:'json',
         cache: false,
         success:function(data){
+          console.log(data);
           if(data.length === 0){
           }else{
               var label = [];
@@ -376,15 +376,15 @@
                 var chart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                  labels: label,
+                  labels: [startDay, lastDay],
                   datasets:[{
                     label: 'Jumlah',
                     backgroundColor: coloR,
-                    data: value,
+                    data: [0,0],
                     order: 1
                   },{
                     label: 'Jumlah',
-                    data: value,
+                    data: [0,0],
                     type: 'line',
                     order: 2,
                     borderColor: "rgba(54, 162, 235, 1)",
