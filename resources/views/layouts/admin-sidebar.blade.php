@@ -33,6 +33,18 @@
             >
               Daftar Admin
             </a>
+             <a
+              href="{{ route('admin-event-create') }}"
+              class="list-group-item list-group-item-action {{ (request()->is('admin/event/create')) ? 'active' : '' }}"
+            >
+              Buat Event Baru
+            </a>
+            <a
+              href="{{ route('admin-event') }}"
+              class="list-group-item list-group-item-action {{ (request()->is('admin/event')) ? 'active' : '' }}"
+            >
+              Daftar Event
+            </a>
             <a class="list-group-item d-lg-none list-group-item-action" href="{{ route('admin-logout') }}"
                     onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">

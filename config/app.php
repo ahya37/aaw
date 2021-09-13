@@ -230,6 +230,7 @@ return [
         'StrRandom' => App\Providers\StrRandom::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'GlobalProvider' => App\Providers\GlobalProvider::class,
+        'GetRegencyId' => App\Providers\GetRegencyId::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,

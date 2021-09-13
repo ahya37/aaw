@@ -32,7 +32,6 @@
                                                 <span class="required">*</span>
                                                 <label>Nama Lengkap</label>
                                                 <input type="text" name="name" value="" required class="form-control" />
-                                            
                                             </div>
                                             <div class="col-md-6 col-sm-12">
                                                 <span class="required">*</span>

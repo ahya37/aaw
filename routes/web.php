@@ -52,6 +52,9 @@ Route::group(['prefix' => 'user','middleware' => ['auth']], function(){
         Route::get('/registered/{id}','UserController@registeredNasdem');
         Route::get('/saved/{id}','UserController@savedNasdem');
 
+        Route::get('/event','EventController@index')->name('member-event');
+        Route::get('/event/absen/{event_detail_id}','EventController@storeAbsen')->name('member-event-absen');
+
     });
 
 
@@ -86,6 +89,15 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'], function(){
         Route::get('admincontrol/district','AdminDistrictController@index')->name('admin-admincontroll-district');
         Route::get('admincontrol/createadmin/district','AdminDistrictController@create')->name('admin-admincontroll-district-create');
         Route::get('admincontrol/createadmin/district/save/{id}','AdminDistrictController@saveAdminDistrict')->name('admin-admincontroll-district-save');
+
+        // Event
+        Route::get('event','EventController@index')->name('admin-event');
+        Route::get('event/create','EventController@create')->name('admin-event-create');
+        Route::post('event/store','EventController@store')->name('admin-event-store');
+        Route::get('event/add/member/{id}','EventController@addMemberEvent')->name('admin-event-addmember');
+        Route::post('event/add/member/store','EventController@storeAddMemberEvent')->name('admin-event-addmember-store');
+        Route::get('event/detail/{id}','EventController@evenDetials')->name('admin-event-addmember-detail');
+        Route::get('/event/gallery/{id}','EventController@galleryEvent')->name('admin-event-gallery');
 
 
     });

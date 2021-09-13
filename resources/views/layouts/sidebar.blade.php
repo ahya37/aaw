@@ -11,6 +11,12 @@
               {{ $menu->menu }}
             </a>
             @endforeach
+             <a
+              href="{{ route('member-event') }}"
+              class="list-group-item list-group-item-action {{ (request()->is($menu->url.'*')) ? 'active' : '' }}"
+            >
+              Event
+            </a>
              <a class="list-group-item d-lg-none list-group-item-action" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">

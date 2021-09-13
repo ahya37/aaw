@@ -86,9 +86,9 @@ class Regency extends Model
             count(a.id) as realisasi_member,
             count(IF(date(a.created_at) = CURDATE() , a.id, NULL)) as todays_achievement
             from users as a
-            right join villages as b on a.village_id = b.id
-            right join districts as c on b.district_id = c.id
-            right join regencies as d on c.regency_id = d.id 
+            join villages as b on a.village_id = b.id
+            join districts as c on b.district_id = c.id
+            join regencies as d on c.regency_id = d.id 
             where d.province_id = $province_id
             group by d.id, d.name";
         return DB::select($sql);

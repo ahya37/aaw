@@ -175,7 +175,7 @@
                     <div class="card">
                       <div class="card-body">
                         <h6 class="text-center">Anggota Berdasarkan Pekerjaan (%)</h6>
-                       <div>
+                       <div class="w-100">
                            {!! $chart_jobs->container() !!}
                         </div>
                       </div>
@@ -299,30 +299,20 @@
     let end   = moment().endOf('month');
 
     $.ajax({
-        url: '{{ url('api/member') }}/' + start.format('YYYY-MM-DD') + '+' + end.format('YYYY-MM-DD'),
+        url: '{{ url('api/member/province') }}/' + start.format('YYYY-MM-DD') + '+' + end.format('YYYY-MM-DD'),
         method:'GET',
         data: {first:self.first, last:self.last},
         dataType:'json',
         cache: false,
         success:function(data){
-          console.log(data);
           if(data.length === 0){
           }else{
               var label = [];
               var value = [];
-              var coloR = [];
-
-              var dynamicColors = function() {
-                    var r = Math.floor(Math.random() * 255);
-                    var g = Math.floor(Math.random() * 255);
-                    var b = Math.floor(Math.random() * 255);
-                    return "rgb(" + r + "," + g + "," + b + ")";
-                 };
 
                 for(var i in data){
                   label.push(data[i].day);
                   value.push(data[i].count);
-                  coloR.push(dynamicColors());
                 }
               var ctx =  document.getElementById('memberPerMonth').getContext('2d');
               var chart = new Chart(ctx, {
@@ -390,7 +380,7 @@
     },function(first, last){
       var self = this;
       $.ajax({
-        url: '{{ url('api/member') }}/' + first.format('YYYY-MM-DD') + '+' + last.format('YYYY-MM-DD'),
+        url: '{{ url('api/member/province') }}/' + first.format('YYYY-MM-DD') + '+' + last.format('YYYY-MM-DD'),
         method:'GET',
         data: {first:self.first, last:self.last},
         dataType:'json',
@@ -430,19 +420,10 @@
           }else{
               var label = [];
               var value = [];
-              var coloR = [];
-
-              var dynamicColors = function() {
-                    var r = Math.floor(Math.random() * 255);
-                    var g = Math.floor(Math.random() * 255);
-                    var b = Math.floor(Math.random() * 255);
-                    return "rgb(" + r + "," + g + "," + b + ")";
-                 };
 
                 for(var i in data){
                   label.push(data[i].day);
                   value.push(data[i].count);
-                  coloR.push(dynamicColors());
                 }
                 $('#memberPerMonth').remove();
                 $('#divMemberPerMonth').append('<canvas id="memberPerMonth"></canvas>');

@@ -62,8 +62,8 @@ class District extends Model
         $sql = "SELECT c.id as distric_id, c.name as district,
                 count(a.name) as total_member
                 from users as a 
-                right join villages as b on a.village_id = b.id 
-                right join districts as c on b.district_id = c.id 
+                join villages as b on a.village_id = b.id 
+                join districts as c on b.district_id = c.id 
                 where c.regency_id = $regency_id
                 GROUP by  c.name, c.id";
         return DB::select($sql);
@@ -90,8 +90,8 @@ class District extends Model
                 count(a.id) as realisasi_member,
                 count(IF(date(a.created_at) = CURDATE() , a.id, NULL)) as todays_achievement
                 from users as a
-                right join villages as b on a.village_id = b.id
-                right join districts as c on b.district_id = c.id
+                join villages as b on a.village_id = b.id
+                join districts as c on b.district_id = c.id
                 where c.regency_id = $regency_id
                 group by c.id, c.name order by c.name asc";
         return DB::select($sql);
