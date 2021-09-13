@@ -320,12 +320,12 @@
                 data: {
                   labels: label,
                   datasets:[{
-                    label: 'Jumlah',
+                    label: '',
                     backgroundColor:  'rgb(54, 162, 235)',
                     data: value,
                     order: 1
                   },{
-                    label: 'Jumlah',
+                    label: '',
                     data: value,
                     type: 'line',
                     order: 2,
@@ -397,12 +397,12 @@
                 data: {
                   labels: [startDay, lastDay],
                   datasets:[{
-                    label: 'Jumlah',
+                    label: '',
                     backgroundColor: 'rgb(54, 162, 235)',
                     data: [0,0],
                     order: 1
                   },{
-                    label: 'Jumlah',
+                    label: '',
                     data: [0,0],
                     type: 'line',
                     order: 2,
@@ -433,12 +433,12 @@
                   data: {
                     labels: label,
                     datasets:[{
-                      label: 'Jumlah',
+                      label: '',
                       backgroundColor: 'rgb(54, 162, 235)',
                       data: value,
                       order: 1
                     },{
-                      label: 'Jumlah',
+                      label: '',
                       data: value,
                       type: 'line',
                       order: 2,
@@ -538,7 +538,7 @@
           },
           series: [{
               colorByPoint: true,
-              name:"Anggota",
+              name:"",
               data: {!! json_encode($cat_regency_data) !!},
 
           }]
@@ -592,7 +592,7 @@
                 }
           },
           series: [{
-              name:"Jumlah",
+              name:"",
               data: {!! json_encode($cat_range_age_data) !!},
 
           }]
@@ -635,7 +635,7 @@
                 }
           },
           series: [{
-              name:"Jumlah",
+              name:"",
               data: {!! json_encode($cat_gen_age_data) !!},
 
           }]
@@ -681,7 +681,7 @@
           },
           series: [{
               colorByPoint: true,
-              name:"Referal",
+              name:"",
               data: {!! json_encode($cat_referal_data) !!},
 
           }]

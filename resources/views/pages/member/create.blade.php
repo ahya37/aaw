@@ -39,8 +39,8 @@
                                                 <label>Jenis Kelamin</label>
                                                 <select name="gender" class="form-control" required>
                                                     <option value="">-Pilih jenis kelamin-</option>
-                                                    <option value="0">Pria</option>
-                                                    <option value="1">Wanita</option>
+                                                    <option value="0">Laki-laki</option>
+                                                    <option value="1">Perempuan</option>
                                                 </select>
                                             </div>
                                         </div>

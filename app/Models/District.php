@@ -74,8 +74,8 @@ class District extends Model
         $sql = "SELECT b.id as distric_id, b.name as district,
                 count(a.name) as total_member
                 from users as a 
-                right join villages as b on a.village_id = b.id 
-                right join districts as c on b.district_id = c.id 
+                join villages as b on a.village_id = b.id 
+                join districts as c on b.district_id = c.id 
                 where c.id = $district_id
                 GROUP by  b.name, b.id";
         return DB::select($sql);

@@ -55,6 +55,21 @@ class Referal extends Model
         return DB::select($sql);
     }
 
+     public function getInputerDistrict($district_id)
+    {
+        $sql = "SELECT b.id, b.name , count(b.id) as total_data
+                from users as a
+                join users as b on a.cby = b.id
+                left join villages as c on b.village_id = c.id
+                left join districts as   d on c.district_id = d.id 
+                where d.id = $district_id
+                and  not b.level = 1
+                group by b.name, b.id
+                order by count(b.id) desc
+                limit 10";
+        return DB::select($sql);
+    }
+
     public function getReferalRegency($regency_id)
     {
         $sql = "SELECT b.id, b.name , count(b.id) as total_referal

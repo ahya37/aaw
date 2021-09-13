@@ -195,7 +195,7 @@ class DashboardController extends Controller
         $colors           = $label_inputer->map(function($item){return $rand_color = '#' . substr(md5(mt_rand()),0,6);});
         $chart_inputer    = new InputerChart();
         $chart_inputer->labels($label_inputer);
-        $chart_inputer->dataset('Jumlah','bar', $data_inputer)->backgroundColor($colors);
+        $chart_inputer->dataset('','bar', $data_inputer)->backgroundColor($colors);
         $chart_inputer->options([
             'legend' => false,
             'title' => [
@@ -391,7 +391,7 @@ class DashboardController extends Controller
             $colors           = $label_inputer->map(function($item){return $rand_color = '#' . substr(md5(mt_rand()),0,6);});
             $chart_inputer    = new InputerChart();
             $chart_inputer->labels($label_inputer);
-            $chart_inputer->dataset('Jumlah','bar', $data_inputer)->backgroundColor($colors);
+            $chart_inputer->dataset('','bar', $data_inputer)->backgroundColor($colors);
             $chart_inputer->options([
                    'legend' => false,
                    'title' => [
@@ -406,7 +406,7 @@ class DashboardController extends Controller
              $colors           = $label_inputer->map(function($item){return $rand_color = '#' . substr(md5(mt_rand()),0,6);});
              $chart_inputer    = new InputerChart();
              $chart_inputer->labels($label_inputer);
-             $chart_inputer->dataset('Jumlah','bar', $data_inputer)->backgroundColor($colors);
+             $chart_inputer->dataset('','bar', $data_inputer)->backgroundColor($colors);
              $chart_inputer->options([
                    'legend' => false,
                    'title' => [
@@ -435,6 +435,8 @@ class DashboardController extends Controller
 
     public function district($district_id)
     {
+        $gF   = app('GlobalProvider'); // global function
+
         $district   = District::with(['regency'])->where('id', $district_id)->first();
         // jumlah anggota di kecamatan
         $userModel  = new User();
@@ -466,16 +468,61 @@ class DashboardController extends Controller
             ];
         }
 
+        // grafik data anggota terdaftar vs target
+        $member_registered  = $userModel->getMemberRegisteredDistrct($district_id);
+        $cat_member_registered = [];
+            foreach($member_registered as $val){
+                $cat_member_registered['label'][] = $val->name;
+                $cat_member_registered['data'][]  = $gF->persen(($val->realisasi_member / $val->target_member)*100);
+            }
+            $data_cat_member_registered = collect($cat_member_registered);
+            $label_member_registered    = collect($cat_member_registered['label']);
+            $data_member_registered     = $cat_member_registered['data'];
+            $colors           = $label_member_registered->map(function($item){return $rand_color = '#' . substr(md5(mt_rand()),0,6);});
+            $chart_member_registered    = new MemberVsTargetChart();
+            $chart_member_registered->labels($label_member_registered);
+            $chart_member_registered->dataset('Persen','bar', $data_member_registered)->backgroundColor($colors);
+            $chart_member_registered->options([
+                    'legend' => false,
+                    'title' => [
+                        'display' => true,
+                    ],
+                    'responsive' => true,
+            
+        ]);
+
+
         // grafik data job
         $jobModel = new Job();
+        $most_jobs = $jobModel->getMostJobsDistrict($district_id);
         $jobs     = $jobModel->getJobDistrict($district_id);
         $cat_jobs =[];
+        $sum_jobs = collect($jobs)->sum(function($q){return $q->total_job; }); // fungsi untuk menjumlahkan total job
         foreach ($jobs as  $val) {
-            $cat_jobs[] = [
-                "name" => $val->name,
-                "y"    => $val->total_job
-            ];
+            $cat_jobs['label'][] = $val->name;
+            $cat_jobs['data'][] = $gF->persen(($val->total_job / $sum_jobs)*100);
         }
+
+        $data_cat_jobs = collect($cat_jobs);
+        $labels_jobs = collect($cat_jobs['label']);
+        $data_jobs   = $cat_jobs['data'];
+        $colors = $labels_jobs->map(function($item){
+            return $rand_color = '#' . substr(md5(mt_rand()),0,6);
+        });
+        $chart_jobs = new JobChart();
+        $chart_jobs->labels($labels_jobs);
+        $chart_jobs->dataset('Anggota Berdasarkan Pekerjaan','pie', $data_jobs)->backgroundColor($colors);
+        $chart_jobs->options([
+            'tooltip' => false,
+            'legend' => [
+                'position' => 'bottom',
+                'align' => 'right',
+                'display' => false,
+            ],
+            'title' => [
+                'display' => true,
+                ]
+            ]);
         
         // grafik data jenis kelamin
         $gender = $userModel->getGenderDistrict($district_id);
@@ -491,11 +538,10 @@ class DashboardController extends Controller
         foreach ($gender as  $val) {
             $all_gender[]  = $val->total;
             $cat_gender[] = [
-                "name" => $val->gender == 0 ? 'Pria' : 'Wanita',
-                "y"    => ($val->total/$total_gender)*100
+                "label" => $val->gender == 0 ? 'Laki-laki' : 'Perempuan',
+                "value"    => $gF->persen(($val->total/$total_gender)*100)
             ];
         }
-
         $total_male_gender   =empty($all_gender[0]) ?  0 :  $all_gender[0];; // total gender pria
         $total_female_gender = empty($all_gender[1]) ?  0 :  $all_gender[1]; // total gender wanita
         
@@ -510,12 +556,66 @@ class DashboardController extends Controller
             ];
         }
 
-        $gF   = app('GlobalProvider'); // global function
+        // generasi umur
+        $gen_age     = $userModel->generationAgeDistrict($district_id);
+        $cat_gen_age = [];
+        $cat_gen_age_data = [];
+        foreach ($gen_age as $val) {
+            if (isset($val->gen_age) != null) {
+                # code...
+                $cat_gen_age[]      = $val->gen_age;
+                $cat_gen_age_data[] = [
+                    'y'    => $val->total
+                ];
+            }
+        }
 
          // Daftar pencapaian lokasi / daerah
         $achievments   = $villageModel->achievementVillage($district_id);
         if (request()->ajax()) {
             return DataTables::of($achievments)->make();
+        }
+
+        $referalModel = new Referal();
+        // input admin terbanyak
+        $inputer      = $referalModel->getInputerDistrict($district_id);
+        $cat_inputer = [];
+        foreach($inputer as $val){
+            $cat_inputer['label'][] = $val->name;
+            $cat_inputer['data'][]  = $val->total_data;
+        }
+
+        if ($cat_inputer != []) {
+            $data_cat_inputer = collect($cat_inputer);
+            $label_inputer    = collect($cat_inputer['label']);
+            $data_inputer     = $cat_inputer['data'];
+            $colors           = $label_inputer->map(function($item){return $rand_color = '#' . substr(md5(mt_rand()),0,6);});
+            $chart_inputer    = new InputerChart();
+            $chart_inputer->labels($label_inputer);
+            $chart_inputer->dataset('','bar', $data_inputer)->backgroundColor($colors);
+            $chart_inputer->options([
+                   'legend' => false,
+                   'title' => [
+                       'display' => true,
+                       // 'text' => 'Admin Dengan Input Terbanyak'
+                   ]
+            ]);
+        }else{
+             $data_cat_inputer = collect($cat_inputer);
+             $label_inputer    = collect($cat_inputer);
+             $data_inputer     = $cat_inputer;
+             $colors           = $label_inputer->map(function($item){return $rand_color = '#' . substr(md5(mt_rand()),0,6);});
+             $chart_inputer    = new InputerChart();
+             $chart_inputer->labels($label_inputer);
+             $chart_inputer->dataset('','bar', $data_inputer)->backgroundColor($colors);
+             $chart_inputer->options([
+                   'legend' => false,
+                   'title' => [
+                       'display' => true,
+                       // 'text' => 'Admin Dengan Input Terbanyak'
+                   ]
+            ]);
+            
         }
 
         // anggota dengan referal terbanyak
@@ -529,7 +629,7 @@ class DashboardController extends Controller
                 "y" => $val->total_referal
             ];
         }
-        return view('pages.admin.dashboard.district', compact('cat_referal_data','cat_referal','cat_range_age_data','cat_range_age','total_male_gender','total_female_gender','cat_gender','cat_jobs','cat_districts','cat_districts_data','total_village_filled','presentage_village_filled','total_village','target_member','persentage_target_member','district','gF','total_member'));
+        return view('pages.admin.dashboard.district', compact('chart_inputer','cat_gen_age','cat_gen_age_data','chart_jobs','chart_member_registered','cat_referal_data','cat_referal','cat_range_age_data','cat_range_age','total_male_gender','total_female_gender','cat_gender','cat_jobs','cat_districts','cat_districts_data','total_village_filled','presentage_village_filled','total_village','target_member','persentage_target_member','district','gF','total_member'));
     }
 
     public function exportDataProvinceExcel()

@@ -106,7 +106,7 @@ class Village extends Model
                 COUNT(a.id) as realisasi_member, 
                 count(IF(date(a.created_at) = CURDATE() , a.id, NULL)) as todays_achievement
                 from users as a
-                right join villages as b on a.village_id = b.id
+                join villages as b on a.village_id = b.id
                 where b.district_id = $district_id
                 group by b.id, b.name";
         return DB::select($sql);

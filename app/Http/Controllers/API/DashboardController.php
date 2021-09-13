@@ -55,13 +55,27 @@ class DashboardController extends Controller
         return $data;
     }
 
-    public function getRegionRegencyId()
+    public function memberReportPerMountDistrict($daterange, $districtID)
     {
-        // get regency_id yg telah dikirimkan oleh dashboardcontroller
-        // dan di set di provider
-        $regency_id =  app('App\Providers\GetRegencyId');
-        return $regency_id;
-    }
+        if ($daterange != '') {
+            $date  = explode('+', $daterange);
+            $start = Carbon::parse($date[0])->format('Y-m-d');
+            $end   = Carbon::parse($date[1])->format('Y-m-d'); 
+        }
+        // dd($start);
 
+        $district_id = $districtID;
+        $userModel = new User();
+        $member    = $userModel->getMemberRegisteredByDayDistrict($district_id, $start, $end);
+       
+        $data = [];
+        foreach ($member as $value) {
+            $data[] = [
+                'day' => date('d-m-Y', strtotime($value->day)),
+                'count' => $value->total
+            ];
+        }
+        return $data;
+    }
 
 }
