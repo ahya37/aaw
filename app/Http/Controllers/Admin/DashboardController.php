@@ -66,22 +66,32 @@ class DashboardController extends Controller
         foreach($member_registered as $val){
             $cat_member_registered['label'][] = $val->name;
             $cat_member_registered['data'][]  = $gF->persen(($val->realisasi_member / $val->target_member)*100);
+            $cat_member_registered['target'][] = $val->target_member;
         }
-        $data_cat_member_registered = collect($cat_member_registered);
         $label_member_registered    = collect($cat_member_registered['label']);
         $data_member_registered     = $cat_member_registered['data'];
-        $colors           = $label_member_registered->map(function($item){return $rand_color = '#' . substr(md5(mt_rand()),0,6);});
-        $chart_member_registered    = new MemberVsTargetChart();
-        $chart_member_registered->labels($label_member_registered);
-        $chart_member_registered->dataset('Persen','bar', $data_member_registered)->backgroundColor($colors);
-        $chart_member_registered->options([
-                'legend' => false,
-                'title' => [
-                    'display' => true,
-                ],
-                'responsive' => true,
-            ]);
-
+        $data_member_target         = $cat_member_registered['target'];
+        $colors                     = $label_member_registered->map(function($item){return $rand_color = '#' . substr(md5(mt_rand()),0,6);});
+        $chart_member_registered    = app()->chartjs
+                                    ->name('barChartTest')
+                                    ->type('bar')
+                                    ->size(['width' => 400, 'height' => 200])
+                                    ->labels($cat_member_registered['label'])
+                                    ->datasets([
+                                        [
+                                            "label" => "Terdaftar",
+                                            'backgroundColor' => $colors,
+                                            'data' => $cat_member_registered['data']
+                                        ],
+                                        [
+                                            "label" => "Target",
+                                            'backgroundColor' => $colors[0],
+                                            'data' => $cat_member_registered['target']
+                                        ]
+                                    ])
+                                    ->options([
+                                        'legend' => false,
+                                    ]);
         // grafik data job
         $jobModel = new Job();
         $most_jobs = $jobModel->getMostJobsProvince($province_id);
@@ -406,7 +416,7 @@ class DashboardController extends Controller
              $colors           = $label_inputer->map(function($item){return $rand_color = '#' . substr(md5(mt_rand()),0,6);});
              $chart_inputer    = new InputerChart();
              $chart_inputer->labels($label_inputer);
-             $chart_inputer->dataset('','bar', $data_inputer)->backgroundColor($colors);
+             $chart_inputer->dataset('Jumlah','bar', $data_inputer)->backgroundColor($colors);
              $chart_inputer->options([
                    'legend' => false,
                    'title' => [

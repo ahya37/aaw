@@ -133,7 +133,7 @@
                       <div class="card-body">
                         <h6 class="text-center">Anggota Terdaftar VS Target (%)</h6>
                         <div>
-                          {!! $chart_member_registered->container() !!}
+                          {!! $chart_member_registered->render() !!}
                         </div>
                       </div>
                     </div>
@@ -292,7 +292,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>  
 {!! $chart_jobs->script() !!}
 {!! $chart_inputer->script() !!}
-{!! $chart_member_registered->script() !!}
+{{-- {!! $chart_member_registered->script() !!} --}}
 <script>
   $(document).ready(function(){
     let start = moment().startOf('month');
@@ -516,6 +516,13 @@
               footerFormat: '</table>',
               shared: true,
               useHTML: true
+          },
+          responsive: {
+            rules:[{
+              condition:{
+                maxWidth:1,
+              }
+            }]
           },
           plotOptions: {
               column: {
