@@ -71,7 +71,7 @@ class District extends Model
 
     public function getGrafikTotalMemberDistrict($district_id)
     {
-        $sql = "SELECT b.id as distric_id, b.name as district,
+        $sql = "SELECT b.id as village_id, b.name as district,
                 count(a.name) as total_member
                 from users as a 
                 join villages as b on a.village_id = b.id 

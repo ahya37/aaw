@@ -71,21 +71,21 @@ class DashboardController extends Controller
         $label_member_registered    = collect($cat_member_registered['label']);
         $data_member_registered     = $cat_member_registered['data'];
         $data_member_target         = $cat_member_registered['target'];
-        $colors                     = $label_member_registered->map(function($item){return $rand_color = '#' . substr(md5(mt_rand()),0,6);});
+        $colors           = $label_member_registered->map(function($item){return $rand_color = '#00FF00';});
+        $colors_target    = $label_member_registered->map(function($item){return $rand_color = '#CC0000';});
         $chart_member_registered    = app()->chartjs
-                                    ->name('barChartTest')
+                                    ->name('registerGrafik')
                                     ->type('bar')
-                                    ->size(['width' => 400, 'height' => 200])
                                     ->labels($cat_member_registered['label'])
                                     ->datasets([
                                         [
                                             "label" => "Terdaftar",
                                             'backgroundColor' => $colors,
-                                            'data' => $cat_member_registered['data']
+                                            'data' =>  $cat_member_registered['data']
                                         ],
                                         [
                                             "label" => "Target",
-                                            'backgroundColor' => $colors[0],
+                                            'backgroundColor' => $colors_target,
                                             'data' => $cat_member_registered['target']
                                         ]
                                     ])
@@ -268,22 +268,32 @@ class DashboardController extends Controller
         foreach($member_registered as $val){
             $cat_member_registered['label'][] = $val->name;
             $cat_member_registered['data'][]  = $gF->persen(($val->realisasi_member / $val->target_member)*100);
+            $cat_member_registered['target'][] = $val->target_member;
         }
         $data_cat_member_registered = collect($cat_member_registered);
         $label_member_registered    = collect($cat_member_registered['label']);
         $data_member_registered     = $cat_member_registered['data'];
-        $colors           = $label_member_registered->map(function($item){return $rand_color = '#' . substr(md5(mt_rand()),0,6);});
-        $chart_member_registered    = new MemberVsTargetChart();
-        $chart_member_registered->labels($label_member_registered);
-        $chart_member_registered->dataset('Persen','bar', $data_member_registered)->backgroundColor($colors);
-        $chart_member_registered->options([
-                'legend' => false,
-                'title' => [
-                    'display' => true,
-                ],
-                'responsive' => true,
-            ]);
-        
+        $colors           = $label_member_registered->map(function($item){return $rand_color = '#00FF00';});
+        $colors_target    = $label_member_registered->map(function($item){return $rand_color = '#CC0000';});
+        $chart_member_registered    = app()->chartjs
+                                    ->name('registerGrafik')
+                                    ->type('bar')
+                                    ->labels($cat_member_registered['label'])
+                                    ->datasets([
+                                        [
+                                            "label" => "Terdaftar",
+                                            'backgroundColor' => $colors,
+                                            'data' =>  $cat_member_registered['data']
+                                        ],
+                                        [
+                                            "label" => "Target",
+                                            'backgroundColor' => $colors_target,
+                                            'data' => $cat_member_registered['target']
+                                        ]
+                                    ])
+                                    ->options([
+                                        'legend' => false,
+                                    ]);
 
         // grafik data job
         $jobModel = new Job();
@@ -474,7 +484,7 @@ class DashboardController extends Controller
             $cat_districts[] = $val->district; 
             $cat_districts_data[] = [
                 "y" => $val->total_member,
-                "url" => route('admin-dashboard-district', $val->distric_id)
+                "url" => route('admin-dashboard-village', ['district_id' => $district_id,'village_id' => $val->village_id])
             ];
         }
 
@@ -484,22 +494,32 @@ class DashboardController extends Controller
             foreach($member_registered as $val){
                 $cat_member_registered['label'][] = $val->name;
                 $cat_member_registered['data'][]  = $gF->persen(($val->realisasi_member / $val->target_member)*100);
+                $cat_member_registered['target'][]= $val->target_member;
             }
             $data_cat_member_registered = collect($cat_member_registered);
             $label_member_registered    = collect($cat_member_registered['label']);
             $data_member_registered     = $cat_member_registered['data'];
-            $colors           = $label_member_registered->map(function($item){return $rand_color = '#' . substr(md5(mt_rand()),0,6);});
-            $chart_member_registered    = new MemberVsTargetChart();
-            $chart_member_registered->labels($label_member_registered);
-            $chart_member_registered->dataset('Persen','bar', $data_member_registered)->backgroundColor($colors);
-            $chart_member_registered->options([
-                    'legend' => false,
-                    'title' => [
-                        'display' => true,
-                    ],
-                    'responsive' => true,
-            
-        ]);
+            $colors           = $label_member_registered->map(function($item){return $rand_color = '#00FF00';});
+            $colors_target    = $label_member_registered->map(function($item){return $rand_color = '#CC0000';});
+            $chart_member_registered    = app()->chartjs
+                                        ->name('registerGrafik')
+                                        ->type('bar')
+                                        ->labels($cat_member_registered['label'])
+                                        ->datasets([
+                                            [
+                                                "label" => "Terdaftar",
+                                                'backgroundColor' => $colors,
+                                                'data' =>  $cat_member_registered['data']
+                                            ],
+                                            [
+                                                "label" => "Target",
+                                                'backgroundColor' => $colors_target,
+                                                'data' => $cat_member_registered['target']
+                                            ]
+                                        ])
+                                        ->options([
+                                            'legend' => false,
+                                        ]);
 
 
         // grafik data job
@@ -640,6 +660,162 @@ class DashboardController extends Controller
             ];
         }
         return view('pages.admin.dashboard.district', compact('chart_inputer','cat_gen_age','cat_gen_age_data','chart_jobs','chart_member_registered','cat_referal_data','cat_referal','cat_range_age_data','cat_range_age','total_male_gender','total_female_gender','cat_gender','cat_jobs','cat_districts','cat_districts_data','total_village_filled','presentage_village_filled','total_village','target_member','persentage_target_member','district','gF','total_member'));
+    }
+
+    public function village($district_id, $village_id)
+    {
+       $gF   = app('GlobalProvider'); // global function
+       
+       $villageModel = new Village();
+       $village = $villageModel->with('district.regency.province')->where('id', $village_id)->first();
+
+        //get anggota yang berada di desa tersebut
+        $members = $villageModel->getMemberVillage($village_id);
+        $total_member = count($members);
+
+        // total desa yg berada di kec, yg sama
+        $total_village = $villageModel->where('district_id', $district_id)->count();
+        $total_target_per_district = 5000;
+        $target_member  = $gF->decimalFormat($total_target_per_district / $total_village);
+        $persentage_target_member = $gF->persen(($total_member/$target_member)*100);  
+        
+        $userModel = new User();
+        $gender    = $userModel->getGenderVillage($village_id);
+        $cat_gender=[];
+        $all_gender= [];
+
+        // untuk menghitung jumlah keseluruhan jenis kelamin L/P
+        $total_gender = 0;
+        foreach ($gender as $key => $value) {
+            $total_gender += $value->total;
+        }
+        
+        foreach ($gender as  $val) {
+            $all_gender[]  = $val->total;
+            $cat_gender[] = [
+                "label" => $val->gender == 0 ? 'Laki-laki' : 'Perempuan',
+                "value"    => $gF->persen(($val->total/$total_gender)*100)
+            ];
+        }
+        $total_male_gender   =empty($all_gender[0]) ?  0 :  $all_gender[0];; // total gender pria
+        $total_female_gender = empty($all_gender[1]) ?  0 :  $all_gender[1]; // total gender wanita
+
+        // grafik data job
+        $jobModel = new Job();
+        $most_jobs = $jobModel->getMostJobsVillage($village_id);
+        $jobs     = $jobModel->getJobVillage($village_id);
+        $cat_jobs =[];
+        $sum_jobs = collect($jobs)->sum(function($q){return $q->total_job; }); // fungsi untuk menjumlahkan total job
+        foreach ($jobs as  $val) {
+            $cat_jobs['label'][] = $val->name;
+            $cat_jobs['data'][] = $gF->persen(($val->total_job / $sum_jobs)*100);
+        }
+
+        $data_cat_jobs = collect($cat_jobs);
+        $labels_jobs = collect($cat_jobs['label']);
+        $data_jobs   = $cat_jobs['data'];
+        $colors = $labels_jobs->map(function($item){
+            return $rand_color = '#' . substr(md5(mt_rand()),0,6);
+        });
+        $chart_jobs = new JobChart();
+        $chart_jobs->labels($labels_jobs);
+        $chart_jobs->dataset('Anggota Berdasarkan Pekerjaan','pie', $data_jobs)->backgroundColor($colors);
+        $chart_jobs->options([
+            'tooltip' => false,
+            'legend' => [
+                'position' => 'bottom',
+                'align' => 'right',
+                'display' => false,
+            ],
+            'title' => [
+                'display' => true,
+                ]
+            ]);
+        
+        // range umur
+        $range_age     = $userModel->rangeAgeVillage($village_id);
+        $cat_range_age = [];
+        $cat_range_age_data = [];
+        foreach ($range_age as $val) {
+            $cat_range_age[]      = $val->range_age;
+            $cat_range_age_data[] = [
+                'y'    => $val->total
+            ];
+        }
+
+        // generasi umur
+        $gen_age     = $userModel->generationAgeDistrict($district_id);
+        $cat_gen_age = [];
+        $cat_gen_age_data = [];
+        foreach ($gen_age as $val) {
+            if (isset($val->gen_age) != null) {
+                # code...
+                $cat_gen_age[]      = $val->gen_age;
+                $cat_gen_age_data[] = [
+                    'y'    => $val->total
+                ];
+            }
+        }
+
+        $referalModel = new Referal();
+        // input admin terbanyak
+        $inputer      = $referalModel->getInputerVillage($village_id);
+        $cat_inputer = [];
+        foreach($inputer as $val){
+            $cat_inputer['label'][] = $val->name;
+            $cat_inputer['data'][]  = $val->total_data;
+        }
+
+        if ($cat_inputer != []) {
+            $data_cat_inputer = collect($cat_inputer);
+            $label_inputer    = collect($cat_inputer['label']);
+            $data_inputer     = $cat_inputer['data'];
+            $colors           = $label_inputer->map(function($item){return $rand_color = '#' . substr(md5(mt_rand()),0,6);});
+            $chart_inputer    = new InputerChart();
+            $chart_inputer->labels($label_inputer);
+            $chart_inputer->dataset('','bar', $data_inputer)->backgroundColor($colors);
+            $chart_inputer->options([
+                   'legend' => false,
+                   'title' => [
+                       'display' => true,
+                       // 'text' => 'Admin Dengan Input Terbanyak'
+                   ]
+            ]);
+        }else{
+             $data_cat_inputer = collect($cat_inputer);
+             $label_inputer    = collect($cat_inputer);
+             $data_inputer     = $cat_inputer;
+             $colors           = $label_inputer->map(function($item){return $rand_color = '#' . substr(md5(mt_rand()),0,6);});
+             $chart_inputer    = new InputerChart();
+             $chart_inputer->labels($label_inputer);
+             $chart_inputer->dataset('','bar', $data_inputer)->backgroundColor($colors);
+             $chart_inputer->options([
+                   'legend' => false,
+                   'title' => [
+                       'display' => true,
+                       // 'text' => 'Admin Dengan Input Terbanyak'
+                   ]
+            ]);
+            
+        }
+
+        // anggota dengan referal terbanyak
+        $referalModel = new Referal();
+        $referal      = $referalModel->getReferalVillage($village_id);
+        $cat_referal      = [];
+        $cat_referal_data = [];
+        foreach ($referal as $val) {
+            $cat_referal[] = $val->name; 
+            $cat_referal_data[] = [
+                "y" => $val->total_referal
+            ];
+        }
+
+        // Daftar pencapaian lokasi / daerah
+        $achievments   = $villageModel->achievementVillageFirst($village_id);
+
+        return view('pages.admin.dashboard.village', compact('achievments','cat_referal','cat_referal_data','chart_inputer','cat_gen_age_data','cat_gen_age','cat_range_age','cat_range_age_data','chart_jobs','cat_gender','total_female_gender','total_male_gender','gF','village','total_member','persentage_target_member','target_member'));
+
     }
 
     public function exportDataProvinceExcel()

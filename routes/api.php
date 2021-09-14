@@ -33,3 +33,4 @@ Route::get('reveral/name/{code}', 'Auth\RegisterController@reveralName');
 Route::get('member/province/{daterange}','API\DashboardController@memberReportPerMountProvince');
 Route::get('member/regency/{daterange}/{regencyID}','API\DashboardController@memberReportPerMountRegency');
 Route::get('member/district/{daterange}/{districtID}','API\DashboardController@memberReportPerMountDistrict');
+Route::get('member/village/{daterange}/{villageID}','API\DashboardController@memberReportPerMountVillage');

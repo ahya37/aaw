@@ -111,4 +111,25 @@ class Village extends Model
                 group by b.id, b.name";
         return DB::select($sql);
     }
+
+    public function getMemberVillage($village_id)
+    {
+        $sql = "SELECT a.name
+                from users as a 
+                join villages as b on a.village_id = b.id 
+                where b.id = $village_id";
+        return DB::select($sql);
+    }
+
+    public function achievementVillageFirst($village_id)
+    {
+        $sql = "SELECT
+                count(IF(date(a.created_at) = CURDATE() , a.id, NULL)) as todays_achievement
+                from users as a
+                join villages as b on a.village_id = b.id
+                where b.id = $village_id";
+        return collect(\DB::select($sql))->first();
+    }
+
+
 }

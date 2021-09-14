@@ -92,4 +92,31 @@ class Job extends Model
                 limit 6";
         return DB::select($sql);
     }
+
+    public function getMostJobsVillage($village_id)
+    {
+        $sql = "SELECT e.name, COUNT(e.name) as total_job
+				from regencies as a
+                join districts as b on a.id = b.regency_id
+                join villages as c on b.id = c.district_id
+                join users as d on c.id = d.village_id
+                join jobs as e on d.job_id = e.id
+                where c.id = $village_id
+                GROUP by e.name
+                order by COUNT(e.name) desc
+                limit 6";
+        return DB::select($sql);
+    }
+
+    public function getJobVillage($village_id)
+    {
+        $sql = "SELECT e.name, COUNT(e.name) as total_job from regencies as a
+                join districts as b on a.id = b.regency_id
+                join villages as c on b.id = c.district_id
+                join users as d on c.id = d.village_id
+                join jobs as e on d.job_id = e.id
+                where c.id = $village_id
+                GROUP by e.name";
+        return DB::select($sql);
+    }
 }

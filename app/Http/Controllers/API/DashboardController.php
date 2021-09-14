@@ -78,4 +78,27 @@ class DashboardController extends Controller
         return $data;
     }
 
+    public function memberReportPerMountVillage($daterange, $villageID)
+    {
+        if ($daterange != '') {
+            $date  = explode('+', $daterange);
+            $start = Carbon::parse($date[0])->format('Y-m-d');
+            $end   = Carbon::parse($date[1])->format('Y-m-d'); 
+        }
+        // dd($start);
+
+        $village_id = $villageID;
+        $userModel = new User();
+        $member    = $userModel->getMemberRegisteredByDayVillage($village_id, $start, $end);
+       
+        $data = [];
+        foreach ($member as $value) {
+            $data[] = [
+                'day' => date('d-m-Y', strtotime($value->day)),
+                'count' => $value->total
+            ];
+        }
+        return $data;
+    }
+
 }
