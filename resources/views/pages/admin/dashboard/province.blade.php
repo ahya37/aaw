@@ -21,6 +21,7 @@
                  <nav aria-label="breadcrumb">
                   <ol class="breadcrumb">
                      <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin-dashboard') }}">NASIONAL</a></li>
+                     <li class="breadcrumb-item">PROVINSI {{ $province->name }}</li>
                   </ol>
                 </nav>
 
@@ -499,7 +500,7 @@
               text: 'Anggota Terdaftar'
           },
           xAxis: {
-              categories: {!! json_encode($cat_province) !!},
+              categories: {!! json_encode($cat_regency) !!},
               crosshair: true,
           },
           yAxis: {
@@ -543,7 +544,7 @@
           series: [{
               colorByPoint: true,
               name:"",
-              data: {!! json_encode($cat_province_data) !!},
+              data: {!! json_encode($cat_regency_data) !!},
 
           }]
       });

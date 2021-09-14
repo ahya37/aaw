@@ -119,6 +119,17 @@ class User extends Authenticatable
         return DB::select($sql);
     }
 
+    public function getGenders()
+    {
+        $sql = "SELECT a.gender, count(a.id) as total
+                from users as a 
+                join villages as b on a.village_id = b.id 
+                join districts as c on b.district_id = c.id 
+                join regencies as d on c.regency_id = d.id
+                group by a.gender  order by a.gender ASC";
+        return DB::select($sql);
+    }
+
     public function getGenderProvince($province_id)
     {
         $sql = "SELECT a.gender, count(a.id) as total
@@ -209,6 +220,37 @@ class User extends Authenticatable
         return $result;
     }
 
+    public function rangeAgea()
+    {
+        $sql = "SELECT 
+            CASE 
+                when age < 20 then '... - 20'
+                when age between 20 and 25 then '20 - 25'
+                when age between 25 and 30 then '25 - 30'
+                when age between 30 and 35 then '30 - 35'
+                when age between 35 and 40 then '35 - 40'
+                when age between 40 and 45 then '40 - 45'
+                when age between 45 and 50 then '45 - 50'
+                when age between 50 and 60 then '50 - 55'
+                when age between 55 and 60 then '55 - 60'
+                when age >= 60 then '60 - ...'
+                when age is null then '(NULL)'
+                end as range_age,
+                count(*) as total
+                
+            from 
+            (
+                select date_berth, TIMESTAMPDIFF(YEAR, date_berth, CURDATE()) as age from users as a
+                join villages as b on a.village_id = b.id
+                join districts as c on b.district_id = c.id
+                join regencies as d on c.regency_id = d.id
+                join provinces as e on d.province_id = e.id
+            ) as tb_age
+            group by range_age order by range_age asc";
+        $result = DB::select($sql);
+        return $result;
+    }
+
     public function rangeAgeProvince($province_id)
     {
         $sql = "SELECT 
@@ -236,6 +278,30 @@ class User extends Authenticatable
                 where d.province_id = $province_id
             ) as tb_age
             group by range_age order by range_age asc";
+        $result = DB::select($sql);
+        return $result;
+    }
+
+    public function generationAges()
+    {
+        $sql = "SELECT 
+                CASE 
+                when age between 17 and 40 then '17 - 40'
+                when age between 41 and 50 then '41 - 50'
+                when age > 50 then '50 - ...'
+                when age is null then '(NULL)'                 
+                end as gen_age,
+                count(*) as total
+                
+            from 
+            (
+                select date_berth, TIMESTAMPDIFF(YEAR, date_berth, CURDATE()) as age from users as a
+                join villages as b on a.village_id = b.id
+                join districts as c on b.district_id = c.id
+                join regencies as d on c.regency_id = d.id
+                join provinces as e on d.province_id = e.id
+            ) as tb_age
+            group by gen_age order by gen_age asc";
         $result = DB::select($sql);
         return $result;
     }
@@ -376,6 +442,21 @@ class User extends Authenticatable
                 join villages as b on a.village_id = b.id
                 left join admin_districts as c on a.id = c.user_id 
                 where b.district_id = $district_id  and c.user_id is NULL ";
+        $result = DB::select($sql);
+        return $result;
+    }
+
+    public function getMemberRegisteredAll()
+    {
+         $sql = "SELECT e.id, e.name,
+                count(DISTINCT(c.id)) * 5000 target_member,
+                count(a.id) as realisasi_member
+                from users as a
+                join villages as b on a.village_id = b.id
+                right join districts as c on b.district_id = c.id
+                join regencies as d on c.regency_id = d.id 
+                join provinces as e on d.province_id  = e.id 
+                group by e.id, e.name";
         $result = DB::select($sql);
         return $result;
     }
