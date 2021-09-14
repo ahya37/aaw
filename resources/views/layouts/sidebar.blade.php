@@ -13,7 +13,7 @@
             @endforeach
              <a
               href="{{ route('member-event') }}"
-              class="list-group-item list-group-item-action {{ (request()->is($menu->url.'*')) ? 'active' : '' }}"
+              class="list-group-item list-group-item-action {{ (request()->is('user/member/event*')) ? 'active' : '' }}"
             >
               Event
             </a>
